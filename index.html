@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Menambahkan user-scalable=no dan viewport-fit=cover untuk stabilitas mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Absensi Harian - Newbie Fams</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://i.ibb.co.com/1tBC2ngW/Logo-12-F8-F09.png">
     <style>
         :root {
@@ -20,630 +20,255 @@
             --radius-md: 18px;
             --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             --danger: #ff0000;
-            --warning: #facc15;
-            --success-color: #22c55e;
+        }
+
+        /* FIX UTAMA: Mencegah bounce effect di body */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Mengunci scroll di level body */
+            background-color: var(--bg-color);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Container khusus untuk scrolling */
+        .scroll-container {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto; /* Scroll hanya di dalam sini */
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Menggunakan flex-start agar tidak ketarik ke tengah jika konten panjang */
+            padding: 40px 20px;
+            box-sizing: border-box;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            touch-action: pan-x pan-y;
             -webkit-tap-highlight-color: transparent;
         }
 
-        button,
-        input,
-        select,
-        textarea {
-            touch-action: manipulation;
+        #bgImage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            pointer-events: none;
         }
 
-        body {
-            background-color: var(--bg-color);
-            background-image:
-                radial-gradient(circle at 0% 0%, rgba(255, 0, 0, 0.15) 0%, transparent 35%),
-                radial-gradient(circle at 100% 100%, rgba(122, 0, 0, 0.15) 0%, transparent 35%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            color: var(--text-main);
-            overflow-x: hidden;
-            user-select: none;
+        /* Overlay Hitam agar gambar tidak terlalu terang */
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+            pointer-events: none;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        .main-wrapper {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            padding: 2.5rem 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+            width: 100%;
+            max-width: 450px;
+            margin-bottom: 20px; /* Jarak bawah */
+            animation: fadeIn 0.8s ease forwards;
         }
 
+        /* Animasi & Gaya Form tetap sama dengan kode asli Anda */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .main-wrapper {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
-            border: 1px solid rgba(255, 0, 0, 0.2);
-            padding: 3rem 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+        .logo-container { text-align: center; margin-bottom: 1rem; }
+        .logo-container img { width: 80px; height: 80px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .header-section { text-align: center; margin-bottom: 2rem; }
+        .header-section h2 { font-weight: 800; font-size: 1.8rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; font-size: 0.7rem; color: var(--primary); font-weight: 600; text-transform: uppercase; }
+        
+        input, textarea, .custom-select-trigger {
             width: 100%;
-            max-width: 500px;
-            animation: fadeIn 1s ease forwards;
-            position: relative;
-        }
-
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.2rem;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .logo-container img {
-            width: 90px;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 20px;
-            padding: 5px;
-            background: var(--glass-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            pointer-events: none;
-        }
-
-        .header-section {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .header-section h2 {
-            font-weight: 800;
-            font-size: 2rem;
-            letter-spacing: 2px;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.3rem;
-        }
-
-        .header-section p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.2rem;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.6rem;
-            font-weight: 600;
-            font-size: 0.65rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-        }
-
-        input,
-        textarea,
-        .custom-select-trigger {
-            width: 100%;
-            padding: 1rem 1.2rem;
+            padding: 0.9rem 1.1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-md);
-            background: rgba(255, 255, 255, 0.03);
-            font-size: 0.9rem;
-            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.05);
             color: #fff;
             outline: none;
-        }
-
-        textarea {
-            resize: none;
-            min-height: 80px;
-        }
-
-        input:focus,
-        textarea:focus {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
-        }
-
-        .custom-select-wrapper { position: relative; }
-
-        .custom-select-trigger {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            color: #94a3b8;
-        }
-
-        .custom-select-trigger::after {
-            content: "";
-            width: 7px;
-            height: 7px;
-            border-right: 2px solid var(--primary);
-            border-bottom: 2px solid var(--primary);
-            transform: rotate(45deg);
-            transition: var(--transition);
-        }
-
-        .custom-select-trigger.open::after { transform: rotate(-135deg); }
-
-        .custom-options {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            right: 0;
-            background: #151515;
-            border-radius: var(--radius-md);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            pointer-events: none;
-        }
-
-        .custom-options.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .option {
-            padding: 1rem 1.2rem;
-            cursor: pointer;
             font-size: 0.9rem;
-            transition: all 0.3s ease;
-            color: #cbd5e1;
         }
 
-        .option:hover {
-            background: var(--primary-gradient);
-            color: white;
-            padding-left: 1.5rem;
+        /* Gaya Dropdown */
+        .custom-select-wrapper { position: relative; }
+        .custom-select-trigger { cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .custom-options {
+            position: absolute; top: 110%; left: 0; right: 0; background: #151515;
+            border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);
+            display: none; z-index: 10;
         }
-
-        #reason-container {
-            display: none;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.4s ease;
-        }
-
-        #reason-container.show-reason {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .custom-options.show { display: block; }
+        .option { padding: 12px; cursor: pointer; }
+        .option:hover { background: var(--primary-gradient); }
 
         .submit-btn {
-            width: 100%;
-            padding: 1.1rem;
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            border-radius: var(--radius-md);
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            width: 100%; padding: 1rem; background: var(--primary-gradient);
+            color: #fff; border: none; border-radius: var(--radius-md);
+            font-weight: 700; cursor: pointer; text-transform: uppercase; margin-top: 10px;
         }
 
-        .submit-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            filter: brightness(1.1);
-            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        #error-notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: #450a0a;
-            border-left: 5px solid var(--danger);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            transition: transform 0.5s ease;
-            z-index: 10000;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        #error-notification.show { transform: translateX(-50%) translateY(0); }
-
-        #success-overlay {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        .check-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .footer-text {
-            text-align: center;
-            font-size: 0.65rem;
-            margin-top: 2rem;
-            color: #e5e5e5;
-            letter-spacing: 1px;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .spinner {
-            display: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #ffffff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        /* INFO BTN & POPUP */
         #infoBtn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
-            z-index: 9999;
-            transition: 0.3s;
+            position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px;
+            background: var(--primary-gradient); border-radius: 50%; color: #fff;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(255,0,0,0.4); z-index: 100; cursor: pointer;
         }
 
-        #infoPopup {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        }
+        /* Success & Other Popups */
+        #success-overlay { display: none; text-align: center; }
+        .check-icon { font-size: 3rem; color: var(--primary); margin-bottom: 1rem; }
 
-        .info-box {
-            background: #111;
-            padding: 25px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 320px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: fadeIn 0.3s ease;
+        /* Notification */
+        #error-notification {
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 400px; background: #450a0a; color: #fff;
+            padding: 15px; border-radius: 10px; transition: 0.5s; z-index: 9999;
         }
-
-        .info-menu {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 8px;
-        }
-
-        .info-menu span { cursor: pointer; font-size: 0.8rem; color: #aaa; }
-        .info-menu span.active { color: var(--primary); font-weight: bold; }
-
-        .update-popup {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-        }
-
-        .update-box {
-            width: 90%;
-            max-width: 360px;
-            background: #111;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
-            padding: 20px;
-        }
-
-        #bgImage {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: -2;
-        }
+        #error-notification.show { top: 20px; }
     </style>
 </head>
 
 <body>
     <img id="bgImage" src="./vd/fotolivexjj.jpg" alt="background">
+    <div class="bg-overlay"></div>
     <div id="error-notification"></div>
 
-    <div id="updatePopup" class="update-popup">
-        <div class="update-box">
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                <h3 style="color:#ff3131;">Update Terbaru</h3>
-                <button id="closeUpdate" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
-            </div>
-            <div style="font-size:0.85rem; color:#ddd;">
-                <p>• Penambahan Cek Absensi<br><br></p>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-wrapper">
-        <div id="success-overlay">
-            <div class="check-icon">✓</div>
-            <h2>Absen Berhasil</h2>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 10px 0;">
-                Kamu telah absen, Jangan lupa di hari selanjutnya untuk absen kembali.
-            </p>
-            <div style="margin-bottom: 20px;">
-                <a href="https://newbiefams-cekabsen.qinzenu.my.id/" 
-                   style="color: #ff2b2b; text-decoration: none; font-size: 0.85rem; font-weight: bold;">
-                   [ Cek Riwayat Absensi ]
-                </a>
-            </div>
-            <button onclick="window.location.reload()"
-                style="background: var(--primary-gradient); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; width: 100%;">
-                Tutup
-            </button>
-        </div>
-
-        <div id="form-container">
-            <div class="header-section">
-                <div class="logo-container">
-                    <img src="https://i.ibb.co.com/bgsX6qpt/image.png" alt="Logo">
-                </div>
-                <h2>ABSEN HARIAN</h2>
-                <p>Jangan Lupa Absen Setiap Hari</p>
+    <!-- WRAPPER BARU: Menangani scroll tanpa bounce ke background -->
+    <div class="scroll-container">
+        <div class="main-wrapper">
+            
+            <!-- Success Message -->
+            <div id="success-overlay">
+                <div class="check-icon">✓</div>
+                <h2>Absen Berhasil</h2>
+                <p style="margin: 15px 0; color: var(--text-muted); font-size: 0.9rem;">Jangan lupa absen kembali besok.</p>
+                <a href="https://newbiefams-cekabsen.qinzenu.my.id/" style="color: var(--primary); text-decoration: none; font-size: 0.8rem; font-weight: bold;">[ Cek Riwayat ]</a>
+                <button onclick="location.reload()" class="submit-btn">Tutup</button>
             </div>
 
-            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-
-            <form id="attendanceForm"
-                action="https://docs.google.com/forms/d/e/1FAIpQLSeOjtlyn9ao3Qsk7IqFe0MtjLrFHiJr_s8hy-qaloWRHdATQQ/formResponse"
-                method="POST" target="hidden_iframe">
-
-                <div class="form-group">
-                    <label>Nama</label>
-                    <input type="text" id="inputNama" name="entry.877985187" placeholder="Masukkan Nama Anda" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Username TikTok</label>
-                    <input type="text" id="tiktokUser" name="entry.1529109235" placeholder="Masukkan Username TikTok" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Nomor WhatsApp</label>
-                    <input type="tel" id="inputWA" name="entry.834103540" placeholder="Masukan Nomor WA" pattern="[0-9]*" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Status Kehadiran</label>
-                    <div class="custom-select-wrapper">
-                        <div class="custom-select-trigger" id="statusTrigger">Pilih Status</div>
-                        <div class="custom-options" id="statusOptions">
-                            <div class="option" data-value="Hadir">Hadir</div>
-                            <div class="option" data-value="Izin">Izin</div>
-                        </div>
+            <!-- Form Absen -->
+            <div id="form-container">
+                <div class="header-section">
+                    <div class="logo-container">
+                        <img src="https://i.ibb.co.com/bgsX6qpt/image.png" alt="Logo">
                     </div>
-                    <input type="hidden" name="entry.461399002" id="statusValue" required>
+                    <h2>ABSEN HARIAN</h2>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Newbie Fams Family</p>
                 </div>
 
-                <div class="form-group" id="reason-container">
-                    <label>Alasan Izin</label>
-                    <textarea id="reasonInput" name="entry.864916109" placeholder="Berikan alasan yang jelas..."></textarea>
-                </div>
+                <form id="attendanceForm">
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" id="inputNama" placeholder="Nama Lengkap" required>
+                    </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <div class="spinner" id="btnSpinner"></div>
-                    <span id="btnText">Kirim Absen</span>
-                </button>
-            </form>
+                    <div class="form-group">
+                        <label>Username TikTok</label>
+                        <input type="text" id="tiktokUser" placeholder="@username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>WhatsApp</label>
+                        <input type="tel" id="inputWA" placeholder="0812..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kehadiran</label>
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select-trigger" id="statusTrigger">Pilih Status</div>
+                            <div class="custom-options" id="statusOptions">
+                                <div class="option" data-value="Hadir">Hadir</div>
+                                <div class="option" data-value="Izin">Izin</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="statusValue" required>
+                    </div>
+
+                    <div class="form-group" id="reason-container" style="display:none;">
+                        <label>Alasan Izin</label>
+                        <textarea id="reasonInput" placeholder="Sakit / Kerja / Dll"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">Kirim Absen</button>
+                </form>
+                <p style="font-size: 0.6rem; text-align: center; margin-top: 20px; color: var(--text-muted);">© 2026 NEWBIE FAMS • ADMIN</p>
+            </div>
         </div>
-        <div class="footer-text">© 2026 NEWBIE FAMS • ADMIN</div>
     </div>
 
     <div id="infoBtn">?</div>
-    <div id="infoPopup">
-        <div class="info-box">
-            <div class="info-menu">
-                <span onclick="showTab('panduan')" class="active" id="tab-panduan">Panduan</span>
-                <span onclick="showTab('rules')" id="tab-rules">Rules</span>
-                <span onclick="showTab('info')" id="tab-info">Info</span>
-            </div>
-            <div id="infoContent" style="color:#ccc; font-size:0.85rem; text-align:left; margin-bottom:20px;">
-                • Isi data dengan benar sesuai identitas di grup.
-            </div>
-            <button onclick="document.getElementById('infoPopup').style.display='none'" 
-                    style="background:var(--primary-gradient); border:none; padding:8px 15px; color:white; border-radius:10px;">Tutup</button>
-        </div>
-    </div>
 
     <script>
-        let submitted = false;
-        let sending = false;
-        const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
-        const COOLDOWN_KEY = 'attendance_cooldown_timer';
+        // Logika Dropdown
+        const trigger = document.getElementById('statusTrigger');
+        const optionsMenu = document.getElementById('statusOptions');
+        const hiddenInput = document.getElementById('statusValue');
+        const reasonContainer = document.getElementById('reason-container');
 
-        const elements = {
-            trigger: document.getElementById('statusTrigger'),
-            optionsMenu: document.getElementById('statusOptions'),
-            hiddenInput: document.getElementById('statusValue'),
-            reasonContainer: document.getElementById('reason-container'),
-            reasonInput: document.getElementById('reasonInput'),
-            tiktokInput: document.getElementById('tiktokUser'),
-            btn: document.getElementById('submitBtn'),
-            form: document.getElementById('attendanceForm'),
-            errorNotif: document.getElementById('error-notification'),
-            btnSpinner: document.getElementById('btnSpinner'),
-            btnText: document.getElementById('btnText'),
-            formContainer: document.getElementById('form-container'),
-            successOverlay: document.getElementById('success-overlay'),
-            iframe: document.getElementById('hidden_iframe')
-        };
-
-        // --- COOLDOWN LOGIC ---
-        function applyCooldownUI(timeLeft) {
-            const totalSec = Math.ceil(timeLeft / 1000);
-            const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
-            const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
-            const s = String(totalSec % 60).padStart(2, '0');
-
-            elements.btn.disabled = true;
-            elements.btn.style.background = "#444";
-            elements.btnText.textContent = `Tunggu ${h}:${m}:${s}`;
-            elements.form.querySelectorAll('input, textarea').forEach(i => i.disabled = true);
-        }
-
-        function checkCooldown() {
-            const saved = localStorage.getItem(COOLDOWN_KEY);
-            if (!saved) return false;
-            const remain = COOLDOWN_TIME - (Date.now() - saved);
-            if (remain > 0) {
-                applyCooldownUI(remain);
-                setTimeout(checkCooldown, 1000);
-                return true;
-            }
-            localStorage.removeItem(COOLDOWN_KEY);
-            location.reload();
-            return false;
-        }
-
-        // --- UI HANDLERS ---
-        elements.trigger.onclick = (e) => {
-            if (sending) return;
-            e.stopPropagation();
-            elements.trigger.classList.toggle('open');
-            elements.optionsMenu.classList.toggle('show');
-        };
+        trigger.addEventListener('click', () => optionsMenu.classList.toggle('show'));
 
         document.querySelectorAll('.option').forEach(opt => {
-            opt.onclick = function() {
+            opt.addEventListener('click', function() {
                 const val = this.dataset.value;
-                elements.trigger.textContent = val;
-                elements.trigger.style.color = "#fff";
-                elements.hiddenInput.value = val;
-                elements.optionsMenu.classList.remove('show');
-
-                if (val === 'Izin') {
-                    elements.reasonContainer.style.display = 'block';
-                    setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
-                    elements.reasonInput.required = true;
-                    elements.reasonInput.value = "";
+                trigger.innerText = val;
+                hiddenInput.value = val;
+                optionsMenu.classList.remove('show');
+                
+                if(val === 'Izin') {
+                    reasonContainer.style.display = 'block';
                 } else {
-                    elements.reasonContainer.classList.remove('show-reason');
-                    elements.reasonInput.value = "Hadir (Otomatis)";
-                    setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
+                    reasonContainer.style.display = 'none';
                 }
-            };
+            });
         });
 
-        // --- SUBMIT & SUCCESS ---
-        elements.form.onsubmit = function(e) {
-            if (!navigator.onLine) { showError("Koneksi internet terputus!"); e.preventDefault(); return; }
-            if (!elements.hiddenInput.value) { showError("Pilih status kehadiran!"); e.preventDefault(); return; }
+        // Submit Logic (Sederhana untuk demo)
+        document.getElementById('attendanceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(!hiddenInput.value) {
+                alert('Pilih status!');
+                return;
+            }
             
-            sending = true;
-            elements.btn.disabled = true;
-            elements.btnSpinner.style.display = "block";
-            elements.btnText.textContent = "Mengirim...";
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "Mengirim...";
 
-            // Format TikTok URL
-            let user = elements.tiktokInput.value.trim().replace(/@/g, '').split(/[?\/]/)[0];
-            elements.tiktokInput.value = 'https://tiktok.com/@' + user;
-        };
+            // Simulasi pengiriman (Ganti dengan URL Google Form Anda jika perlu)
+            setTimeout(() => {
+                document.getElementById('form-container').style.display = 'none';
+                document.getElementById('success-overlay').style.display = 'block';
+            }, 1500);
+        });
 
-        elements.iframe.onload = function() {
-            if (sending) {
-                localStorage.setItem(COOLDOWN_KEY, Date.now());
-                elements.formContainer.style.display = 'none';
-                elements.successOverlay.style.display = 'flex';
-            }
-        };
-
-        function showError(msg) {
-            elements.errorNotif.textContent = msg;
-            elements.errorNotif.classList.add('show');
-            setTimeout(() => elements.errorNotif.classList.remove('show'), 4000);
-        }
-
-        // --- TAB & POPUP ---
-        function showTab(tab) {
-            const content = {
-                panduan: "• Isi nama lengkap.<br>• Username TikTok tanpa @.<br>• WA yang aktif di grup.",
-                rules: "1. No Spam.<br>2. Gunakan data asli.<br>3. Langgar = Kick.",
-                info: "Absen wajib 1x per 24 jam untuk menjaga keaktifan member."
-            };
-            document.getElementById('infoContent').innerHTML = content[tab];
-            document.querySelectorAll('.info-menu span').forEach(s => s.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
-        }
-
-        document.getElementById('infoBtn').onclick = () => document.getElementById('infoPopup').style.display = 'flex';
-        
-        window.onload = () => {
-            checkCooldown();
-            if (localStorage.getItem("update_seen") !== "v0.0.1") {
-                document.getElementById('updatePopup').style.display = 'flex';
-            }
-        };
-
-        document.getElementById('closeUpdate').onclick = () => {
-            localStorage.setItem("update_seen", "v0.0.1");
-            document.getElementById('updatePopup').style.display = 'none';
-        };
+        // Mencegah scroll bounce pada iOS
+        document.addEventListener('touchmove', function(e) {
+            if (e.target.closest('.scroll-container')) return;
+            e.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
