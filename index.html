@@ -31,11 +31,13 @@
             font-family: 'Poppins', sans-serif;
             touch-action: pan-x pan-y;
             -webkit-tap-highlight-color: transparent;
-            /* Proteksi global agar gambar tidak bisa di-drag atau di-klik kanan */
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            touch-action: manipulation;
         }
 
         body {
@@ -50,35 +52,7 @@
             padding: 20px;
             color: var(--text-main);
             overflow-x: hidden;
-            /* Proteksi User agar tidak bisa seleksi teks dan tahan gambar */
             user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-        }
-
-        /* PROTEKSI BACKGROUND */
-        #bgImage {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-            pointer-events: none; /* Membuat gambar tidak bisa disentuh sama sekali */
-            user-select: none;
-            -webkit-touch-callout: none; /* Mematikan menu "Save Image" di iOS */
-        }
-
-        /* Overlay transparan di atas BG agar lebih sulit ditembus */
-        .bg-protection-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: transparent;
         }
 
         @keyframes float {
@@ -122,7 +96,6 @@
             background: var(--glass-bg);
             border: 1px solid rgba(255, 255, 255, 0.1);
             pointer-events: none;
-            -webkit-touch-callout: none;
         }
 
         .header-section {
@@ -186,9 +159,7 @@
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
         }
 
-        .custom-select-wrapper {
-            position: relative;
-        }
+        .custom-select-wrapper { position: relative; }
 
         .custom-select-trigger {
             display: flex;
@@ -207,6 +178,8 @@
             transform: rotate(45deg);
             transition: var(--transition);
         }
+
+        .custom-select-trigger.open::after { transform: rotate(-135deg); }
 
         .custom-options {
             position: absolute;
@@ -307,9 +280,7 @@
             max-width: 400px;
         }
 
-        #error-notification.show {
-            transform: translateX(-50%) translateY(0);
-        }
+        #error-notification.show { transform: translateX(-50%) translateY(0); }
 
         #success-overlay {
             display: none;
@@ -341,6 +312,8 @@
             letter-spacing: 1px;
         }
 
+        @keyframes spin { to { transform: rotate(360deg); } }
+
         .spinner {
             display: none;
             width: 18px;
@@ -351,8 +324,7 @@
             animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
-
+        /* INFO BTN & POPUP */
         #infoBtn {
             position: fixed;
             bottom: 20px;
@@ -402,25 +374,8 @@
             padding-bottom: 8px;
         }
 
-        .info-menu span {
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: #aaa;
-            transition: 0.3s;
-        }
-
-        .info-menu span.active {
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .info-content p {
-            text-align: left;
-            font-size: 0.85rem;
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
+        .info-menu span { cursor: pointer; font-size: 0.8rem; color: #aaa; }
+        .info-menu span.active { color: var(--primary); font-weight: bold; }
 
         .update-popup {
             position: fixed;
@@ -439,62 +394,38 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 18px;
             padding: 20px;
-            animation: fadeIn 0.3s ease;
         }
 
-        .update-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .update-header h3 {
-            color: #ff3131;
-            font-size: 1.1rem;
-        }
-
-        .update-body {
-            font-size: 0.85rem;
-            color: #ddd;
-            line-height: 1.6;
+        #bgImage {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: -2;
         }
     </style>
 </head>
 
-<body oncontextmenu="return false;">
-    <!-- Layer Proteksi BG -->
-    <div class="bg-protection-layer"></div>
+<body>
     <img id="bgImage" src="./vd/fotolivexjj.jpg" alt="background">
+    <div id="error-notification"></div>
 
     <div id="updatePopup" class="update-popup">
         <div class="update-box">
-            <div class="update-header">
-                <h3>System Update - v1.2.0</h3>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <h3 style="color:#ff3131;">Update Terbaru</h3>
                 <button id="closeUpdate" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
             </div>
-            <div class="update-body">
-                <p>
-                    • <b>Perubahan jadwal absen:</b> Kini menjadi 1x seminggu.<br>
-                    • <b>Peningkatan performa:</b> Loading sistem lebih cepat.<br>
-                    • <b>Fitur Baru:</b> Integrasi riwayat absen otomatis.<br>
-                    • <b>Keamanan:</b> Enkripsi data input ditingkatkan.<br>
-                    • <b>Stabilitas:</b> Perbaikan bug pada dropdown status.<br>
-                    • <b>Deteksi Jaringan:</b> Notifikasi otomatis jika internet tidak stabil.<br>
-                    • <b>Waktu Absen:</b> Penyesuaian durasi waktu input.
-                </p>
+            <div style="font-size:0.85rem; color:#ddd;">
+                <p>• Penambahan Cek Absensi<br><br></p>
             </div>
         </div>
     </div>
-
-    <div id="error-notification"></div>
 
     <div class="main-wrapper">
         <div id="success-overlay">
             <div class="check-icon">✓</div>
             <h2>Absen Berhasil</h2>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 15px 0;">
-                Data Anda telah tersimpan. Silakan kembali lagi minggu depan!
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 10px 0;">
+                Kamu telah absen, Jangan lupa di hari selanjutnya untuk absen kembali.
             </p>
             <div style="margin-bottom: 20px;">
                 <a href="https://newbiefams-cekabsen.qinzenu.my.id/" 
@@ -513,26 +444,29 @@
                 <div class="logo-container">
                     <img src="https://i.ibb.co.com/bgsX6qpt/image.png" alt="Logo">
                 </div>
-                <h2>ABSEN MINGGUAN</h2>
-                <p>Update Performa & Keamanan Terbaru</p>
+                <h2>ABSEN HARIAN</h2>
+                <p>Jangan Lupa Absen Setiap Hari</p>
             </div>
 
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
-            <form id="attendanceForm" action="https://docs.google.com/forms/d/e/1FAIpQLSeOjtlyn9ao3Qsk7IqFe0MtjLrFHiJr_s8hy-qaloWRHdATQQ/formResponse" method="POST" target="hidden_iframe">
+            <form id="attendanceForm"
+                action="https://docs.google.com/forms/d/e/1FAIpQLSeOjtlyn9ao3Qsk7IqFe0MtjLrFHiJr_s8hy-qaloWRHdATQQ/formResponse"
+                method="POST" target="hidden_iframe">
+
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="text" name="entry.877985187" placeholder="Nama Lengkap" required>
+                    <input type="text" id="inputNama" name="entry.877985187" placeholder="Masukkan Nama Anda" required>
                 </div>
 
                 <div class="form-group">
                     <label>Username TikTok</label>
-                    <input type="text" id="tiktokUser" name="entry.1529109235" placeholder="Contoh: zenu_admin" required>
+                    <input type="text" id="tiktokUser" name="entry.1529109235" placeholder="Masukkan Username TikTok" required>
                 </div>
 
                 <div class="form-group">
                     <label>Nomor WhatsApp</label>
-                    <input type="tel" name="entry.834103540" placeholder="Nomor Aktif di GC" pattern="[0-9]*" required>
+                    <input type="tel" id="inputWA" name="entry.834103540" placeholder="Masukan Nomor WA" pattern="[0-9]*" required>
                 </div>
 
                 <div class="form-group">
@@ -558,36 +492,30 @@
                 </button>
             </form>
         </div>
-        <div class="footer-text">© 2026 NEWBIE FAMS • SECURITY UPDATED</div>
+        <div class="footer-text">© 2026 NEWBIE FAMS • ADMIN</div>
     </div>
 
     <div id="infoBtn">?</div>
     <div id="infoPopup">
         <div class="info-box">
             <div class="info-menu">
-                <span onclick="showTab('panduan')" class="active">Panduan</span>
-                <span onclick="showTab('rules')">Rules</span>
-                <span onclick="showTab('info')">Update</span>
+                <span onclick="showTab('panduan')" class="active" id="tab-panduan">Panduan</span>
+                <span onclick="showTab('rules')" id="tab-rules">Rules</span>
+                <span onclick="showTab('info')" id="tab-info">Info</span>
             </div>
-            <div class="info-content" id="panduanTab">
-                <p>• Isi nama & TikTok valid.<br>• Gunakan nomor WA yang ada di grup.<br>• Absen kini cukup 1x seminggu.</p>
+            <div id="infoContent" style="color:#ccc; font-size:0.85rem; text-align:left; margin-bottom:20px;">
+                • Isi data dengan benar sesuai identitas di grup.
             </div>
-            <div id="rulesTab" class="info-content" style="display:none;">
-                <p>1. No Spam.<br>2. Dilarang manipulasi data.<br>3. Gunakan jaringan stabil.</p>
-            </div>
-            <div id="infoTab" class="info-content" style="display:none;">
-                <p>• Performa ditingkatkan.<br>• Keamanan enkripsi baru.<br>• Deteksi jaringan aktif.</p>
-            </div>
-            <button onclick="closeInfo()" style="background:var(--primary-gradient); border:none; color:white; padding:8px 15px; border-radius:8px; cursor:pointer;">Tutup</button>
+            <button onclick="document.getElementById('infoPopup').style.display='none'" 
+                    style="background:var(--primary-gradient); border:none; padding:8px 15px; color:white; border-radius:10px;">Tutup</button>
         </div>
     </div>
 
     <script>
         let submitted = false;
         let sending = false;
-
-        const COOLDOWN_TIME = 7 * 24 * 60 * 60 * 1000; 
-        const COOLDOWN_KEY = 'attendance_cooldown_weekly';
+        const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
+        const COOLDOWN_KEY = 'attendance_cooldown_timer';
 
         const elements = {
             trigger: document.getElementById('statusTrigger'),
@@ -606,31 +534,17 @@
             iframe: document.getElementById('hidden_iframe')
         };
 
-        // --- DETEKSI JARINGAN ---
-        function handleNetwork() {
-            if (!navigator.onLine) {
-                showError("Koneksi terputus! Mencari jaringan...");
-                window.addEventListener('online', () => {
-                    showError("Kembali Online!");
-                    if(sending) elements.form.submit();
-                }, { once: true });
-                return false;
-            }
-            return true;
-        }
-
-        function showError(msg) {
-            elements.errorNotif.textContent = msg;
-            elements.errorNotif.classList.add('show');
-            setTimeout(() => elements.errorNotif.classList.remove('show'), 4000);
-        }
-
+        // --- COOLDOWN LOGIC ---
         function applyCooldownUI(timeLeft) {
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const totalSec = Math.ceil(timeLeft / 1000);
+            const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+            const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+            const s = String(totalSec % 60).padStart(2, '0');
+
             elements.btn.disabled = true;
             elements.btn.style.background = "#444";
-            elements.btnText.textContent = `Terkunci (${days}h ${hours}j)`;
+            elements.btnText.textContent = `Tunggu ${h}:${m}:${s}`;
+            elements.form.querySelectorAll('input, textarea').forEach(i => i.disabled = true);
         }
 
         function checkCooldown() {
@@ -639,52 +553,57 @@
             const remain = COOLDOWN_TIME - (Date.now() - saved);
             if (remain > 0) {
                 applyCooldownUI(remain);
+                setTimeout(checkCooldown, 1000);
                 return true;
             }
+            localStorage.removeItem(COOLDOWN_KEY);
+            location.reload();
             return false;
         }
 
-        elements.trigger.addEventListener('click', (e) => {
+        // --- UI HANDLERS ---
+        elements.trigger.onclick = (e) => {
+            if (sending) return;
             e.stopPropagation();
+            elements.trigger.classList.toggle('open');
             elements.optionsMenu.classList.toggle('show');
-        });
+        };
 
         document.querySelectorAll('.option').forEach(opt => {
-            opt.addEventListener('click', function() {
-                const val = this.getAttribute('data-value');
+            opt.onclick = function() {
+                const val = this.dataset.value;
                 elements.trigger.textContent = val;
+                elements.trigger.style.color = "#fff";
                 elements.hiddenInput.value = val;
                 elements.optionsMenu.classList.remove('show');
+
                 if (val === 'Izin') {
                     elements.reasonContainer.style.display = 'block';
                     setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
+                    elements.reasonInput.required = true;
+                    elements.reasonInput.value = "";
                 } else {
                     elements.reasonContainer.classList.remove('show-reason');
+                    elements.reasonInput.value = "Hadir (Otomatis)";
                     setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
                 }
-            });
+            };
         });
 
-        elements.form.addEventListener('submit', function(e) {
-            if (!handleNetwork()) {
-                e.preventDefault();
-                return;
-            }
-            if (checkCooldown() || sending) {
-                e.preventDefault();
-                return;
-            }
-
-            sending = true;
-            elements.btnSpinner.style.display = 'block';
-            elements.btnText.textContent = "Mengirim...";
+        // --- SUBMIT & SUCCESS ---
+        elements.form.onsubmit = function(e) {
+            if (!navigator.onLine) { showError("Koneksi internet terputus!"); e.preventDefault(); return; }
+            if (!elements.hiddenInput.value) { showError("Pilih status kehadiran!"); e.preventDefault(); return; }
             
-            let tk = elements.tiktokInput.value.trim();
-            if (tk) {
-                let user = tk.replace(/https?:\/\//, '').replace(/(www\.)?tiktok\.com\//, '').replace(/@/g, '').split(/[?\/]/)[0];
-                elements.tiktokInput.value = 'https://tiktok.com/@' + user;
-            }
-        });
+            sending = true;
+            elements.btn.disabled = true;
+            elements.btnSpinner.style.display = "block";
+            elements.btnText.textContent = "Mengirim...";
+
+            // Format TikTok URL
+            let user = elements.tiktokInput.value.trim().replace(/@/g, '').split(/[?\/]/)[0];
+            elements.tiktokInput.value = 'https://tiktok.com/@' + user;
+        };
 
         elements.iframe.onload = function() {
             if (sending) {
@@ -694,36 +613,37 @@
             }
         };
 
-        const updatePopup = document.getElementById("updatePopup");
-        const UPDATE_VER = "v1.2.0";
-
-        window.onload = () => {
-            if (localStorage.getItem("ver_seen") !== UPDATE_VER) {
-                updatePopup.style.display = "flex";
-            }
-            checkCooldown();
-            
-            // Tambahan proteksi: Mencegah Save Image lewat long press di mobile
-            document.querySelectorAll('img').forEach(img => {
-                img.addEventListener('touchstart', (e) => {
-                    if (e.touches.length > 1) e.preventDefault();
-                }, {passive: false});
-            });
-        };
-
-        document.getElementById("closeUpdate").onclick = () => {
-            updatePopup.style.display = "none";
-            localStorage.setItem("ver_seen", UPDATE_VER);
-        };
-
-        document.getElementById("infoBtn").onclick = () => document.getElementById("infoPopup").style.display = "flex";
-        function closeInfo() { document.getElementById("infoPopup").style.display = "none"; }
-        function showTab(tab) {
-            document.querySelectorAll('.info-content').forEach(c => c.style.display = 'none');
-            document.getElementById(tab + 'Tab').style.display = 'block';
-            document.querySelectorAll('.info-menu span').forEach(s => s.classList.remove('active'));
-            event.target.classList.add('active');
+        function showError(msg) {
+            elements.errorNotif.textContent = msg;
+            elements.errorNotif.classList.add('show');
+            setTimeout(() => elements.errorNotif.classList.remove('show'), 4000);
         }
+
+        // --- TAB & POPUP ---
+        function showTab(tab) {
+            const content = {
+                panduan: "• Isi nama lengkap.<br>• Username TikTok tanpa @.<br>• WA yang aktif di grup.",
+                rules: "1. No Spam.<br>2. Gunakan data asli.<br>3. Langgar = Kick.",
+                info: "Absen wajib 1x per 24 jam untuk menjaga keaktifan member."
+            };
+            document.getElementById('infoContent').innerHTML = content[tab];
+            document.querySelectorAll('.info-menu span').forEach(s => s.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+        }
+
+        document.getElementById('infoBtn').onclick = () => document.getElementById('infoPopup').style.display = 'flex';
+        
+        window.onload = () => {
+            checkCooldown();
+            if (localStorage.getItem("update_seen") !== "v0.0.1") {
+                document.getElementById('updatePopup').style.display = 'flex';
+            }
+        };
+
+        document.getElementById('closeUpdate').onclick = () => {
+            localStorage.setItem("update_seen", "v0.0.1");
+            document.getElementById('updatePopup').style.display = 'none';
+        };
     </script>
 </body>
 </html>
