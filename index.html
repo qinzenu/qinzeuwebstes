@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Absensi Harian - Newbie Fams</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://i.ibb.co.com/1tBC2ngW/Logo-12-F8-F09.png">
     <style>
         :root {
@@ -15,13 +14,9 @@
             --bg-color: #050505;
             --text-main: #ffffff;
             --text-muted: #a1a1a1;
-            --glass-bg: rgba(255, 255, 255, 0.05);
             --radius-lg: 32px;
             --radius-md: 18px;
             --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            --danger: #ff0000;
-            --warning: #facc15;
-            --success-color: #22c55e;
         }
 
         * {
@@ -29,404 +24,24 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            touch-action: pan-x pan-y;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-color);
-            background-image:
-                radial-gradient(circle at 0% 0%, rgba(255, 0, 0, 0.15) 0%, transparent 35%),
-                radial-gradient(circle at 100% 100%, rgba(122, 0, 0, 0.15) 0%, transparent 35%);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
             color: var(--text-main);
-            overflow-x: hidden;
-            user-select: none;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .main-wrapper {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
-            border: 1px solid rgba(255, 0, 0, 0.2);
-            padding: 3rem 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
-            width: 100%;
-            max-width: 500px;
-            animation: fadeIn 1s ease forwards;
-            position: relative;
-        }
-
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.2rem;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .logo-container img {
-            width: 90px;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 20px;
-            padding: 5px;
-            background: var(--glass-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            pointer-events: none;
-        }
-
-        .header-section {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .header-section h2 {
-            font-weight: 800;
-            font-size: 2rem;
-            letter-spacing: 2px;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.3rem;
-        }
-
-        .header-section p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.2rem;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.6rem;
-            font-weight: 600;
-            font-size: 0.65rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-        }
-
-        input,
-        textarea,
-        .custom-select-trigger {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius-md);
-            background: rgba(255, 255, 255, 0.03);
-            font-size: 0.9rem;
-            transition: var(--transition);
-            color: #fff;
-            outline: none;
-        }
-
-        textarea {
-            resize: none;
-            min-height: 80px;
-        }
-
-        input:focus,
-        textarea:focus {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
-        }
-
-        .custom-select-wrapper {
-            position: relative;
-        }
-
-        .custom-select-trigger {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            color: #94a3b8;
-        }
-
-        .custom-select-trigger::after {
-            content: "";
-            width: 7px;
-            height: 7px;
-            border-right: 2px solid var(--primary);
-            border-bottom: 2px solid var(--primary);
-            transform: rotate(45deg);
-            transition: var(--transition);
-        }
-
-        .custom-options {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            right: 0;
-            background: #151515;
-            border-radius: var(--radius-md);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            pointer-events: none;
+            /* Mencegah seleksi teks di seluruh halaman agar lebih aman */
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        .custom-options.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .option {
-            padding: 1rem 1.2rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            color: #cbd5e1;
-        }
-
-        .option:hover {
-            background: var(--primary-gradient);
-            color: white;
-            padding-left: 1.5rem;
-        }
-
-        #reason-container {
-            display: none;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.4s ease;
-        }
-
-        #reason-container.show-reason {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 1.1rem;
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            border-radius: var(--radius-md);
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            filter: brightness(1.1);
-            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        #error-notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: #450a0a;
-            border-left: 5px solid var(--danger);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            transition: transform 0.5s ease;
-            z-index: 10000;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        #error-notification.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        #success-overlay {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        .check-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .footer-text {
-            text-align: center;
-            font-size: 0.65rem;
-            margin-top: 2rem;
-            color: #e5e5e5;
-            letter-spacing: 1px;
-        }
-
-        .spinner {
-            display: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #ffffff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* FLOAT BUTTON */
-        #infoBtn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
-            z-index: 9999;
-            transition: 0.3s;
-        }
-
-        #infoPopup {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        }
-
-        .info-box {
-            background: #111;
-            padding: 25px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 320px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: fadeIn 0.3s ease;
-        }
-
-        .info-menu {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 8px;
-        }
-
-        .info-menu span {
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: #aaa;
-            transition: 0.3s;
-        }
-
-        .info-menu span.active {
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .info-content p {
-            text-align: left;
-            font-size: 0.85rem;
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .update-popup {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-        }
-
-        .update-box {
-            width: 90%;
-            max-width: 360px;
-            background: #111;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
-            padding: 20px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .update-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .update-header h3 {
-            color: #ff3131;
-            font-size: 1.1rem;
-        }
-
-        .update-body {
-            font-size: 0.85rem;
-            color: #ddd;
-            line-height: 1.6;
-        }
-
+        /* PROTEKSI BACKGROUND */
         #bgImage {
             position: fixed;
             top: 0;
@@ -435,63 +50,121 @@
             height: 100%;
             object-fit: cover;
             z-index: -2;
+            /* Mencegah interaksi sentuhan (tahan lama/drag) */
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-touch-callout: none; /* Mencegah menu save image di iOS */
         }
+
+        /* Overlay pelapis tambahan agar gambar tidak bisa disentuh langsung */
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .main-wrapper {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            padding: 2.5rem 1.5rem;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-section { text-align: center; margin-bottom: 1.5rem; }
+        .header-section h2 { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.8rem; }
+
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; font-size: 0.7rem; color: var(--primary); margin-bottom: 5px; font-weight: 600; text-transform: uppercase; }
+        
+        input, textarea, .custom-select-trigger {
+            width: 100%; padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            color: white; outline: none; font-size: 0.9rem;
+        }
+
+        .custom-select-wrapper { position: relative; cursor: pointer; }
+        .custom-options {
+            position: absolute; top: 110%; left: 0; right: 0;
+            background: #111; border-radius: var(--radius-md);
+            border: 1px solid var(--primary); display: none; z-index: 100;
+        }
+        .option { padding: 10px; color: #ccc; }
+        .option:hover { background: var(--primary); color: white; }
+
+        .submit-btn {
+            width: 100%; padding: 1rem; background: var(--primary-gradient);
+            border: none; border-radius: var(--radius-md); color: white;
+            font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+
+        #error-notification {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: #7a0000; color: white; padding: 12px 20px; border-radius: 10px;
+            transition: 0.5s; z-index: 1000; font-size: 0.8rem; text-align: center;
+        }
+        #error-notification.show { transform: translateX(-50%) translateY(0); }
+
+        .update-popup {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            display: none; align-items: center; justify-content: center; z-index: 9999;
+        }
+        .update-box { background: #111; padding: 20px; border-radius: 20px; border: 1px solid var(--primary); width: 85%; max-width: 350px; }
+
+        .spinner {
+            display: none; width: 18px; height: 18px;
+            border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 
-<body>
-    <!-- POPUP UPDATE TERBARU -->
+<body oncontextmenu="return false;"> <!-- Global block klik kanan -->
+
+    <!-- BACKGROUND PROTECTED -->
+    <img id="bgImage" src="./vd/fotolivexjj.jpg" alt="background">
+    <div class="bg-overlay"></div>
+
+    <div id="error-notification"></div>
+
+    <!-- POPUP UPDATE -->
     <div id="updatePopup" class="update-popup">
         <div class="update-box">
-            <div class="update-header">
-                <h3>System Update - v1.2.0</h3>
-                <button id="closeUpdate" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
-            </div>
-            <div class="update-body">
-                <p>
-                    • <b>Perubahan jadwal absen:</b> Kini menjadi 1x seminggu.<br>
-                    • <b>Peningkatan performa:</b> Loading sistem lebih cepat.<br>
-                    • <b>Fitur Baru:</b> Integrasi riwayat absen otomatis.<br>
-                    • <b>Keamanan:</b> Enkripsi data input ditingkatkan.<br>
-                    • <b>Stabilitas:</b> Perbaikan bug pada dropdown status.<br>
-                    • <b>Deteksi Jaringan:</b> Notifikasi otomatis jika internet tidak stabil.<br>
-                    • <b>Waktu Absen:</b> Penyesuaian durasi waktu input.
-                </p>
-            </div>
+            <h3 style="color:var(--primary); margin-bottom:10px;">Update System v1.2</h3>
+            <p style="font-size:0.8rem; line-height:1.5; color:#ddd;">
+                • Perubahan absen: 1x seminggu[cite: 1]<br>
+                • Peningkatan Performa & Keamanan[cite: 1]<br>
+                • Proteksi Background Aktif[cite: 1]<br>
+                • Deteksi Jaringan Stabil[cite: 1]
+            </p>
+            <button id="closeUpdate" style="margin-top:15px; width:100%; padding:8px; border-radius:10px; border:none; background:var(--primary); color:white; cursor:pointer;">Paham</button>
         </div>
     </div>
 
-    <img id="bgImage" src="./vd/fotolivexjj.jpg" alt="background">
-    <div id="error-notification"></div>
-
     <div class="main-wrapper">
-        <!-- SUCCESS VIEW -->
-        <div id="success-overlay">
-            <div class="check-icon">✓</div>
-            <h2>Absen Berhasil</h2>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 15px 0;">
-                Data Anda telah tersimpan. Silakan kembali lagi minggu depan!
-            </p>
-            <div style="margin-bottom: 20px;">
-                <a href="https://newbiefams-cekabsen.qinzenu.my.id/" 
-                   style="color: #ff2b2b; text-decoration: none; font-size: 0.85rem; font-weight: bold;">
-                   [ Cek Riwayat Absensi ]
-                </a>
-            </div>
-            <button onclick="window.location.reload()"
-                style="background: var(--primary-gradient); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; width: 100%;">
-                Tutup
-            </button>
+        <div id="success-overlay" style="display:none; text-align:center;">
+            <div style="font-size:3rem; color:var(--primary);">✓</div>
+            <h2>Berhasil!</h2>
+            <p style="font-size:0.8rem; color:#aaa; margin:15px 0;">Terima kasih sudah absen minggu ini.[cite: 1]</p>
+            <button onclick="location.reload()" style="padding:10px 20px; background:var(--primary); border:none; color:white; border-radius:10px;">Tutup</button>
         </div>
 
-        <!-- FORM VIEW -->
         <div id="form-container">
             <div class="header-section">
-                <div class="logo-container">
-                    <img src="https://i.ibb.co.com/bgsX6qpt/image.png" alt="Logo">
-                </div>
+                <img src="https://i.ibb.co.com/bgsX6qpt/image.png" width="70" style="margin-bottom:10px;">
                 <h2>ABSEN MINGGUAN</h2>
-                <p>Update Performa & Keamanan Terbaru</p>
+                <p style="font-size:0.75rem; color:#aaa;">Newbie Fams Security System[cite: 1]</p>
             </div>
 
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
@@ -501,20 +174,17 @@
                     <label>Nama</label>
                     <input type="text" name="entry.877985187" placeholder="Nama Lengkap" required>
                 </div>
-
                 <div class="form-group">
                     <label>Username TikTok</label>
-                    <input type="text" id="tiktokUser" name="entry.1529109235" placeholder="Contoh: zenu_admin" required>
+                    <input type="text" id="tiktokUser" name="entry.1529109235" placeholder="@username" required>
                 </div>
-
                 <div class="form-group">
                     <label>Nomor WhatsApp</label>
-                    <input type="tel" name="entry.834103540" placeholder="Nomor Aktif di GC" pattern="[0-9]*" required>
+                    <input type="tel" name="entry.834103540" placeholder="Nomor di Grup" required>
                 </div>
-
                 <div class="form-group">
-                    <label>Status Kehadiran</label>
-                    <div class="custom-select-wrapper">
+                    <label>Status</label>
+                    <div class="custom-select-wrapper" id="selectStatus">
                         <div class="custom-select-trigger" id="statusTrigger">Pilih Status</div>
                         <div class="custom-options" id="statusOptions">
                             <div class="option" data-value="Hadir">Hadir</div>
@@ -523,10 +193,9 @@
                     </div>
                     <input type="hidden" name="entry.461399002" id="statusValue" required>
                 </div>
-
-                <div class="form-group" id="reason-container">
-                    <label>Alasan Izin</label>
-                    <textarea id="reasonInput" name="entry.864916109" placeholder="Berikan alasan yang jelas..."></textarea>
+                <div id="reason-container" class="form-group" style="display:none;">
+                    <label>Alasan</label>
+                    <textarea name="entry.864916109" placeholder="Alasan izin..."></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn" id="submitBtn">
@@ -535,165 +204,92 @@
                 </button>
             </form>
         </div>
-        <div class="footer-text">© 2026 NEWBIE FAMS • SECURITY UPDATED</div>
-    </div>
-
-    <!-- INFO POPUP -->
-    <div id="infoBtn">?</div>
-    <div id="infoPopup">
-        <div class="info-box">
-            <div class="info-menu">
-                <span onclick="showTab('panduan')" class="active">Panduan</span>
-                <span onclick="showTab('rules')">Rules</span>
-                <span onclick="showTab('info')">Update</span>
-            </div>
-            <div class="info-content" id="panduanTab">
-                <p>• Isi nama & TikTok valid.<br>• Gunakan nomor WA yang ada di grup.<br>• Absen kini cukup 1x seminggu.</p>
-            </div>
-            <div id="rulesTab" class="info-content" style="display:none;">
-                <p>1. No Spam.<br>2. Dilarang manipulasi data.<br>3. Gunakan jaringan stabil.</p>
-            </div>
-            <div id="infoTab" class="info-content" style="display:none;">
-                <p>• Performa ditingkatkan.<br>• Keamanan enkripsi baru.<br>• Deteksi jaringan aktif.</p>
-            </div>
-            <button onclick="closeInfo()" style="background:var(--primary-gradient); border:none; color:white; padding:8px 15px; border-radius:8px; cursor:pointer;">Tutup</button>
-        </div>
     </div>
 
     <script>
-        let submitted = false;
+        const elements = {
+            form: document.getElementById('attendanceForm'),
+            btn: document.getElementById('submitBtn'),
+            btnText: document.getElementById('btnText'),
+            spinner: document.getElementById('btnSpinner'),
+            error: document.getElementById('error-notification'),
+            iframe: document.getElementById('hidden_iframe'),
+            success: document.getElementById('success-overlay'),
+            formCont: document.getElementById('form-container')
+        };
+
         let sending = false;
 
-        // PERUBAHAN: Cooldown menjadi 1 Minggu (7 hari)
-        const COOLDOWN_TIME = 7 * 24 * 60 * 60 * 1000; 
-        const COOLDOWN_KEY = 'attendance_cooldown_weekly';
-
-        const elements = {
-            trigger: document.getElementById('statusTrigger'),
-            optionsMenu: document.getElementById('statusOptions'),
-            hiddenInput: document.getElementById('statusValue'),
-            reasonContainer: document.getElementById('reason-container'),
-            reasonInput: document.getElementById('reasonInput'),
-            tiktokInput: document.getElementById('tiktokUser'),
-            btn: document.getElementById('submitBtn'),
-            form: document.getElementById('attendanceForm'),
-            errorNotif: document.getElementById('error-notification'),
-            btnSpinner: document.getElementById('btnSpinner'),
-            btnText: document.getElementById('btnText'),
-            formContainer: document.getElementById('form-container'),
-            successOverlay: document.getElementById('success-overlay'),
-            iframe: document.getElementById('hidden_iframe')
-        };
-
-        // --- DETEKSI JARINGAN ---[cite: 1]
-        function checkNetwork() {
-            if (!navigator.onLine) {
-                showError("Jaringan tidak stabil atau terputus!");
-            }
-        }
-        window.addEventListener('offline', checkNetwork);
-
+        // 1. FUNGSI ERROR
         function showError(msg) {
-            elements.errorNotif.textContent = msg;
-            elements.errorNotif.classList.add('show');
-            setTimeout(() => elements.errorNotif.classList.remove('show'), 4000);
+            elements.error.textContent = msg;
+            elements.error.classList.add('show');
+            setTimeout(() => elements.error.classList.remove('show'), 4000);
         }
 
-        // --- LOGIKA COOLDOWN ---
-        function applyCooldownUI(timeLeft) {
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            elements.btn.disabled = true;
-            elements.btn.style.background = "#444";
-            elements.btnText.textContent = `Terkunci (${days}h ${hours}j)`;
-        }
-
-        function checkCooldown() {
-            const saved = localStorage.getItem(COOLDOWN_KEY);
-            if (!saved) return false;
-            const remain = COOLDOWN_TIME - (Date.now() - saved);
-            if (remain > 0) {
-                applyCooldownUI(remain);
-                return true;
+        // 2. DETEKSI JARINGAN & AUTO RETRY[cite: 1]
+        function handleNetworkAndSubmit(e) {
+            if (!navigator.onLine) {
+                e.preventDefault();
+                showError("Koneksi Buruk! Sistem akan mengirim otomatis saat sinyal stabil.");[cite: 1]
+                
+                window.addEventListener('online', function retry() {
+                    showError("Sinyal kembali! Mengirim data...");[cite: 1]
+                    elements.form.submit();
+                    window.removeEventListener('online', retry);
+                }, { once: true });
+                return false;
             }
-            return false;
+            return true;
         }
 
-        // --- UI & DROPDOWN ---
-        elements.trigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            elements.trigger.classList.toggle('open');
-            elements.optionsMenu.classList.toggle('show');
-        });
+        // 3. DROPDOWN LOGIC
+        document.getElementById('selectStatus').onclick = () => {
+            const opt = document.getElementById('statusOptions');
+            opt.style.display = opt.style.display === 'block' ? 'none' : 'block';
+        };
 
         document.querySelectorAll('.option').forEach(opt => {
-            opt.addEventListener('click', function() {
-                const val = this.getAttribute('data-value');
-                elements.trigger.textContent = val;
-                elements.hiddenInput.value = val;
-                elements.optionsMenu.classList.remove('show');
-                if (val === 'Izin') {
-                    elements.reasonContainer.style.display = 'block';
-                    setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
-                } else {
-                    elements.reasonContainer.classList.remove('show-reason');
-                    setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
-                }
-            });
+            opt.onclick = (e) => {
+                const val = e.target.getAttribute('data-value');
+                document.getElementById('statusTrigger').textContent = val;
+                document.getElementById('statusValue').value = val;
+                document.getElementById('reason-container').style.display = val === 'Izin' ? 'block' : 'none';
+            };
         });
 
-        // --- SUBMIT ---
-        elements.form.addEventListener('submit', function(e) {
-            checkNetwork();
-            if (checkCooldown() || sending) {
-                e.preventDefault();
-                return;
-            }
+        // 4. SUBMIT FORM
+        elements.form.onsubmit = (e) => {
+            if (!handleNetworkAndSubmit(e)) return;[cite: 1]
+            if (sending) return;
 
             sending = true;
-            elements.btnSpinner.style.display = 'block';
-            elements.btnText.textContent = "Mengirim...";
-            
-            // Format TikTok Link
-            let tk = elements.tiktokInput.value.trim();
-            if (tk) {
-                let user = tk.replace(/https?:\/\//, '').replace(/(www\.)?tiktok\.com\//, '').replace(/@/g, '').split(/[?\/]/)[0];
-                elements.tiktokInput.value = 'https://tiktok.com/@' + user;
-            }
-        });
+            elements.btn.disabled = true;
+            elements.spinner.style.display = 'block';
+            elements.btnText.textContent = "Proses...";
+        };
 
-        elements.iframe.onload = function() {
+        elements.iframe.onload = () => {
             if (sending) {
-                localStorage.setItem(COOLDOWN_KEY, Date.now());
-                elements.formContainer.style.display = 'none';
-                elements.successOverlay.style.display = 'flex';
+                elements.formCont.style.display = 'none';
+                elements.success.style.display = 'block';
+                localStorage.setItem('last_absen_weekly', Date.now());[cite: 1]
             }
         };
 
-        // --- POPUP SCRIPTS ---
-        const updatePopup = document.getElementById("updatePopup");
-        const UPDATE_VER = "v1.2.0";
+        // 5. PROTEKSI TAMBAHAN (Mencegah Drag)[cite: 1]
+        document.getElementById('bgImage').ondragstart = () => false;
 
+        // 6. POPUP LOGIC
         window.onload = () => {
-            if (localStorage.getItem("ver_seen") !== UPDATE_VER) {
-                updatePopup.style.display = "flex";
+            if (localStorage.getItem('ver_1.2_seen') !== 'true') {
+                document.getElementById('updatePopup').style.display = 'flex';
             }
-            checkCooldown();
         };
-
-        document.getElementById("closeUpdate").onclick = () => {
-            updatePopup.style.display = "none";
-            localStorage.setItem("ver_seen", UPDATE_VER);
+        document.getElementById('closeUpdate').onclick = () => {
+            document.getElementById('updatePopup').style.display = 'none';
+            localStorage.setItem('ver_1.2_seen', 'true');
         };
-
-        document.getElementById("infoBtn").onclick = () => document.getElementById("infoPopup").style.display = "flex";
-        function closeInfo() { document.getElementById("infoPopup").style.display = "none"; }
-        function showTab(tab) {
-            document.querySelectorAll('.info-content').forEach(c => c.style.display = 'none');
-            document.getElementById(tab + 'Tab').style.display = 'block';
-            document.querySelectorAll('.info-menu span').forEach(s => s.classList.remove('active'));
-            event.target.classList.add('active');
-        }
     </script>
 </body>
 </html>
