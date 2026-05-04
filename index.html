@@ -35,22 +35,29 @@
     position: relative;
 }
 
-    #bg-fixed {
+   #bg-fixed {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+#bg-fixed img {
     width: 100%;
     height: 100%;
-    /* Gunakan background-image terpisah agar lebih mudah diatur */
-    background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
-                      url('./vd/fotolivexjj.jpg');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    /* Tambahan ini penting untuk kestabilan di browser mobile */
-    background-attachment: scroll; 
-    z-index: -1; /* Pastikan di paling belakang */
-    transform: translateZ(0); /* Memicu akselerasi hardware agar smooth */
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateZ(0); /* GPU stabilize */
+}
+
+/* overlay gelap biar tetap aesthetic */
+#bg-fixed::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
 }
     
     .container { 
@@ -288,6 +295,9 @@
     </style>
 </head>
 <body>
+    <div id="bg-fixed">
+    <img src="./vd/fotolivexjj.jpg" alt="bg">
+</div>
     <div id="bg-fixed"></div>
     <div id="updatePopup" class="update-popup">
         <div class="update-box">
@@ -298,7 +308,7 @@
 
             <div class="update-body">
                 <p>
-                    • Perbaiki bug gambar ikut ke scroll<br><br>
+                    • Perbaiki bug gambar ikut ketika scroll<br><br>
                 </p>
             </div>
         </div>
