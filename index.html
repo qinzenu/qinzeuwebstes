@@ -11,36 +11,50 @@
         --primary: #ff3131; 
         --bg-overlay: rgba(0, 0, 0, 0.5); 
         --glass: rgba(255, 255, 255, 0.1); 
-        --glass-heavy: rgba(30, 30, 30, 0.55); 
+        --glass-heavy: rgba(30, 30, 30, 0.7); /* Dibuat sedikit lebih gelap agar teks lebih kontras */
         --border: rgba(255, 49, 49, 0.4); 
     }
     
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; -webkit-font-smoothing: antialiased; }
+    * { 
+        box-sizing: border-box; 
+        -webkit-tap-highlight-color: transparent; 
+        user-select: none; 
+        -webkit-user-select: none; 
+        -webkit-font-smoothing: antialiased; 
+    }
 
     body { 
-        margin: 0; 
-        padding: 15px; 
-        color: white; 
-        font-family: 'Poppins', sans-serif;
-        min-height: 100vh;
-        position: relative;
-    }
+    margin: 0; 
+    padding: 15px; 
+    color: white; 
+    font-family: 'Poppins', sans-serif;
+    background: transparent;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
 
-    /* FIX: Ganti background-attachment: fixed dengan pseudo-element
-       agar background tidak ketarik saat scroll, terutama di mobile */
-    body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
-                    url('./vd/fotolivexjj.jpg');
-        background-size: cover;
-        background-position: center;
-        z-index: -1;
-        pointer-events: none;
-    }
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                url('./vd/fotolivexjj.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
     
-    .container { max-width: 500px; margin: 0 auto; position: relative; z-index: 1; }
+    .container { 
+        max-width: 500px; 
+        margin: 0 auto; 
+        position: relative; 
+        z-index: 1; 
+        width: 100%;
+        /* UPDATE: Tambahkan padding bottom agar elemen terakhir tidak mepet ke bawah layar */
+        padding-bottom: 80px; 
+    }
     
     header { text-align: center; margin-bottom: 25px; }
     
@@ -85,13 +99,12 @@
         box-shadow: 0 5px 15px rgba(255,49,49,0.4); 
     }
     
-    /* --- UPDATE: Menambahkan padding agar tidak mepet border --- */
     .stats { 
         display: grid; 
         grid-template-columns: repeat(3, 1fr); 
         gap: 10px; 
         margin-bottom: 20px; 
-        padding: 0 10px; /* Jarak aman dari pinggir layar */
+        padding: 0 5px; 
     }
     
     .card { 
@@ -100,12 +113,21 @@
         text-align: center; 
     }
     
+    /* --- UPDATE: Posisi angka statistik (sesuai preferensi kamu sebelumnya di sisi kiri) --- */
+    .card p { 
+        font-size: 1.4rem; 
+        font-weight: 700; 
+        margin: 0; 
+        text-align: center; /* Tetap center di dalam box kecil, atau ubah ke left jika mau di pinggir */
+    }
+    
     .card h3 { font-size: 0.6rem; color: #eee; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 1px; }
-    .card p { font-size: 1.4rem; font-weight: 700; margin: 0; }
     
     .table-wrap { 
         border-radius: 18px; 
-        overflow: hidden; 
+        /* UPDATE: Jangan gunakan overflow: hidden jika ingin tabel memanjang alami, 
+           atau pastikan pembungkusnya tidak memotong konten */
+        overflow: visible; 
         margin-bottom: 30px;
     }
     
@@ -121,7 +143,12 @@
         letter-spacing: 1px; 
     }
 
-    td { padding: 14px 10px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; vertical-align: middle; }
+    td { 
+        padding: 14px 10px; 
+        border-bottom: 1px solid rgba(255,255,255,0.1); 
+        font-size: 0.85rem; 
+        vertical-align: middle; 
+    }
     
     th:nth-child(1), td:nth-child(1) { width: 100px; } 
     th:nth-child(2), td:nth-child(2) { width: auto; } 
@@ -222,11 +249,11 @@
             line-height: 1.5;
         }
 
-        /* Tabel members: layout fixed agar kolom tidak ketarik */
+        /* Pastikan tabel mengambil lebar penuh dan mengizinkan konten melebar */
 #mainTable {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
+    table-layout: auto; /* Biarkan browser menyesuaikan lebar berdasarkan konten */
 }
 
 /* Membungkus tabel agar bisa di-scroll secara horizontal jika nama sangat panjang */
@@ -235,25 +262,20 @@
     -webkit-overflow-scrolling: touch;
 }
 
-/* Styling kolom nama - potong jika terlalu panjang, tidak mendorong kolom badge */
+/* Styling kolom nama */
 .name-text {
     display: block;
     text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nowrap; /* Mencegah nama turun ke bawah */
+    overflow: visible;   /* Pastikan tidak tersembunyi */
+    min-width: 150px;    /* Memberikan ruang minimal untuk nama */
 }
 
-/* Memastikan sel tabel rapi */
+/* Memastikan sel tabel tidak memotong konten */
 #mainTable td {
     padding: 10px 5px;
-    overflow: hidden;
+    overflow: visible;
 }
-
-/* Kolom NO tetap kecil, kolom badge tetap di kanan, kolom nama mengisi sisa */
-#mainTable th:nth-child(1), #mainTable td:nth-child(1) { width: 45px; }
-#mainTable th:nth-child(2), #mainTable td:nth-child(2) { width: auto; }
-#mainTable th:nth-child(3), #mainTable td:nth-child(3) { width: 90px; text-align: right; }
     
     </style>
 </head>
@@ -550,12 +572,18 @@
                 const parts = timestampFull.split(' ');
                 const dateOnly = parts[0];
                 
-                let timeOnly = "--:--";
-                if (parts[1]) {
-                    let rawTime = parts[1].trim();
-                    if (rawTime.indexOf(':') === 1) rawTime = '0' + rawTime;
-                    timeOnly = rawTime.substring(0, 5);
-                }
+                // KODE BARU (Jam:Menit:Detik)
+let timeOnly = "--:--:--";
+if (parts[1]) {
+    let rawTime = parts[1].trim();
+    
+    // Menambahkan '0' di depan jika formatnya H:mm:ss menjadi HH:mm:ss
+    if (rawTime.indexOf(':') === 1) rawTime = '0' + rawTime;
+    
+    // Mengambil Jam, Menit, dan Detik (HH:mm:ss)
+    // substring(0, 8) mengambil 8 karakter pertama
+    timeOnly = rawTime.substring(0, 8); 
+}
                 
                 const isToday = (dateOnly === format1 || dateOnly === format2);
                 if (filterType === 'today' && !isToday) return;
