@@ -8,12 +8,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
    <style>
     :root { 
-        --primary: #ff3131; 
-        --bg-overlay: rgba(0, 0, 0, 0.5); 
-        --glass: rgba(255, 255, 255, 0.1); 
-        --glass-heavy: rgba(30, 30, 30, 0.7); /* Dibuat sedikit lebih gelap agar teks lebih kontras */
-        --border: rgba(255, 49, 49, 0.4); 
-    }
+    --primary: #ff3131; 
+    --bg-overlay: rgba(0, 0, 0, 0.6); /* Sedikit lebih transparan agar gambar terlihat */
+    --glass: rgba(255, 255, 255, 0.1); 
+    --glass-heavy: rgba(20, 20, 20, 0.8); 
+    --border: rgba(255, 49, 49, 0.4); 
+}
     
     * { 
         box-sizing: border-box; 
@@ -24,27 +24,34 @@
     }
 
     body { 
-        margin: 0; 
-        padding: 15px; 
-        color: white; 
-        font-family: 'Poppins', sans-serif;
-        background: #111;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
+    margin: 0; 
+    padding: 15px; 
+    color: white; 
+    font-family: 'Poppins', sans-serif;
+    background: #000; /* Warna dasar jika gambar gagal load */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
 
     #bg-fixed {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
-                    url('./vd/fotolivexjj.jpg');
-        background-size: cover;
-        background-position: center;
-        z-index: 0;
-    }
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gunakan background-image terpisah agar lebih mudah diatur */
+    background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                      url('./vd/fotolivexjj.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    /* Tambahan ini penting untuk kestabilan di browser mobile */
+    background-attachment: scroll; 
+    z-index: -1; /* Pastikan di paling belakang */
+    transform: translateZ(0); /* Memicu akselerasi hardware agar smooth */
+}
     
     .container { 
         max-width: 500px; 
@@ -291,7 +298,7 @@
 
             <div class="update-body">
                 <p>
-                    • Penambahan List Member<br><br>
+                    • Perbaiki bug gambar ikut ke scroll<br><br>
                 </p>
             </div>
         </div>
