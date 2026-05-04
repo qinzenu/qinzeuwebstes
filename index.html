@@ -28,22 +28,30 @@
         padding: 15px; 
         color: white; 
         font-family: 'Poppins', sans-serif;
-        /* UPDATE: Gunakan background-attachment: fixed agar background tidak ikut tergulung (mencegah putih-putih) */
+        background: #111;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    #bg-fixed {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
         background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
                     url('./vd/fotolivexjj.jpg');
         background-size: cover;
         background-position: center;
-        background-attachment: fixed; 
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
+        z-index: 0;
     }
     
     .container { 
         max-width: 500px; 
         margin: 0 auto; 
         position: relative; 
-        z-index: 1; 
+        z-index: 1;
+        isolation: isolate; 
         width: 100%;
         /* UPDATE: Tambahkan padding bottom agar elemen terakhir tidak mepet ke bawah layar */
         padding-bottom: 80px; 
@@ -273,6 +281,7 @@
     </style>
 </head>
 <body>
+    <div id="bg-fixed"></div>
     <div id="updatePopup" class="update-popup">
         <div class="update-box">
             <div class="update-header">
@@ -282,7 +291,7 @@
 
             <div class="update-body">
                 <p>
-                    • Bug gambar ikut ke scroll<br><br>
+                    • Penambahan List Member<br><br>
                 </p>
             </div>
         </div>
