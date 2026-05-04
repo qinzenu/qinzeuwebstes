@@ -35,11 +35,22 @@
     position: relative;
 }
 
-   #bg-fixed {
+  #bg-fixed {
     position: fixed;
-    inset: 0;
-    z-index: -1;
-    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Menggunakan viewport width */
+    height: 100vh; /* Menggunakan viewport height */
+    /* Pastikan path gambar benar, gunakan gambar dari link jika file lokal bermasalah */
+    background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                url('./vd/fotolivexjj.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1; /* Wajib negatif agar berada di bawah tabel/teks */
+    /* Tambahan untuk mobile agar tidak lag */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 #bg-fixed img {
@@ -308,7 +319,7 @@
 
             <div class="update-body">
                 <p>
-                    • Perbaiki bug gambar <br><br>
+                    • Hai <br><br>
                 </p>
             </div>
         </div>
