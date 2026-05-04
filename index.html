@@ -222,11 +222,11 @@
             line-height: 1.5;
         }
 
-        /* Pastikan tabel mengambil lebar penuh dan mengizinkan konten melebar */
+        /* Tabel members: layout fixed agar kolom tidak ketarik */
 #mainTable {
     width: 100%;
     border-collapse: collapse;
-    table-layout: auto; /* Biarkan browser menyesuaikan lebar berdasarkan konten */
+    table-layout: fixed;
 }
 
 /* Membungkus tabel agar bisa di-scroll secara horizontal jika nama sangat panjang */
@@ -235,20 +235,25 @@
     -webkit-overflow-scrolling: touch;
 }
 
-/* Styling kolom nama */
+/* Styling kolom nama - potong jika terlalu panjang, tidak mendorong kolom badge */
 .name-text {
     display: block;
     text-align: left;
-    white-space: nowrap; /* Mencegah nama turun ke bawah */
-    overflow: visible;   /* Pastikan tidak tersembunyi */
-    min-width: 150px;    /* Memberikan ruang minimal untuk nama */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Memastikan sel tabel tidak memotong konten */
+/* Memastikan sel tabel rapi */
 #mainTable td {
     padding: 10px 5px;
-    overflow: visible;
+    overflow: hidden;
 }
+
+/* Kolom NO tetap kecil, kolom badge tetap di kanan, kolom nama mengisi sisa */
+#mainTable th:nth-child(1), #mainTable td:nth-child(1) { width: 45px; }
+#mainTable th:nth-child(2), #mainTable td:nth-child(2) { width: auto; }
+#mainTable th:nth-child(3), #mainTable td:nth-child(3) { width: 90px; text-align: right; }
     
     </style>
 </head>
