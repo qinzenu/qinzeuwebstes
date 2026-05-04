@@ -15,6 +15,11 @@
         --border: rgba(255, 49, 49, 0.4); 
     }
     
+    html {
+        height: 100%;
+        background: #000;
+    }
+
     * { 
         box-sizing: border-box; 
         -webkit-tap-highlight-color: transparent; 
@@ -24,27 +29,27 @@
     }
 
     body { 
-    margin: 0; 
-    padding: 15px; 
-    color: white; 
-    font-family: 'Poppins', sans-serif;
-    background: transparent;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
+        margin: 0; 
+        padding: 15px; 
+        color: white; 
+        font-family: 'Poppins', sans-serif;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        background: transparent;
+    }
 
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
-                url('./vd/fotolivexjj.jpg');
-    background-size: cover;
-    background-position: center;
-    z-index: -1;
-}
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                    url('./vd/fotolivexjj.jpg');
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+    }
     
     .container { 
         max-width: 500px; 
@@ -289,7 +294,7 @@ body::before {
 
             <div class="update-body">
                 <p>
-                    • Penambahan List Member<br><br>
+                    • Fixed bug<br><br>
                 </p>
             </div>
         </div>
@@ -385,7 +390,8 @@ body::before {
     { nama: "𝘿𝙖𝙣𝙯 𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
     { nama: "—►𝘾𝙮𝙣𝙣'𝙉𝙚𝙬𝙗𝙞𝙚【桜の花】", jabatan: "MEMBER" },
     { nama: "Alice'𝙉𝙚𝙬𝙗𝙞𝙚`𝖋𝖙 𝐍𝐂𝐀", jabatan: "MEMBER" },
-    { nama: "—𝙉𝙪𝙧𝙯𝙯𝙉𝙚𝙬𝙗𝙞𝙚友", jabatan: "MEMBER" }
+    { nama: "—𝙉𝙪𝙧𝙯𝙯𝙉𝙚𝙬𝙗𝙞𝙚友", jabatan: "MEMBER" },
+        { nama: "Zenuasu", jabatan: "MEMBER" }
 ];
 
     const LoadingManager = {
