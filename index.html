@@ -1,529 +1,181 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Absensi Harian - Newbie Fams</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="icon" href="https://i.ibb.co.com/1tBC2ngW/Logo-12-F8-F09.png">
-    <style>
-        :root {
-            --primary: #ff3131;
-            --primary-gradient: linear-gradient(135deg, #ff0000 0%, #7a0000 100%);
-            --bg-color: #050505;
-            --text-main: #ffffff;
-            --text-muted: #a1a1a1;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --radius-lg: 32px;
-            --radius-md: 18px;
-            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            --danger: #ff0000;
-            --warning: #facc15;
-            --success-color: #22c55e;
-        }
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cek Absen Member NewbieFams</title>
+   <link rel="icon" href="https://i.ibb.co.com/1tBC2ngW/Logo-12-F8-F09.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+   <style>
+    :root { 
+        --primary: #ff3131; 
+        --bg-overlay: rgba(0, 0, 0, 0.5); 
+        --glass: rgba(255, 255, 255, 0.1); 
+        --glass-heavy: rgba(30, 30, 30, 0.55); 
+        --border: rgba(255, 49, 49, 0.4); 
+    }
+    
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; -webkit-font-smoothing: antialiased; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            touch-action: pan-x pan-y;
-            -webkit-tap-highlight-color: transparent;
-        }
+    body { 
+        margin: 0; 
+        padding: 15px; 
+        color: white; 
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+        position: relative;
+    }
 
-        button,
-        input,
-        select,
-        textarea {
-            touch-action: manipulation;
-        }
+    /* FIX: Ganti background-attachment: fixed dengan pseudo-element
+       agar background tidak ketarik saat scroll, terutama di mobile */
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                    url('./vd/fotolivexjj.jpg');
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+        pointer-events: none;
+    }
+    
+    .container { max-width: 500px; margin: 0 auto; position: relative; z-index: 1; }
+    
+    header { text-align: center; margin-bottom: 25px; }
+    
+    .brand-icon {
+        width: 70px; height: 70px;
+        object-fit: cover;
+        border-radius: 18px; 
+        border: 2px solid var(--border);
+        margin-bottom: 12px;
+        background: #111;
+        box-shadow: 0 0 20px rgba(255, 49, 49, 0.3);
+    }
+    
+    .glass-effect {
+        background-color: var(--glass-heavy) !important;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid var(--border);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
 
-        body {
-            background-color: var(--bg-color);
-            background-image:
-                radial-gradient(circle at 0% 0%, rgba(255, 0, 0, 0.15) 0%, transparent 35%),
-                radial-gradient(circle at 100% 100%, rgba(122, 0, 0, 0.15) 0%, transparent 35%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            color: var(--text-main);
-            overflow-x: hidden;
-            user-select: none;
-        }
+    .filter-nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
+    
+    .btn { 
+        background: rgba(0, 0, 0, 0.3); 
+        border: 1px solid var(--border); 
+        color: #ddd; 
+        padding: 10px 22px; 
+        border-radius: 20px; 
+        cursor: pointer; 
+        font-size: 0.75rem; 
+        font-weight: 700;
+        transition: 0.3s;
+        text-transform: uppercase;
+        backdrop-filter: blur(5px);
+    }
 
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
+    .btn.active { 
+        background: var(--primary); 
+        color: white; 
+        border-color: var(--primary); 
+        box-shadow: 0 5px 15px rgba(255,49,49,0.4); 
+    }
+    
+    /* --- UPDATE: Menambahkan padding agar tidak mepet border --- */
+    .stats { 
+        display: grid; 
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 10px; 
+        margin-bottom: 20px; 
+        padding: 0 10px; /* Jarak aman dari pinggir layar */
+    }
+    
+    .card { 
+        padding: 15px 5px; 
+        border-radius: 15px; 
+        text-align: center; 
+    }
+    
+    .card h3 { font-size: 0.6rem; color: #eee; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 1px; }
+    .card p { font-size: 1.4rem; font-weight: 700; margin: 0; }
+    
+    .table-wrap { 
+        border-radius: 18px; 
+        overflow: hidden; 
+        margin-bottom: 30px;
+    }
+    
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    
+    th { 
+        background: rgba(255, 49, 49, 0.25); 
+        color: #fff; 
+        padding: 15px 10px; 
+        text-align: left; 
+        font-size: 0.7rem; 
+        text-transform: uppercase; 
+        letter-spacing: 1px; 
+    }
 
-            50% {
-                transform: translateY(-10px);
-            }
+    td { padding: 14px 10px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; vertical-align: middle; }
+    
+    th:nth-child(1), td:nth-child(1) { width: 100px; } 
+    th:nth-child(2), td:nth-child(2) { width: auto; } 
+    th:nth-child(3), td:nth-child(3) { width: 85px; text-align: right; }
 
-            100% {
-                transform: translateY(0px);
-            }
-        }
+    .time-wrapper { display: flex; flex-direction: column; }
+    .date-text { color: #ccc; font-size: 0.6rem; }
+    .hour-text { color: var(--primary); font-size: 0.75rem; font-weight: 700; }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
+    .name-text { color: #fff; font-weight: 600; line-height: 1.2; word-break: break-word; }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .badge { 
+        padding: 4px 8px; 
+        border-radius: 8px; 
+        font-size: 0.55rem; 
+        font-weight: 800; 
+        text-transform: uppercase; 
+        display: inline-block; 
+    }
+    
+    .bg-hadir { background: rgba(34,197,94,0.3); color: #4ade80; border: 1px solid rgba(34,197,94,0.5); }
+    .bg-izin { background: rgba(250,204,21,0.3); color: #fde047; border: 1px solid rgba(250,204,21,0.5); }
 
-        .main-wrapper {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
-            border: 1px solid rgba(255, 0, 0, 0.2);
-            padding: 3rem 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
-            width: 100%;
-            max-width: 500px;
-            animation: fadeIn 1s ease forwards;
-            position: relative;
-        }
+    .loader {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 50px 20px;
+        gap: 15px;
+    }
 
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.2rem;
-            animation: float 4s ease-in-out infinite;
-        }
+    .spinner {
+        width: 35px; height: 35px;
+        border: 3px solid rgba(255, 49, 49, 0.1);
+        border-top: 3px solid var(--primary);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
 
-        .logo-container img {
-            width: 90px;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 20px;
-            padding: 5px;
-            background: var(--glass-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            pointer-events: none;
-        }
+    #loading-text {
+        color: var(--primary);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        min-width: 160px;
+        text-align: center;
+    }
 
-        .header-section {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .header-section h2 {
-            font-weight: 800;
-            font-size: 2rem;
-            letter-spacing: 2px;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.3rem;
-        }
-
-        .header-section p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.2rem;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.6rem;
-            font-weight: 600;
-            font-size: 0.65rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-        }
-
-        input,
-        textarea,
-        .custom-select-trigger {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius-md);
-            background: rgba(255, 255, 255, 0.03);
-            font-size: 0.9rem;
-            transition: var(--transition);
-            color: #fff;
-            outline: none;
-        }
-
-        textarea {
-            resize: none;
-            min-height: 80px;
-        }
-
-        input:focus,
-        textarea:focus {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
-        }
-
-        .custom-select-wrapper {
-            position: relative;
-        }
-
-        .custom-select-trigger {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            color: #94a3b8;
-        }
-
-        .custom-select-trigger::after {
-            content: "";
-            width: 7px;
-            height: 7px;
-            border-right: 2px solid var(--primary);
-            border-bottom: 2px solid var(--primary);
-            transform: rotate(45deg);
-            transition: var(--transition);
-        }
-
-        .custom-select-trigger.open::after {
-            transform: rotate(-135deg);
-        }
-
-        .custom-options {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            right: 0;
-            background: #151515;
-            border-radius: var(--radius-md);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            pointer-events: none;
-        }
-
-        .custom-options.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .option {
-            padding: 1rem 1.2rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            color: #cbd5e1;
-        }
-
-        .option:hover {
-            background: var(--primary-gradient);
-            color: white;
-            padding-left: 1.5rem;
-        }
-
-        #reason-container {
-            display: none;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.4s ease;
-        }
-
-        #reason-container.show-reason {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 1.1rem;
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            border-radius: var(--radius-md);
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            filter: brightness(1.1);
-            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        #error-notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: #450a0a;
-            border-left: 5px solid var(--danger);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            transition: transform 0.5s ease;
-            z-index: 10000;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        #error-notification.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        #success-overlay {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        .check-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .footer-text {
-            text-align: center;
-            font-size: 0.65rem;
-            margin-top: 2rem;
-            color: #e5e5e5;
-            letter-spacing: 1px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .spinner {
-            display: none;
-            /* Sembunyi secara default */
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #ffffff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-right: 10px;
-        }
-
-        /* Penyesuaian tombol agar spinner dan teks sejajar */
-        .submit-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-    </style>
-    <style>
-        /* FLOAT BUTTON */
-        #infoBtn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
-            z-index: 9999;
-            transition: 0.3s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .info-box p {
-            text-align: left;
-            line-height: 1.6;
-        }
-
-        #infoBtn:hover {
-            transform: scale(1.1);
-        }
-
-        /* POPUP BACKGROUND */
-        #infoPopup {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* BOX */
-        .info-box {
-            background: #111;
-            padding: 25px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 320px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: fadeIn 0.3s ease;
-        }
-
-        .info-box h3 {
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-
-        .info-box p {
-            font-size: 0.85rem;
-            color: #ccc;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .info-box button {
-            background: var(--primary-gradient);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .info-menu {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 8px;
-        }
-
-        .info-menu span {
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: #aaa;
-            transition: 0.3s;
-        }
-
-        .info-menu span.active {
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-
-        .sub-text {
-            display: block;
-            margin-left: 11px;
-            /* bikin masuk ke dalam */
-            font-size: 0.8rem;
-            color: #ccc
-        }
-    </style>
-    <style>
-        #bgImage {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: transparent;
-            z-index: -1;
-        }
-    </style>
-    <!-- <style>
-      #bgVideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
-}
-
-/* Overlay biar tetap gelap & elegan */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-}
-
-#soundBtn {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: white;
-    cursor: pointer;
-    z-index: 9999;
-    transition: 0.3s;
-}
-
-#soundBtn:hover {
-    transform: scale(1.1);
-}
-    </style> -->
-    <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+    tr:hover td { background: rgba(255, 255, 255, 0.1); transition: 0.2s; }
+</style>
+<style>
         .update-popup {
             position: fixed;
             inset: 0;
@@ -569,1129 +221,386 @@ body::before {
             color: #ddd;
             line-height: 1.5;
         }
+
+        /* Pastikan tabel mengambil lebar penuh dan mengizinkan konten melebar */
+#mainTable {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto; /* Biarkan browser menyesuaikan lebar berdasarkan konten */
+}
+
+/* Membungkus tabel agar bisa di-scroll secara horizontal jika nama sangat panjang */
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Styling kolom nama */
+.name-text {
+    display: block;
+    text-align: left;
+    white-space: nowrap; /* Mencegah nama turun ke bawah */
+    overflow: visible;   /* Pastikan tidak tersembunyi */
+    min-width: 150px;    /* Memberikan ruang minimal untuk nama */
+}
+
+/* Memastikan sel tabel tidak memotong konten */
+#mainTable td {
+    padding: 10px 5px;
+    overflow: visible;
+}
+    
     </style>
 </head>
-
 <body>
     <div id="updatePopup" class="update-popup">
         <div class="update-box">
             <div class="update-header">
-                <h3>Update Terbaru</h3>
+                <h3>New Update</h3>
                 <button id="closeUpdate">✕</button>
             </div>
 
             <div class="update-body">
                 <p>
-                    • Penambahan Cek Absensi<br><br>
+                    • Penambahan List Member<br><br>
                 </p>
             </div>
         </div>
     </div>
-    <!-- Projek gakuat
- 
- <video autoplay muted loop playsinline id="bgVideo">
-    <source src="./vd/fotolivexjj.mp4" type="video/mp4">
-</video> 
-<div id="soundBtn">🔇</div> -->
-    <img id="bgImage" src="./vd/fotolivexjj.jpg" alt="background">
-    <div id="error-notification"></div>
 
-    <div class="main-wrapper">
-       <div id="success-overlay">
-    <div class="check-icon" id="status-icon">✓</div>
-    <h2 id="status-title">Absen Berhasil</h2>
-    
-    <p id="status-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px; margin-top: 10px;">
-        Kamu telah absen, Jangan lupa di hari selanjutnya untuk absen kembali.
-    </p>
+<div class="container">
+    <header>
+        <img src="./vd/icon.png" alt="NF Logo" class="brand-icon">
+        <h2 style="color: var(--primary); margin:0; letter-spacing: -1px; text-transform: uppercase; font-weight: 800;">Daftar Absensi</h2>
+        <p style="font-size: 0.7rem; color: #bbb; margin-top: 4px;">Data Absen Member Newbie Fams</p>
+    </header>
 
-    <!-- Tambahan Link Cek Absensi & Pesan Admin -->
-    <div style="margin-bottom: 20px;">
-        <a href="https://newbiefams-cekabsen.qinzenu.my.id/" 
-           style="color: #ff2b2b; text-decoration: none; font-size: 0.85rem; font-weight: bold;">
-           [ Cek Riwayat Absensi ]
-        </a>
-        <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 8px; font-style: italic;">
-            Jika data tidak masuk, silakan hubungi <b>Admin Zenu</b>.
-        </p>
+    <div class="filter-nav">
+        <button id="btnToday" class="btn active" onclick="setFilter('today')">HARI INI</button>
+        <button id="btnAll" class="btn" onclick="setFilter('all')">SEMUA</button>
+        <button id="btnMem" class="btn" onclick="setFilter('members')">ANGGOTA</button>
     </div>
 
-    <button onclick="window.location.href='https://newbiefams-absen.qinzenu.my.id'"
-        style="background: var(--primary-gradient); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; width: 100%;">
-        Tutup
-    </button>
+    <div class="stats">
+        <div class="card glass-effect">
+            <h3>Total Absen</h3>
+            <p id="total">0</p>
+        </div>
+        <div class="card glass-effect">
+            <h3>Total Hadir</h3>
+            <p id="tHadir" style="color:#4ade80">0</p>
+        </div>
+        <div class="card glass-effect">
+            <h3>Total Izin</h3>
+            <p id="tIzin" style="color:#fde047">0</p>
+        </div>
+    </div>
+
+    <div class="table-wrap glass-effect">
+        <table id="mainTable">
+            <thead>
+                <tr>
+                    <th>Waktu Absen</th>
+                    <th>Nama Member</th>
+                    <th style="text-align:right;">Status</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        
+        <div id="loading" class="loader">
+            <div class="spinner"></div>
+            <span id="loading-text">Mencari data</span>
+        </div>
+    </div>
 </div>
-        <div id="form-container">
-            <div class="header-section">
-                <div class="logo-container">
-                    <img src="https://i.ibb.co.com/bgsX6qpt/image.png" alt="Logo">
-                </div>
-                <h2>ABSEN HARIAN</h2>
-                <p>Jangan Lupa Absen Setiap Hari</p>
-            </div>
 
-            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-
-            <form id="attendanceForm"
-                action="https://docs.google.com/forms/d/e/1FAIpQLSeOjtlyn9ao3Qsk7IqFe0MtjLrFHiJr_s8hy-qaloWRHdATQQ/formResponse"
-                method="POST" target="hidden_iframe">
-
-                <div class="form-group">
-                    <label>Nama</label>
-                    <input type="text" id="inputNama" name="entry.877985187" placeholder="Masukkan Nama Anda" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Username TikTok</label>
-                    <input type="text" id="tiktokUser" name="entry.1529109235" placeholder="Masukkan Username TikTok"
-                        required>
-                </div>
-
-                <div class="form-group">
-                    <label>Nomor WhatsApp</label>
-                    <input type="tel" id="inputWA" name="entry.834103540" placeholder="Masukan Nomor WA yg ada di GC"
-                        pattern="[0-9]*" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Status Kehadiran</label>
-                    <div class="custom-select-wrapper">
-                        <div class="custom-select-trigger" id="statusTrigger">Pilih Status</div>
-                        <div class="custom-options" id="statusOptions">
-                            <div class="option" data-value="Hadir">Hadir</div>
-                            <div class="option" data-value="Izin">Izin</div>
-                        </div>
-                    </div>
-                    <input type="hidden" name="entry.461399002" id="statusValue" required>
-                </div>
-
-                <div class="form-group" id="reason-container">
-                    <label>Alasan Izin</label>
-                    <textarea id="reasonInput" name="entry.864916109"
-                        placeholder="Berikan alasan yang jelas..."></textarea>
-                </div>
-                <p style="font-size: 0.75rem; opacity: 0.8;">
-                    Jika kamu tidak tahu cara absen, klik tombol <strong>?</strong> di sudut kanan bawah.
-                </p>
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <div class="spinner" id="btnSpinner"></div>
-                    <span id="btnText">Kirim Absen</span>
-                </button>
-            </form>
-        </div>
-        <div class="footer-text">© 2026 NEWBIE FAMS • ADMIN</div>
-    </div>
-
-    <!-- BUTTON INFO -->
-    <div id="infoBtn">?</div>
-
-    <!-- POPUP -->
-    <div id="infoPopup">
-        <div class="info-box">
-
-            <!-- MENU -->
-            <div class="info-menu">
-                <span onclick="showTab('panduan')" class="active">Panduan</span>
-                <span onclick="showTab('rules')">Rules</span>
-                <span onclick="showTab('info')">Informasi</span>
-            </div>
-
-            <div class="info-content" id="panduanTab">
-                <h3>Panduan</h3>
-                <p>
-                    • Isi nama sesuai nama kamu<br>
-                    • Isi username TikTok kamu
-                    <span class="sub-text" style="font-weight: bold;">(Harus terdaftar di TikTok)</span>
-                    • Isi nomor WhatsApp yang ada di grup
-                    <span class="sub-text" style="font-weight: bold;">(Nomor Kamu yang ada di grup NewbiFams)</span>
-                    • Pilih Hadir / Izin<br>
-                    <span class="sub-text">Jika izin, isi alasan yang jelas</span>
-                </p>
-            </div>
-
-            <div class="info-content" id="rulesTab" style="display:none;">
-                <h3>Rules</h3>
-                <p>
-                    1. Dilarang spam absen<br>
-                    2. Dilarang DDOS website<br>
-                    3. Dilarang hapus data/cache<br><br>
-                    <b>Jika melanggar = kick tanpa hormat</b>
-                </p>
-            </div>
-
-            <div class="info-content" id="infoTab" style="display:none;">
-                <h3>Informasi</h3>
-                <p>
-                    • Wajib absen 1x setiap 24 jam<br>
-                    • Gunakan data valid<br>
-                    • Spam = blacklist<br><br>
-                    <b>Dilarang menyebarkan website ini</b>
-                </p>
-            </div>
-
-            <button onclick="closeInfo()">Tutup</button>
-        </div>
-    </div>
-
-    <!--
 <script>
-    let submitted = false;
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRqxUK5bAyaQ0zDPb6a54KwQEmYAcucCX6pizMfxQA3p8XEs1C-OABtOlVi3dapwmSFzzJkr4kN6Wei/pub?gid=1525581949&single=true&output=csv';
+    let filterType = 'today';
+    let isFetching = false; 
 
-    // Inisialisasi Elemen
-    const elements = {
-        trigger: document.getElementById('statusTrigger'),
-        optionsMenu: document.getElementById('statusOptions'),
-        hiddenInput: document.getElementById('statusValue'),
-        reasonContainer: document.getElementById('reason-container'),
-        reasonInput: document.getElementById('reasonInput'),
-        tiktokInput: document.getElementById('tiktokUser'),
-        btn: document.getElementById('submitBtn'),
-        form: document.getElementById('attendanceForm'),
-        errorNotif: document.getElementById('error-notification'),
-        loadingScreen: document.getElementById('loading-screen'),
-        btnSpinner: document.getElementById('btnSpinner'),
-        btnText: document.getElementById('btnText'),
-        formContainer: document.getElementById('form-container'),
-        successOverlay: document.getElementById('success-overlay')
+    const manualMembers = [
+    { nama: "𝘿𝙖𝙣𝙉𝙚𝙬𝙗𝙞𝙚 ft 𝗔𝗣", jabatan: "KETUA" },
+    { nama: '𝙎𝙝𝙞𝙣𝙉𝙚𝙬𝙗𝙞𝙚"ft S4G', jabatan: "ADMIN" },
+    { nama: "𝙕𝙚𝙣𝙪𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "ADMIN" },
+    { nama: "𝘿𝙖𝙛𝙛𝙉𝙚𝙬𝙗𝙞𝙚•_", jabatan: "ADMIN" },
+    { nama: "𝐗𝟕 NittNewbie ft EGS", jabatan: "ADMIN" },
+    { nama: "𝙉𝙤𝙥𝙥𝙉𝙚𝙬𝙗𝙞𝙚 ft'𝟰𝟭𝟭", jabatan: "ADMIN" },
+    { nama: "𝙁𝙪𝙡𝙯𝙯 𝙉𝙚𝙬𝙗𝙞𝙚.", jabatan: "MEMBER" },
+    { nama: "𝙆𝙝𝙧𝙞𝙡𝙡𝙡𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+    { nama: "𝙃𝙖𝙣𝙯𝙉𝙚𝙬𝙗𝙞𝙚Kyoken`S4G", jabatan: "MEMBER" },
+    { nama: "𝙁𝘼𝙍𝙕𝙕𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+    { nama: "𝙎𝙖𝙝𝙞𝙧𝙪𝙉𝙚𝙬𝙗i`ᶠᵗ𝘼𝙀𝙂", jabatan: "MEMBER" },
+    { nama: "𝘽𝙖𝙧𝙧𝙉𝙚𝙬𝙗𝙞𝙚`VSC(紫雲寺)", jabatan: "MEMBER" },
+    { nama: "𝐋𝟕`𝙕𝙞𝙙𝙖𝙣𝙉𝙚𝙬𝙗𝙞𝙚紫雲寺", jabatan: "MEMBER" },
+    { nama: "FIzz 𝙉𝙚𝙬𝘽𝙞𝙚 𝖋𝖙 𝘼𝙀𝙄⭐", jabatan: "MEMBER" },
+    { nama: "YukiNewbie", jabatan: "MEMBER" },
+    // Tambahan terbaru:
+    { nama: "𝙑𝙖𝙣𝙯𝙉𝙚𝙬𝙗𝙞𝙚`𝖿𝗍 𝐒𝐏", jabatan: "MEMBER" },
+    { nama: "RYANEWBIE XPN", jabatan: "MEMBER" },
+    { nama: "𝙆𝙠𝙖𝙖𝙉𝙚𝙬𝙗𝙞𝙚 ft 𝗦𝗔𝗖", jabatan: "MEMBER" },
+    { nama: "1𝙁𝙈𝙖𝙡𝙯𝙉𝙚𝙬𝙗𝙞𝙚'𝙎𝘾𝙆", jabatan: "MEMBER" },
+    { nama: "𝙋𝙪𝙩𝙩𝙉𝙚𝙬𝙗𝙞𝙚 𝖋𝖙 𝘼𝙋", jabatan: "MEMBER" },
+    { nama: "Clara`newbie†.♡♪", jabatan: "MEMBER" },
+    { nama: "Kayy𝙉𝙚𝙬𝙗𝙞𝙚{紫雲寺}𝙍𝙮𝙪 ft", jabatan: "MEMBER" },
+    { nama: "SGN_Shellynewbiee🐚", jabatan: "MEMBER" },
+    { nama: "CLOUDYNewbie 𝙛𝙩 𝙆𝙋𝙉〆", jabatan: "MEMBER" },
+    { nama: "RaffNewbie", jabatan: "MEMBER" },
+    { nama: "𝘿𝙖𝙩𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+    { nama: "𝘼𝘾𝙂| 𝙉𝙣1𝙚𝙡𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+    { nama: "𝙉𝙙𝙧𝙚𝙉𝙚𝙬𝙗𝙞𝙚 𝙛𝙩 𝗫𝗥", jabatan: "MEMBER" },
+    { nama: "𝐄𝐑𝐀| 𝘼𝙣𝙜𝙜𝙖𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+    { nama: "𝙁𝙖𝙖𝙉𝙚𝙬𝙗𝙞𝙚 𝗳𝘁'𝗠𝗘𝗔", jabatan: "MEMBER" },
+    { nama: "7P'𝗬𝗮𝗻𝗻𝗡𝗲𝘄𝗕𝗶𝗲`𝗘𝗚𝗦", jabatan: "MEMBER" },
+    { nama: "𝙁𝙖𝙣ﾒ𝙉𝙚𝙬𝙗𝙞𝙚 {紫雲寺}", jabatan: "MEMBER" },
+    { nama: "`𝙍𝙮𝙥𝙯𝙉 𝙇𝙮𝙣𝙭𝙞𝙚.", jabatan: "MEMBER" },
+    { nama: "𝘿𝙖𝙣𝙯 𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+    { nama: "—►𝘾𝙮𝙣𝙣'𝙉𝙚𝙬𝙗𝙞𝙚【桜の花】", jabatan: "MEMBER" },
+    { nama: "Alice'𝙉𝙚𝙬𝙗𝙞𝙚`𝖋𝖙 𝐍𝐂𝐀", jabatan: "MEMBER" },
+    { nama: "—𝙉𝙪𝙧𝙯𝙯𝙉𝙚𝙬𝙗𝙞𝙚友", jabatan: "MEMBER" }
+];
+
+    const LoadingManager = {
+        interval: null,
+        start: function(textId, containerId) {
+            const textElement = document.getElementById(textId);
+            const container = document.getElementById(containerId);
+            const tableBody = document.getElementById('tableBody');
+            if (!textElement || !container) return;
+            
+            tableBody.innerHTML = ''; 
+            document.getElementById('total').innerText = '0';
+            document.getElementById('tHadir').innerText = '0';
+            document.getElementById('tIzin').innerText = '0';
+            
+            container.style.display = 'flex'; 
+            let dots = 0;
+            if (this.interval) clearInterval(this.interval); 
+            this.interval = setInterval(() => {
+                dots = (dots % 3) + 1; 
+                textElement.innerText = "Mencari data" + ".".repeat(dots);
+            }, 400);
+        },
+        stop: function(containerId) {
+            if (this.interval) { clearInterval(this.interval); this.interval = null; }
+            const container = document.getElementById(containerId);
+            if (container) container.style.display = 'none';
+        },
+        error: function(textId) {
+            if (this.interval) { clearInterval(this.interval); this.interval = null; }
+            const textElement = document.getElementById(textId);
+            if (textElement) {
+                textElement.innerText = "Gagal memuat data";
+                textElement.style.color = "#ff4d4d"; 
+            }
+        }
     };
 
-    const options = document.querySelectorAll('.option');
-
-    // Hapus sisa cache antrean lama
-    localStorage.removeItem('nf_offline_queue');
-
-    // --- FUNGSI UTAMA ---
-
-    function showError(message) {
-        elements.errorNotif.textContent = message;
-        elements.errorNotif.classList.add('show');
-        setTimeout(() => { elements.errorNotif.classList.remove('show'); }, 4000);
-    }
-
-    // Dipanggil otomatis oleh iframe onload
-    function showSuccess() {
-        if (submitted) {
-            if (elements.loadingScreen) elements.loadingScreen.style.display = 'none';
-            elements.formContainer.style.display = 'none';
-            elements.successOverlay.style.display = 'flex';
-        }
-    }
-
-    // --- EVENT LISTENERS ---
-
-    // Toggle Dropdown
-    elements.trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        elements.trigger.classList.toggle('open');
-        elements.optionsMenu.classList.toggle('show');
-    });
-
-    // Pilihan Status (Hadir/Izin)
-    options.forEach(opt => {
-        opt.addEventListener('click', function() {
-            const val = this.getAttribute('data-value');
-            elements.trigger.textContent = val;
-            elements.trigger.style.color = "#ffffff";
-            elements.hiddenInput.value = val;
-            elements.optionsMenu.classList.remove('show');
-            elements.trigger.classList.remove('open');
-
-            if (val === 'Izin') {
-                elements.reasonContainer.style.display = 'block';
-                setTimeout(() => { elements.reasonContainer.classList.add('show-reason'); }, 10);
-                elements.reasonInput.required = true;
-            } else {
-                elements.reasonContainer.classList.remove('show-reason');
-                elements.reasonInput.value = "-";
-                setTimeout(() => { elements.reasonContainer.style.display = 'none'; }, 400);
-                elements.reasonInput.required = false;
-            }
-        });
-    });
-
-    // Handle Submit Form
-    elements.form.addEventListener('submit', function(e) {
-        // 1. Validasi Koneksi
-        if (!navigator.onLine) {
-            e.preventDefault();
-            showError("Gagal! Tidak ada koneksi internet.");
-            return;
-        }
-
-        // 2. Validasi Status Kehadiran
-        if (!elements.hiddenInput.value) {
-            e.preventDefault();
-            showError("Pilih status kehadiran terlebih dahulu!");
-            return;
-        }
-
-        // 3. Cegah Double Post
-        if (submitted) {
-            e.preventDefault();
-            return;
-        }
-
-        // 4. Formatting Username TikTok menjadi Link Lengkap
-let tkVal = elements.tiktokInput.value.trim();
-if (tkVal) {
-    // Hapus '@' atau URL lama jika user memasukkannya secara tidak sengaja
-    let cleanUser = tkVal.replace('@', '').replace('https://tiktok.com/', '').replace('http://tiktok.com/', '');
+    function setFilter(type) {
+    if (isFetching) return;
+    filterType = type;
     
-    // Kirim ke Google Form dalam format link lengkap
-    elements.tiktokInput.value = 'https://tiktok.com/@' + cleanUser;
-}
+    document.getElementById('btnToday').classList.toggle('active', type === 'today');
+    document.getElementById('btnAll').classList.toggle('active', type === 'all');
+    document.getElementById('btnMem').classList.toggle('active', type === 'members');
+    
+    const statsContainer = document.querySelector('.stats');
+    const cards = document.querySelectorAll('.stats .card');
+    const labelTotal = cards[0].querySelector('h3');
+    const labelHadir = cards[1].querySelector('h3');
+    const angkaHadir = document.getElementById('tHadir'); 
+    const headers = document.querySelectorAll('#mainTable th');
 
-        // --- PROSES LOADING DIMULAI ---
-        submitted = true;
-
-        // Tampilkan Fullscreen Loading
-        if (elements.loadingScreen) {
-            elements.loadingScreen.style.display = 'flex';
-        }
-
-        // Update Button ke State Loading
-        if (elements.btnSpinner) elements.btnSpinner.style.display = 'block';
-        if (elements.btnText) {
-            elements.btnText.textContent = "Mengirim...";
-        } else {
-            elements.btn.textContent = "Mengirim...";
-        }
+    if (type === 'members') {
+        cards[2].style.display = 'none';
+        statsContainer.style.display = 'flex';
+        statsContainer.style.justifyContent = 'center';
+        statsContainer.style.gap = '20px';
         
-        elements.btn.disabled = true;
-        elements.btn.style.opacity = "0.7";
-    });
+        cards[0].style.width = '120px';
+        cards[1].style.width = '120px';
 
-    // Close dropdown saat klik di mana saja
-    window.addEventListener('click', (e) => {
-        if (!elements.trigger.contains(e.target)) {
-            elements.optionsMenu.classList.remove('show');
-            elements.trigger.classList.remove('open');
-        }
-    });
-</script>
-
-______ Script 2 (Cooldown Timer)
-<script>
-    let submitted = false;
-   const COOLDOWN_TIME = 1 * 60 * 1000; // Hasil: 60,000 ms
-    const COOLDOWN_KEY = 'attendance_cooldown_timer'; 
-
-    const elements = {
-        trigger: document.getElementById('statusTrigger'),
-        optionsMenu: document.getElementById('statusOptions'),
-        hiddenInput: document.getElementById('statusValue'),
-        reasonContainer: document.getElementById('reason-container'),
-        reasonInput: document.getElementById('reasonInput'),
-        tiktokInput: document.getElementById('tiktokUser'),
-        btn: document.getElementById('submitBtn'),
-        form: document.getElementById('attendanceForm'),
-        errorNotif: document.getElementById('error-notification'),
-        loadingScreen: document.getElementById('loading-screen'),
-        btnSpinner: document.getElementById('btnSpinner'),
-        btnText: document.getElementById('btnText'),
-        formContainer: document.getElementById('form-container'),
-        successOverlay: document.getElementById('success-overlay')
-    };
-
-    const options = document.querySelectorAll('.option');
-
-    // --- LOGIKA TAMPILAN COOLDOWN ---
-
-    function applyCooldownUI(timeLeftMs) {
-        const hours = Math.floor(timeLeftMs / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeftMs % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeftMs % (1000 * 60)) / 1000);
-        const finalMsg = `Terkunci (${hours}j ${minutes}m ${seconds}s)`;
-
-        // Matikan Tombol
-        elements.btn.disabled = true;
-        elements.btn.style.background = "#444"; 
-        elements.btn.style.cursor = "not-allowed";
-        elements.btn.style.opacity = "1"; // Pastikan warna tetap solid tapi abu-abu
-
-        // UBAH TEKS SECARA TEGAS
-        if (elements.btnText) {
-            elements.btnText.innerText = finalMsg;
-        }
-        // Jaga-jaga jika strukturnya hanya button tanpa span didalamnya
-        elements.btn.innerText = finalMsg;
-
-        // Matikan Form agar tidak bisa diinput
-        elements.form.style.opacity = "0.5";
-        elements.form.style.pointerEvents = "none"; 
-    }
-
-    function checkCooldown() {
-        const lastSubmit = localStorage.getItem(COOLDOWN_KEY);
-        if (lastSubmit) {
-            const timePassed = Date.now() - parseInt(lastSubmit);
-            if (timePassed < COOLDOWN_TIME) {
-                applyCooldownUI(COOLDOWN_TIME - timePassed);
-                return true;
-            } else {
-                localStorage.removeItem(COOLDOWN_KEY);
-            }
-        }
-        return false;
-    }
-
-    // PAKSA PENGECEKAN SECEPAT MUNGKIN
-    checkCooldown(); 
-
-    // Jalankan ulang saat window load untuk memastikan elemen stabil
-    window.addEventListener('load', checkCooldown);
-
-    // --- FUNGSI UTAMA ---
-
-    function showError(message) {
-        elements.errorNotif.textContent = message;
-        elements.errorNotif.classList.add('show');
-        setTimeout(() => { elements.errorNotif.classList.remove('show'); }, 4000);
-    }
-
-    function showSuccess() {
-        if (submitted) {
-            localStorage.setItem(COOLDOWN_KEY, Date.now().toString());
-            if (elements.loadingScreen) elements.loadingScreen.style.display = 'none';
-            elements.formContainer.style.display = 'none';
-            elements.successOverlay.style.display = 'flex';
-        }
-    }
-
-    // --- EVENT LISTENERS ---
-
-    elements.trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        elements.trigger.classList.toggle('open');
-        elements.optionsMenu.classList.toggle('show');
-    });
-
-    options.forEach(opt => {
-        opt.addEventListener('click', function() {
-            const val = this.getAttribute('data-value');
-            elements.trigger.textContent = val;
-            elements.trigger.style.color = "#ffffff";
-            elements.hiddenInput.value = val;
-            elements.optionsMenu.classList.remove('show');
-            elements.trigger.classList.remove('open');
-
-            if (val === 'Izin') {
-                elements.reasonContainer.style.display = 'block';
-                setTimeout(() => { elements.reasonContainer.classList.add('show-reason'); }, 10);
-                elements.reasonInput.required = true;
-            } else {
-                elements.reasonContainer.classList.remove('show-reason');
-                elements.reasonInput.value = "-";
-                setTimeout(() => { elements.reasonContainer.style.display = 'none'; }, 400);
-                elements.reasonInput.required = false;
-            }
-        });
-    });
-
-    elements.form.addEventListener('submit', function(e) {
-        if (checkCooldown()) {
-            e.preventDefault();
-            return;
-        }
-
-        if (!navigator.onLine) {
-            e.preventDefault();
-            showError("Gagal! Tidak ada koneksi internet.");
-            return;
-        }
-
-        if (!elements.hiddenInput.value) {
-            e.preventDefault();
-            showError("Pilih status kehadiran terlebih dahulu!");
-            return;
-        }
-
-        if (submitted) {
-            e.preventDefault();
-            return;
-        }
-
-        let tkVal = elements.tiktokInput.value.trim();
-        if (tkVal) {
-            let cleanUser = tkVal.replace('@', '').replace('https://tiktok.com/', '').replace('http://tiktok.com/', '');
-            elements.tiktokInput.value = 'https://tiktok.com/@' + cleanUser;
-        }
-
-        submitted = true;
-        if (elements.loadingScreen) elements.loadingScreen.style.display = 'flex';
-
-        if (elements.btnSpinner) elements.btnSpinner.style.display = 'block';
-        if (elements.btnText) {
-            elements.btnText.textContent = "Mengirim...";
-        } else {
-            elements.btn.textContent = "Mengirim...";
-        }
+        labelTotal.innerText = "TOTAL MEMBER";
+        labelHadir.innerText = "TOTAL ABSEN\nHARI INI";
+        labelHadir.style.color = "#ffffff"; 
         
-        elements.btn.disabled = true;
-    });
-
-    window.addEventListener('click', (e) => {
-        if (!elements.trigger.contains(e.target)) {
-            elements.optionsMenu.classList.remove('show');
-            elements.trigger.classList.remove('open');
-        }
-    });
-</script>
--->
-    <!--
-<script>
-    let submitted = false;
-    const COOLDOWN_TIME = 1 * 60 * 1000; // Hasil: 60,000 ms
-    const COOLDOWN_KEY = 'attendance_cooldown_timer'; 
-    const DB_NAME = "AttendanceBackup"; // Nama Database
-    const STORE_NAME = "cooldownStore";
-
-    const elements = {
-        trigger: document.getElementById('statusTrigger'),
-        optionsMenu: document.getElementById('statusOptions'),
-        hiddenInput: document.getElementById('statusValue'),
-        reasonContainer: document.getElementById('reason-container'),
-        reasonInput: document.getElementById('reasonInput'),
-        tiktokInput: document.getElementById('tiktokUser'),
-        btn: document.getElementById('submitBtn'),
-        form: document.getElementById('attendanceForm'),
-        errorNotif: document.getElementById('error-notification'),
-        loadingScreen: document.getElementById('loading-screen'),
-        btnSpinner: document.getElementById('btnSpinner'),
-        btnText: document.getElementById('btnText'),
-        formContainer: document.getElementById('form-container'),
-        successOverlay: document.getElementById('success-overlay')
-    };
-
-    const options = document.querySelectorAll('.option');
-
-    // --- LOGIKA TAMBAHAN: INDEXEDDB UNTUK ANTI CLEAR CACHE ---
-
-    function openDB() {
-        return new Promise((resolve) => {
-            const request = indexedDB.open(DB_NAME, 1);
-            request.onupgradeneeded = (e) => {
-                e.target.result.createObjectStore(STORE_NAME);
-            };
-            request.onsuccess = () => resolve(request.result);
-        });
-    }
-
-    async function saveCooldownPersistent(timestamp) {
-        // Simpan ke localStorage (Cara lama)
-        localStorage.setItem(COOLDOWN_KEY, timestamp);
-        // Simpan ke IndexedDB (Cara baru/Lebih kuat)
-        const db = await openDB();
-        const tx = db.transaction(STORE_NAME, "readwrite");
-        tx.objectStore(STORE_NAME).put(timestamp, "lastSubmit");
-    }
-
-    async function getCooldownPersistent() {
-        // Cek localStorage dulu
-        let lastSubmit = localStorage.getItem(COOLDOWN_KEY);
+        if (angkaHadir) angkaHadir.style.color = "#4ade80"; 
         
-        // Jika localStorage kosong (kena clear cache), cek ke IndexedDB
-        if (!lastSubmit) {
-            const db = await openDB();
-            lastSubmit = await new Promise((resolve) => {
-                const req = db.transaction(STORE_NAME).objectStore(STORE_NAME).get("lastSubmit");
-                req.onsuccess = () => resolve(req.result);
-            });
-            // Jika ketemu di IndexedDB, pulihkan kembali ke localStorage
-            if (lastSubmit) localStorage.setItem(COOLDOWN_KEY, lastSubmit);
-        }
-        return lastSubmit;
-    }
-
-    // --- LOGIKA TAMPILAN COOLDOWN ---
-
-    function applyCooldownUI(timeLeftMs) {
-        const hours = Math.floor(timeLeftMs / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeftMs % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeftMs % (1000 * 60)) / 1000);
-        const finalMsg = `Terkunci (${hours}j ${minutes}m ${seconds}s)`;
-
-        elements.btn.disabled = true;
-        elements.btn.style.background = "#444"; 
-        elements.btn.style.cursor = "not-allowed";
-        elements.btn.style.opacity = "1";
-
-        if (elements.btnText) {
-            elements.btnText.innerText = finalMsg;
-        }
-        elements.btn.innerText = finalMsg;
-
-        elements.form.style.opacity = "0.5";
-        elements.form.style.pointerEvents = "none"; 
-    }
-
-    async function checkCooldown() {
-        const lastSubmit = await getCooldownPersistent(); // Menggunakan fungsi baru
-        if (lastSubmit) {
-            const timePassed = Date.now() - parseInt(lastSubmit);
-            if (timePassed < COOLDOWN_TIME) {
-                applyCooldownUI(COOLDOWN_TIME - timePassed);
-                return true;
-            } else {
-                localStorage.removeItem(COOLDOWN_KEY);
-                // Kita tidak hapus IndexedDB agar tetap ada record-nya
-            }
-        }
-        return false;
-    }
-
-    // PAKSA PENGECEKAN SECEPAT MUNGKIN
-    checkCooldown(); 
-
-    window.addEventListener('load', checkCooldown);
-
-    // --- FUNGSI UTAMA ---
-
-    function showError(message) {
-        elements.errorNotif.textContent = message;
-        elements.errorNotif.classList.add('show');
-        setTimeout(() => { elements.errorNotif.classList.remove('show'); }, 4000);
-    }
-
-    // Fungsi showSuccess dipanggil setelah submit berhasil (biasanya oleh Apps Script)
-    async function showSuccess() {
-        if (submitted) {
-            const now = Date.now().toString();
-            await saveCooldownPersistent(now); // Simpan secara permanen
-            if (elements.loadingScreen) elements.loadingScreen.style.display = 'none';
-            elements.formContainer.style.display = 'none';
-            elements.successOverlay.style.display = 'flex';
-        }
-    }
-
-    // --- EVENT LISTENERS ---
-
-    elements.trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        elements.trigger.classList.toggle('open');
-        elements.optionsMenu.classList.toggle('show');
-    });
-
-    options.forEach(opt => {
-        opt.addEventListener('click', function() {
-            const val = this.getAttribute('data-value');
-            elements.trigger.textContent = val;
-            elements.trigger.style.color = "#ffffff";
-            elements.hiddenInput.value = val;
-            elements.optionsMenu.classList.remove('show');
-            elements.trigger.classList.remove('open');
-
-            if (val === 'Izin') {
-                elements.reasonContainer.style.display = 'block';
-                setTimeout(() => { elements.reasonContainer.classList.add('show-reason'); }, 10);
-                elements.reasonInput.required = true;
-            } else {
-                elements.reasonContainer.classList.remove('show-reason');
-                elements.reasonInput.value = "-";
-                setTimeout(() => { elements.reasonContainer.style.display = 'none'; }, 400);
-                elements.reasonInput.required = false;
-            }
-        });
-    });
-
-    elements.form.addEventListener('submit', async function(e) {
-        // Gunakan await karena pengecekan DB sekarang async
-        if (await checkCooldown()) {
-            e.preventDefault();
-            return;
-        }
-
-        if (!navigator.onLine) {
-            e.preventDefault();
-            showError("Gagal! Tidak ada koneksi internet.");
-            return;
-        }
-
-        if (!elements.hiddenInput.value) {
-            e.preventDefault();
-            showError("Pilih status kehadiran terlebih dahulu!");
-            return;
-        }
-
-        if (submitted) {
-            e.preventDefault();
-            return;
-        }
-
-        let tkVal = elements.tiktokInput.value.trim();
-if (tkVal) {
-    // 1. Hapus semua protokol, domain, dan simbol @ agar tersisa hanya username
-    let cleanUser = tkVal
-        .replace(/https?:\/\//, '') // Hapus http:// atau https://
-        .replace(/(www\.|vt\.)?tiktok\.com\//, '') // Hapus www.tiktok.com/ atau vt.tiktok.com/
-        .replace(/@/g, '') // Hapus semua simbol @ menggunakan regex global /g
-        .split('?')[0] // Hapus parameter tambahan di belakang (misal: ?is_from_webapp=1)
-        .split('/')[0]; // Jaga-jaga jika ada folder tambahan
-
-    // 2. Format ulang secara rapi
-    elements.tiktokInput.value = 'https://tiktok.com/@' + cleanUser;
-}
-
-
-        submitted = true;
+        // --- PERBAIKAN DI SINI ---
+        headers[0].innerText = "NO.";
+        headers[0].style.textAlign = "center"; // Membuat teks header "NO." di tengah
+        headers[1].style.textAlign = "left";   // Tetap kiri untuk "NAMA"
+        headers[2].innerText = "";
+        headers[2].style.textAlign = "right";  // Tetap kanan untuk "JABATAN"
         
-        // Simpan waktu ke backup segera sebelum submit
-        await saveCooldownPersistent(Date.now().toString());
-
-        if (elements.loadingScreen) elements.loadingScreen.style.display = 'flex';
-
-        if (elements.btnSpinner) elements.btnSpinner.style.display = 'block';
-        if (elements.btnText) {
-            elements.btnText.textContent = "Mengirim...";
-        } else {
-            elements.btn.textContent = "Mengirim...";
-        }
-        
-        elements.btn.disabled = true;
-    });
-
-    window.addEventListener('click', (e) => {
-        if (!elements.trigger.contains(e.target)) {
-            elements.optionsMenu.classList.remove('show');
-            elements.trigger.classList.remove('open');
-        }
-    });
-</script> -->
-
-    <!-- kode asli <script>
-let submitted = false;
-
-const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
-const COOLDOWN_KEY = 'attendance_cooldown_timer';
-
-const elements = {
-    trigger: document.getElementById('statusTrigger'),
-    optionsMenu: document.getElementById('statusOptions'),
-    hiddenInput: document.getElementById('statusValue'),
-    reasonContainer: document.getElementById('reason-container'),
-    reasonInput: document.getElementById('reasonInput'),
-    tiktokInput: document.getElementById('tiktokUser'),
-    btn: document.getElementById('submitBtn'),
-    form: document.getElementById('attendanceForm'),
-    errorNotif: document.getElementById('error-notification'),
-    btnSpinner: document.getElementById('btnSpinner'),
-    btnText: document.getElementById('btnText'),
-    formContainer: document.getElementById('form-container'),
-    successOverlay: document.getElementById('success-overlay')
-};
-
-const options = document.querySelectorAll('.option');
-
-
-// ================= COOLDOWN =================
-
-// 🔥 FIX: tidak reset waktu
-function applyCooldownUI(timeLeft) {
-    const totalSec = Math.ceil(timeLeft / 1000);
-
-    const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
-    const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
-    const s = String(totalSec % 60).padStart(2, '0');
-
-    elements.btn.disabled = true;
-    elements.btn.style.background = "#444";
-    elements.btnText.textContent = `Tunggu ${h}:${m}:${s}`;
-}
-
-// 🔥 FIX: pakai startTime lama
-function startCooldown(startTime) {
-
-    const interval = setInterval(() => {
-        const elapsed = Date.now() - startTime;
-        const remain = COOLDOWN_TIME - elapsed;
-
-        if (remain <= 0) {
-            clearInterval(interval);
-            localStorage.removeItem(COOLDOWN_KEY);
-
-            elements.btn.disabled = false;
-            elements.btnText.textContent = "Kirim Absensi";
-            elements.btn.style.background = "";
-            return;
-        }
-
-        applyCooldownUI(remain);
-    }, 1000);
-}
-
-// 🔥 FIX: jangan reset timer
-function checkCooldown() {
-    const saved = localStorage.getItem(COOLDOWN_KEY);
-    if (!saved) return false;
-
-    const remain = COOLDOWN_TIME - (Date.now() - saved);
-
-    if (remain > 0) {
-        applyCooldownUI(remain);
-        startCooldown(saved); // 🔥 penting
-        return true;
+        renderManualMembers();
     } else {
-        localStorage.removeItem(COOLDOWN_KEY);
-        return false;
-    }
-}
-
-checkCooldown();
-
-
-// ================= UTIL =================
-
-function showError(msg) {
-    elements.errorNotif.textContent = msg;
-    elements.errorNotif.classList.add('show');
-    setTimeout(() => elements.errorNotif.classList.remove('show'), 4000);
-}
-
-function showSuccess() {
-    if (submitted) {
-        elements.formContainer.style.display = 'none';
-        elements.successOverlay.style.display = 'flex';
-    }
-}
-
-
-// ================= UI =================
-
-elements.trigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    elements.trigger.classList.toggle('open');
-    elements.optionsMenu.classList.toggle('show');
-});
-
-options.forEach(opt => {
-    opt.addEventListener('click', function () {
-        const val = this.getAttribute('data-value');
-        elements.trigger.textContent = val;
-        elements.trigger.style.color = "#fff";
-        elements.hiddenInput.value = val;
-
-        elements.optionsMenu.classList.remove('show');
-        elements.trigger.classList.remove('open');
-
-        if (val === 'Izin') {
-            elements.reasonContainer.style.display = 'block';
-            setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
-            elements.reasonInput.required = true;
-        } else {
-            elements.reasonContainer.classList.remove('show-reason');
-            elements.reasonInput.value = "";
-            setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
-            elements.reasonInput.required = false;
-        }
-    });
-});
-
-options.forEach(opt => {
-    opt.addEventListener('click', function () {
-        const val = this.getAttribute('data-value');
-        elements.trigger.textContent = val;
-        elements.trigger.style.color = "#fff";
-        elements.hiddenInput.value = val;
-
-        elements.optionsMenu.classList.remove('show');
-        elements.trigger.classList.remove('open');
-
-        if (val === 'Izin') {
-            elements.reasonContainer.style.display = 'block';
-            setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
-            elements.reasonInput.required = true;
-            elements.reasonInput.value = ""; 
-        } else {
-            elements.reasonContainer.classList.remove('show-reason');
-            elements.reasonInput.required = false;
-            
-            if (val === 'Hadir') {
-                elements.reasonInput.value = "Tidak ada alasan, karena saya hadir";
-            } else {
-                elements.reasonInput.value = "";
-            }
-
-            setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
-        }
-    });
-});
-
-
-// ================= SUBMIT =================
-
-elements.form.addEventListener('submit', function (e) {
-
-    if (checkCooldown()) {
-        e.preventDefault();
-        return;
-    }
-
-    if (!navigator.onLine) {
-        e.preventDefault();
-        showError("Tidak ada internet!");
-        return;
-    }
-
-    if (!elements.hiddenInput.value) {
-        e.preventDefault();
-        showError("Pilih status dulu!");
-        return;
-    }
-
-    if (submitted) {
-        e.preventDefault();
-        return;
-    }
-
-    let tk = elements.tiktokInput.value.trim();
-    if (tk) {
-        let user = tk
-            .replace(/https?:\/\//, '')
-            .replace(/(www\.|vt\.)?tiktok\.com\//, '')
-            .replace(/@/g, '')
-            .split(/[?\/]/)[0];
-
-        elements.tiktokInput.value = 'https://tiktok.com/@' + user;
-    }
-
-    submitted = true;
-
-    // 🔥 FIX: simpan waktu SEKALI
-    const now = Date.now();
-    localStorage.setItem(COOLDOWN_KEY, now);
-    startCooldown(now);
-
-    elements.btnSpinner.style.display = 'block';
-    elements.btnText.textContent = "Mengirim...";
-    elements.btn.disabled = true;
-});
-
-
-// ================= CLOSE DROPDOWN =================
-
-window.addEventListener('click', (e) => {
-    if (!elements.trigger.contains(e.target)) {
-        elements.optionsMenu.classList.remove('show');
-        elements.trigger.classList.remove('open');
-    }
-});
-</script>
--->
-
-
-
-    <script>
-    let isProcessing = false; // Menandai proses pengiriman sedang berjalan
-    let hasFinished = false;  // Menandai data sudah sukses terkirim
-
-    const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
-    const COOLDOWN_KEY = 'attendance_cooldown_timer';
-
-    const elements = {
-        trigger: document.getElementById('statusTrigger'),
-        optionsMenu: document.getElementById('statusOptions'),
-        hiddenInput: document.getElementById('statusValue'),
-        reasonContainer: document.getElementById('reason-container'),
-        reasonInput: document.getElementById('reasonInput'),
-        tiktokInput: document.getElementById('tiktokUser'),
-        btn: document.getElementById('submitBtn'),
-        form: document.getElementById('attendanceForm'),
-        errorNotif: document.getElementById('error-notification'),
-        btnSpinner: document.getElementById('btnSpinner'),
-        btnText: document.getElementById('btnText'),
-        formContainer: document.getElementById('form-container'),
-        successOverlay: document.getElementById('success-overlay'),
-        iframe: document.getElementById('hidden_iframe')
-    };
-
-    const options = document.querySelectorAll('.option');
-
-    // ================= COOLDOWN LOGIC =================
-    function applyCooldownUI(timeLeft) {
-        const totalSec = Math.ceil(timeLeft / 1000);
-        const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
-        const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
-        const s = String(totalSec % 60).padStart(2, '0');
-
-        elements.btn.disabled = true;
-        elements.btn.style.background = "#444";
-        elements.btnText.textContent = `Tunggu ${h}:${m}:${s}`;
+        cards[2].style.display = 'block';
+        statsContainer.style.display = 'grid'; 
+        statsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
+        statsContainer.style.gap = '10px';
         
-        // Disable semua input agar tidak bisa diedit saat cooldown
-        elements.form.querySelectorAll('input, textarea').forEach(el => el.disabled = true);
-        elements.trigger.style.pointerEvents = "none";
-        elements.trigger.style.opacity = "0.6";
-    }
+        cards[0].style.width = '';
+        cards[1].style.width = '';
+        
+        labelTotal.innerText = "TOTAL ABSEN";
+        labelHadir.innerText = "TOTAL HADIR";
+        labelHadir.style.color = "";
+        
+        // --- RESET STYLE HEADER ---
+        headers[0].innerText = "WAKTU ABSEN";
+        headers[0].style.textAlign = "left"; 
+        headers[1].style.textAlign = "left";
+        headers[2].innerText = "STATUS";
+        headers[2].style.textAlign = "right";
 
-    function startCooldown(startTime) {
-        const interval = setInterval(() => {
-            const remain = COOLDOWN_TIME - (Date.now() - startTime);
-            if (remain <= 0) {
-                clearInterval(interval);
-                localStorage.removeItem(COOLDOWN_KEY);
-                location.reload(); // Refresh untuk reset form
-                return;
+        fetchData(true);
+    }
+}
+
+    async function renderManualMembers() {
+    isFetching = true;
+    const containerId = 'loading';
+    const tableBody = document.getElementById('tableBody');
+    const startTime = Date.now();
+
+    LoadingManager.start('loading-text', containerId);
+
+    try {
+        const response = await fetch(`${csvUrl}&v=${Date.now()}`);
+        const text = await response.text();
+        const rows = text.split(/\r?\n/).slice(1);
+        const now = new Date();
+        const f1 = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
+        const f2 = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+
+        let countToday = 0;
+        rows.forEach(row => {
+            const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            if (c[0]) {
+                const dateOnly = c[0].replace(/"/g, '').split(' ')[0];
+                if (dateOnly === f1 || dateOnly === f2) countToday++;
             }
-            applyCooldownUI(remain);
-        }, 1000);
-    }
+        });
 
-    function checkCooldown() {
-        const saved = localStorage.getItem(COOLDOWN_KEY);
-        if (saved) {
-            const remain = COOLDOWN_TIME - (Date.now() - saved);
-            if (remain > 0) {
-                startCooldown(parseInt(saved));
-                return true;
-            }
-            localStorage.removeItem(COOLDOWN_KEY);
-        }
-        return false;
-    }
-
-    // Jalankan cek cooldown saat load
-    checkCooldown();
-
-    // ================= SUBMIT HANDLER (OPTIMIZED) =================
-    elements.form.addEventListener('submit', function (e) {
-        if (checkCooldown()) {
-            e.preventDefault();
-            return;
-        }
-
-        if (!navigator.onLine) {
-            e.preventDefault();
-            showError("Gagal! Tidak ada koneksi internet.");
-            return;
-        }
-
-        if (!elements.hiddenInput.value) {
-            e.preventDefault();
-            showError("Pilih status kehadiran!");
-            return;
-        }
-
-        if (isProcessing) {
-            e.preventDefault();
-            return;
-        }
-
-        // Mulai proses pengiriman
-        isProcessing = true;
-        elements.btn.disabled = true;
-        elements.btnSpinner.style.display = 'block';
-        elements.btnText.textContent = "Mengirim...";
-
-        // Format link TikTok secara otomatis
-        let tk = elements.tiktokInput.value.trim();
-        if (tk) {
-            let user = tk.replace(/https?:\/\//, '').replace(/(www\.|vt\.)?tiktok\.com\//, '').replace(/@/g, '').split(/[?\/]/)[0];
-            elements.tiktokInput.value = 'https://tiktok.com/@' + user;
-        }
+        let html = '';
+    manualMembers.forEach((m, index) => {
+        html += `<tr>
+            <td style="text-align: center; vertical-align: middle; width: 50px;">
+                <span class="hour-text" style="color: #ff3131; font-weight: 800; display: block; width: 100%;">${index + 1}</span>
+            </td>
+            <td style="text-align: left;">
+                <span class="name-text" style="font-weight: 600; white-space: nowrap;">${m.nama}</span>
+            </td>
+            <td style="text-align: right; padding-right: 15px;">
+                <span class="badge" style="border: 1px solid #ff3131; color: white; background: rgba(255,49,49,0.1); padding: 5px 10px; border-radius: 4px; font-size: 8px; font-weight: bold; display: inline-block; white-space: nowrap; min-width: 65px; text-align: center;">
+                    ${m.jabatan}
+                </span>
+            </td>
+        </tr>`;
     });
 
-    // DETEKSI KEBERHASILAN VIA IFRAME
-    elements.iframe.onload = function () {
-        // Jika iframe load dan kita sedang dalam status 'isProcessing'
-        if (isProcessing) {
-            isProcessing = false;
-            hasFinished = true;
+        setTimeout(() => {
+            tableBody.innerHTML = html;
+            document.getElementById('total').innerText = manualMembers.length;
+            document.getElementById('tHadir').innerText = countToday;
+            LoadingManager.stop(containerId);
+            isFetching = false;
+        }, Math.max(0, 600 - (Date.now() - startTime)));
 
-            // Simpan Cooldown
-            const now = Date.now();
-            localStorage.setItem(COOLDOWN_KEY, now);
+    } catch (e) {
+        LoadingManager.error('loading-text');
+        isFetching = false;
+    }
+}
+    async function fetchData(isManual = false) {
+        if (filterType === 'members') return;
+        if (isFetching && !isManual) return;
+        isFetching = true;
 
-            // Tampilkan UI Sukses
-            elements.formContainer.style.display = 'none';
-            elements.successOverlay.style.display = 'flex';
+        const containerId = 'loading';
+        const tableBody = document.getElementById('tableBody');
+        const startTime = Date.now();
+
+        LoadingManager.start('loading-text', containerId);
+
+        try {
+            const response = await fetch(`${csvUrl}&v=${Date.now()}`);
+            if (!response.ok) throw new Error('Network error');
+            const text = await response.text();
+            const rows = text.split(/\r?\n/).slice(1).filter(r => r.trim() !== "" && r.replace(/,/g, '').trim() !== "").reverse();
             
-            startCooldown(now);
-        }
-    };
+            const now = new Date();
+            const format1 = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
+            const format2 = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
 
-    // ================= UI INTERACTION =================
-    function showError(msg) {
-        elements.errorNotif.textContent = msg;
-        elements.errorNotif.classList.add('show');
-        setTimeout(() => elements.errorNotif.classList.remove('show'), 4000);
+            let html = '', h = 0, i = 0, t = 0;
+
+            rows.forEach(row => {
+                const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/"/g, '').trim());
+                if (!c[0] || !c[1] || c.length < 5) return;
+
+                const timestampFull = c[0]; 
+                const parts = timestampFull.split(' ');
+                const dateOnly = parts[0];
+                
+                let timeOnly = "--:--";
+                if (parts[1]) {
+                    let rawTime = parts[1].trim();
+                    if (rawTime.indexOf(':') === 1) rawTime = '0' + rawTime;
+                    timeOnly = rawTime.substring(0, 5);
+                }
+                
+                const isToday = (dateOnly === format1 || dateOnly === format2);
+                if (filterType === 'today' && !isToday) return;
+
+                const status = c[4] || "Hadir";
+                const isIzin = status.toLowerCase() === 'izin';
+                
+                t++;
+                if (isIzin) i++; else h++;
+
+                html += `<tr>
+                    <td>
+                        <div class="time-wrapper">
+                            <span class="hour-text">${timeOnly}</span>
+                            <span class="date-text">${dateOnly}</span>
+                        </div>
+                    </td>
+                    <td><span class="name-text">${c[1]}</span></td>
+                    <td style="text-align:right;">
+                        <span class="badge ${isIzin ? 'bg-izin' : 'bg-hadir'}">${status}</span>
+                    </td>
+                </tr>`;
+            });
+
+            setTimeout(() => {
+                tableBody.innerHTML = html || '<tr><td colspan="3" style="text-align:center; padding:30px; color:#aaa;">Belum ada data.</td></tr>';
+                document.getElementById('total').innerText = t;
+                document.getElementById('tHadir').innerText = h;
+                document.getElementById('tIzin').innerText = i;
+                document.getElementById('tHadir').style.color = "#4ade80";
+                document.getElementById('tIzin').style.color = "#fde047";
+                LoadingManager.stop(containerId);
+                isFetching = false;
+            }, Math.max(0, 800 - (Date.now() - startTime)));
+
+        } catch (e) {
+            LoadingManager.error('loading-text');
+            isFetching = false;
+        }
     }
 
-    elements.trigger.addEventListener('click', (e) => {
-        if (isProcessing) return;
-        e.stopPropagation();
-        elements.trigger.classList.toggle('open');
-        elements.trigger.classList.toggle('active');
-        elements.optionsMenu.classList.toggle('show');
-    });
-
-    options.forEach(opt => {
-        opt.addEventListener('click', function () {
-            const val = this.getAttribute('data-value');
-            elements.trigger.textContent = val;
-            elements.trigger.style.color = "#fff";
-            elements.hiddenInput.value = val;
-            elements.optionsMenu.classList.remove('show');
-
-            if (val === 'Izin') {
-                elements.reasonContainer.style.display = 'block';
-                setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
-                elements.reasonInput.required = true;
-                elements.reasonInput.value = "";
-            } else {
-                elements.reasonContainer.classList.remove('show-reason');
-                elements.reasonInput.required = false;
-                elements.reasonInput.value = "Hadir (Tanpa Alasan)";
-                setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
-            }
-        });
-    });
-
-    window.addEventListener('click', (e) => {
-        if (!elements.trigger.contains(e.target)) {
-            elements.optionsMenu.classList.remove('show');
-        }
-    });
+    document.addEventListener('DOMContentLoaded', fetchData);
+    setInterval(() => { if (!isFetching && filterType !== 'members') fetchData(); }, 15000);
 </script>
-
-    <script>
-        const infoBtn = document.getElementById("infoBtn");
-        const infoPopup = document.getElementById("infoPopup");
-
-        infoBtn.addEventListener("click", () => {
-            infoPopup.style.display = "flex";
-        });
-
-        // SWITCH TAB
-        function showTab(tab) {
-            document.getElementById('panduanTab').style.display = 'none';
-            document.getElementById('rulesTab').style.display = 'none';
-            document.getElementById('infoTab').style.display = 'none';
-
-            document.getElementById(tab + 'Tab').style.display = 'block';
-
-            // update active menu
-            document.querySelectorAll('.info-menu span').forEach(el => el.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-
-        // CLOSE
-        function closeInfo() {
-            infoPopup.style.display = "none";
-        }
-
-        // klik luar = tutup
-        infoPopup.addEventListener("click", (e) => {
-            if (e.target === infoPopup) {
-                closeInfo();
-            }
-        });
-    </script>
-    <script>
+ <script>
         const updatePopup = document.getElementById("updatePopup");
         const closeUpdate = document.getElementById("closeUpdate");
 
         // VERSION UPDATE → GANTI INI SETIAP ADA UPDATE BARU
-        const UPDATE_VERSION = "v0.0.1";
+        const UPDATE_VERSION = "v0.0.5";
 
         // cek apakah sudah pernah ditutup
         if (localStorage.getItem("update_seen") !== UPDATE_VERSION) {
@@ -1714,173 +623,5 @@ window.addEventListener('click', (e) => {
             }
         });
     </script>
-
-    <!-- Script Video latar belakang -->
-    <!-- <script>
-const video = document.getElementById("bgVideo");
-const btn = document.getElementById("soundBtn");
-
-// default muted (biar bisa autoplay)
-video.muted = true;
-
-// coba langsung unmute (kadang berhasil di desktop)
-setTimeout(() => {
-    video.muted = false;
-    video.play().catch(() => {
-        // kalau gagal, tetap mute
-        video.muted = true;
-    });
-}, 1000);
-
-// toggle manual
-btn.addEventListener("click", () => {
-    video.muted = !video.muted;
-
-    if (video.muted) {
-        btn.textContent = "🔇";
-    } else {
-        btn.textContent = "🔊";
-        video.play();
-    }
-});
-</script> -->
-
-
-    <!--<script>
-        const updateEnd = new Date("2026-05-02T06:00:00");
-        const now = new Date();
-
-        if (now <= updateEnd) {
-            document.body.innerHTML = `
-    <img src="https://i.ibb.co.com/m57drpHX/fotolivexjj.jpg" style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
-    " alt="background">
-
-    <div style="
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.4); /* Kegelapan latar belakang */
-        z-index: 2;
-    "></div>
-
-    <div id="update-container" style="
-        position:fixed;
-        inset:0;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        font-family:'Poppins', sans-serif;
-        color:white;
-        z-index: 3;
-        overflow:hidden;
-    ">
-        <style>
-            @keyframes fadeIn { from { opacity:0; transform:scale(1.05); } to { opacity:1; transform:scale(1); } }
-            @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
-            @keyframes glow { 0% { box-shadow:0 0 20px rgba(255,0,0,0.3); } 100% { box-shadow:0 0 60px rgba(255,0,0,0.7); } }
-            @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
-        </style>
-
-        <div style="
-            position:relative;
-            background:rgba(20, 20, 20, 0.3);
-            backdrop-filter:blur(3px);
-            -webkit-backdrop-filter:blur(3px);
-            border:1px solid rgba(255,0,0,0.4);
-            padding:2.8rem 2rem;
-            border-radius:25px;
-            text-align:center;
-            max-width:420px;
-            width:90%;
-            animation: float 3s ease-in-out infinite alternate, glow 2s ease-in-out infinite alternate;
-        ">
-            <div style="display:flex; justify-content:center; margin-bottom:15px;">
-                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#ff2b2b" stroke-width="2" style="animation:spin 4s linear infinite; filter:drop-shadow(0 0 10px red);">
-                    <polyline points="23 4 23 10 17 10"></polyline>
-                    <polyline points="1 20 1 14 7 14"></polyline>
-                    <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10M1 14l5.36 4.36A9 9 0 0 0 20.49 15"></path>
-                </svg>
-            </div>
-            
-            <h1 id="title" style="font-size: 1.8rem; font-weight: 900; color: #ff2b2b; text-shadow: 0 0 15px rgba(255,0,0,0.9); margin-bottom: 10px; letter-spacing: 1px; white-space: nowrap;">
-                UPDATE SYSTEM
-            </h1>
-
-            <p style="color:#bbb; font-size:0.95rem; margin:20px auto; line-height:1.6; text-align:left; max-width:320px;">
-                <span style="display:block; text-align:center;">
-                    Sistem sedang diperbarui<br>
-                    Mohon tunggu sampai selesai<br>
-                    <b id="endDate" style="color:#ff4d4d;"></b>
-                </span>
-                <br>
-                <b style="color:#ff4d4d;">Update:</b><br>
-                •Penambahan Cek Absensi
-            </p>
-
-<div id="countdown" style="
-    font-weight:700; 
-    font-size:1.1rem; 
-    color:#ff4d4d; 
-    background:rgba(255,0,0,0.12); 
-    padding:12px 22px; 
-    border-radius:50px; 
-    display:inline-block; 
-    letter-spacing:1px;
-    white-space: nowrap; /* Mencegah teks turun ke bawah */
-    min-width: 200px;    /* Memberikan lebar minimum agar box tidak kembang kempis */
-    text-align: center;  /* Memastikan teks tetap di tengah */
-">
-    Loading...
-</div>
-
-        </div>
-    </div>
-    `;
-
-            // LOCK SCROLL
-            document.documentElement.style.overflow = "hidden";
-            document.body.style.overflow = "hidden";
-
-            // FORMAT TANGGAL
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            document.getElementById("endDate").innerText = updateEnd.toLocaleDateString('id-ID', options);
-
-            // COUNTDOWN
-            function updateCountdown() {
-                const distance = updateEnd - new Date().getTime();
-                if (distance <= 0) { location.reload(); return; }
-
-                const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const h = Math.floor((distance / (1000 * 60 * 60)) % 24);
-                const m = Math.floor((distance / (1000 * 60)) % 60);
-                const s = Math.floor((distance / 1000) % 60);
-
-                let result = d > 0 ? `${d} Day ` : "";
-                result += (d > 0 || h > 0) ? `${h} Hours ` : "";
-                result += (d > 0 || h > 0 || m > 0) ? `${m} Minutes ` : "";
-                result += `${s} Seccond`;
-                document.getElementById("countdown").innerHTML = result;
-            }
-
-            setInterval(updateCountdown, 1000);
-            updateCountdown();
-
-            // TITLE DOT ANIMATION
-            let dotCount = 0;
-            setInterval(() => {
-                document.getElementById("title").innerText = "UPDATE SYSTEM" + ".".repeat(dotCount);
-                dotCount = (dotCount + 1) % 4;
-            }, 500);
-        }
-    </script>-->
-
-
-</body>
-
+</body> 
 </html>
