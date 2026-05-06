@@ -21,7 +21,17 @@
         user-select: none; 
         -webkit-user-select: none; 
         -webkit-font-smoothing: antialiased; 
+        -webkit-user-select: none;  /* Safari */
     }
+
+    /* Tambahkan ini di bagian <style> Anda */
+img, .name-text, .badge {
+    -webkit-user-select: none;  /* Safari */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Mencegah seleksi teks/gambar */
+    -webkit-user-drag: none;    /* Mencegah gambar ditarik (Chrome/Safari) */
+    pointer-events: none;       /* Opsional: Membuat gambar tidak bisa diklik sama sekali */
+}
 
     body { 
     margin: 0; 
@@ -159,15 +169,15 @@
     
     table { width: 100%; border-collapse: collapse; table-layout: fixed; }
     
-    th { 
-        background: rgba(255, 49, 49, 0.25); 
-        color: #fff; 
-        padding: 15px 10px; 
-        text-align: left; 
-        font-size: 0.7rem; 
-        text-transform: uppercase; 
-        letter-spacing: 1px; 
-    }
+    /* Update CSS untuk Header dan Sel Tabel */
+th { 
+    background: rgba(255, 49, 49, 0.25); 
+    color: #fff; 
+    padding: 15px 10px; 
+    font-size: 0.7rem; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+}
 
     td { 
         padding: 14px 10px; 
@@ -177,26 +187,35 @@
     }
     
     th:nth-child(1), td:nth-child(1) { width: 100px; } 
-    th:nth-child(2), td:nth-child(2) { width: auto; } 
-    th:nth-child(3), td:nth-child(3) { width: 85px; text-align: right; }
+    th:nth-child(2), td:nth-child(2) { width: auto;} 
+   th:nth-child(3), td:nth-child(3) { 
+        width: 110px; 
+        text-align: right; 
+        padding-right: 35px; /* KUNCI: Geser status ke kiri */
+    }
 
     .time-wrapper { display: flex; flex-direction: column; }
     .date-text { color: #ccc; font-size: 0.6rem; }
     .hour-text { color: var(--primary); font-size: 0.75rem; font-weight: 700; }
 
-    .name-text { color: #fff; font-weight: 600; line-height: 1.2; word-break: break-word; }
+    .name-text { color: #fff; font-weight: 600; line-height: 1.2; word-break: break-word;}
 
+    /* Pastikan badge tetap rapi dan konsisten */
+/* BADGE SERAGAM */
     .badge { 
-        padding: 4px 8px; 
+        padding: 6px 0; 
         border-radius: 8px; 
         font-size: 0.55rem; 
         font-weight: 800; 
         text-transform: uppercase; 
         display: inline-block; 
+        width: 65px; /* Lebar sama */
+        text-align: center; 
+        margin-right: 24px ;
     }
     
     .bg-hadir { background: rgba(34,197,94,0.3); color: #4ade80; border: 1px solid rgba(34,197,94,0.5); }
-    .bg-izin { background: rgba(250,204,21,0.3); color: #fde047; border: 1px solid rgba(250,204,21,0.5); }
+    .bg-izin { background: rgba(100, 95, 74, 0.3); color: #fde047; border: 1px solid rgba(250,204,21,0.5); }
 
     .loader {
         display: none;
@@ -295,6 +314,7 @@
     white-space: nowrap; /* Mencegah nama turun ke bawah */
     overflow: visible;   /* Pastikan tidak tersembunyi */
     min-width: 150px;    /* Memberikan ruang minimal untuk nama */
+    margin-left: -12px;
 }
 
 /* Memastikan sel tabel tidak memotong konten */
@@ -310,20 +330,65 @@
     <img src="./vd/fotolivexjj.jpg" alt="bg">
 </div>
     <div id="bg-fixed"></div>
-    <div id="updatePopup" class="update-popup">
-        <div class="update-box">
-            <div class="update-header">
-                <h3>New Update</h3>
-                <button id="closeUpdate">✕</button>
+   <div id="updatePopup" class="update-popup">
+    <div class="update-box glass-effect" style="border: 1px solid var(--border); max-width: 400px; padding: 25px; position: relative; overflow: hidden;">
+        <!-- Header -->
+        <div class="update-header" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; flex-direction: column;">
+                <h3 id="versionTitle" style="color: var(--primary); margin: 0; font-weight: 800; letter-spacing: 1px; text-shadow: 0 0 10px rgba(255, 49, 49, 0.4);">NEW UPDATE</h3>
+                <span id="versionDetail" style="font-size: 0.6rem; color: #777;">Version --</span>
+            </div>
+            <button id="closeUpdate" style="background: transparent; border: none; color: #888; font-size: 1.2rem; cursor: pointer; padding: 5px;">✕</button>
+        </div>
+
+        <!-- Body Content -->
+        <div class="update-body" style="max-height: 350px; overflow-y: auto; padding-right: 5px;">
+            
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <span style="width: 8px; height: 2px; background: var(--primary);"></span>
+                    <strong style="color: #fff; font-size: 0.8rem; text-transform: uppercase;">Sistem Filter Dinamis</strong>
+                </div>
+                <p style="margin: 0 0 0 16px; color: #bbb; font-size: 0.75rem; line-height: 1.4;">Lihat data berdasarkan kategori "Minggu Ini", "Semua Data", dan "Daftar Anggota" secara instan.</p>
             </div>
 
-            <div class="update-body">
-                <p>
-                    • Hai <br><br>
-                </p>
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <span style="width: 8px; height: 2px; background: var(--primary);"></span>
+                    <strong style="color: #fff; font-size: 0.8rem; text-transform: uppercase;">Statistik Real-Time</strong>
+                </div>
+                <p style="margin: 0 0 0 16px; color: #bbb; font-size: 0.75rem; line-height: 1.4;">Penghitungan otomatis total absen, hadir, dan izin langsung dari Google Sheets.</p>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <span style="width: 8px; height: 2px; background: var(--primary);"></span>
+                    <strong style="color: #fff; font-size: 0.8rem; text-transform: uppercase;">Auto-Refresh Data</strong>
+                </div>
+                <p style="margin: 0 0 0 16px; color: #bbb; font-size: 0.75rem; line-height: 1.4;">Sistem memperbarui data secara otomatis setiap 15 detik tanpa perlu reload halaman.</p>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <span style="width: 8px; height: 2px; background: var(--primary);"></span>
+                    <strong style="color: #fff; font-size: 0.8rem; text-transform: uppercase;">Daftar Member Manual</strong>
+                </div>
+                <p style="margin: 0 0 0 16px; color: #bbb; font-size: 0.75rem; line-height: 1.4;">Tab khusus Anggota untuk melihat daftar tetap Ketua, Admin, dan Member.</p>
+            </div>
+
+            <div style="margin-bottom: 5px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <span style="width: 8px; height: 2px; background: var(--primary);"></span>
+                    <strong style="color: #fff; font-size: 0.8rem; text-transform: uppercase;">UI Glassmorphism</strong>
+                </div>
+                <p style="margin: 0 0 0 16px; color: #bbb; font-size: 0.75rem; line-height: 1.4;">Optimalisasi desain transparan dengan aksen Neon Red yang lebih tajam.</p>
             </div>
         </div>
+        
+        <!-- Footer Button -->
+        <button id="okUpdate" class="btn active" style="width: 100%; margin-top: 20px; border-radius: 12px; padding: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.75rem;">MENGERTI</button>
     </div>
+</div>
 
 <div class="container">
     <header>
@@ -332,11 +397,12 @@
         <p style="font-size: 0.7rem; color: #bbb; margin-top: 4px;">Data Absen Member Newbie Fams</p>
     </header>
 
-    <div class="filter-nav">
-        <button id="btnToday" class="btn active" onclick="setFilter('today')">HARI INI</button>
-        <button id="btnAll" class="btn" onclick="setFilter('all')">SEMUA</button>
-        <button id="btnMem" class="btn" onclick="setFilter('members')">ANGGOTA</button>
-    </div>
+     <div class="filter-nav">
+    <!-- ID diubah menjadi btnWeek dan parameter menjadi 'week' -->
+    <button id="btnWeek" class="btn active" onclick="setFilter('week')">MINGGU INI</button>
+    <button id="btnAll" class="btn" onclick="setFilter('all')">SEMUA</button>
+    <button id="btnMem" class="btn" onclick="setFilter('members')">ANGGOTA</button>
+</div>
 
     <div class="stats">
         <div class="card glass-effect">
@@ -371,71 +437,74 @@
         </div>
     </div>
 </div>
-
 <script>
+    // Konfigurasi & State
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRqxUK5bAyaQ0zDPb6a54KwQEmYAcucCX6pizMfxQA3p8XEs1C-OABtOlVi3dapwmSFzzJkr4kN6Wei/pub?gid=1525581949&single=true&output=csv';
-    let filterType = 'today';
-    let isFetching = false; 
+    let filterType = 'week';
+    let isFetching = false;
 
     const manualMembers = [
-    { nama: "𝘿𝙖𝙣𝙉𝙚𝙬𝙗𝙞𝙚 ft 𝗔𝗣", jabatan: "KETUA" },
-    { nama: '𝙎𝙝𝙞𝙣𝙉𝙚𝙬𝙗𝙞𝙚"ft S4G', jabatan: "ADMIN" },
-    { nama: "𝙕𝙚𝙣𝙪𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "ADMIN" },
-    { nama: "𝘿𝙖𝙛𝙛𝙉𝙚𝙬𝙗𝙞𝙚•_", jabatan: "ADMIN" },
-    { nama: "𝐗𝟕 NittNewbie ft EGS", jabatan: "ADMIN" },
-    { nama: "𝙉𝙤𝙥𝙥𝙉𝙚𝙬𝙗𝙞𝙚 ft'𝟰𝟭𝟭", jabatan: "ADMIN" },
-    { nama: "𝙁𝙪𝙡𝙯𝙯 𝙉𝙚𝙬𝙗𝙞𝙚.", jabatan: "MEMBER" },
-    { nama: "𝙆𝙝𝙧𝙞𝙡𝙡𝙡𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
-    { nama: "𝙃𝙖𝙣𝙯𝙉𝙚𝙬𝙗𝙞𝙚Kyoken`S4G", jabatan: "MEMBER" },
-    { nama: "𝙁𝘼𝙍𝙕𝙕𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
-    { nama: "𝙎𝙖𝙝𝙞𝙧𝙪𝙉𝙚𝙬𝙗i`ᶠᵗ𝘼𝙀𝙂", jabatan: "MEMBER" },
-    { nama: "𝘽𝙖𝙧𝙧𝙉𝙚𝙬𝙗𝙞𝙚`VSC(紫雲寺)", jabatan: "MEMBER" },
-    { nama: "𝐋𝟕`𝙕𝙞𝙙𝙖𝙣𝙉𝙚𝙬𝙗𝙞𝙚紫雲寺", jabatan: "MEMBER" },
-    { nama: "FIzz 𝙉𝙚𝙬𝘽𝙞𝙚 𝖋𝖙 𝘼𝙀𝙄⭐", jabatan: "MEMBER" },
-    { nama: "YukiNewbie", jabatan: "MEMBER" },
-    // Tambahan terbaru:
-    { nama: "𝙑𝙖𝙣𝙯𝙉𝙚𝙬𝙗𝙞𝙚`𝖿𝗍 𝐒𝐏", jabatan: "MEMBER" },
-    { nama: "RYANEWBIE XPN", jabatan: "MEMBER" },
-    { nama: "𝙆𝙠𝙖𝙖𝙉𝙚𝙬𝙗𝙞𝙚 ft 𝗦𝗔𝗖", jabatan: "MEMBER" },
-    { nama: "1𝙁𝙈𝙖𝙡𝙯𝙉𝙚𝙬𝙗𝙞𝙚'𝙎𝘾𝙆", jabatan: "MEMBER" },
-    { nama: "𝙋𝙪𝙩𝙩𝙉𝙚𝙬𝙗𝙞𝙚 𝖋𝖙 𝘼𝙋", jabatan: "MEMBER" },
-    { nama: "Clara`newbie†.♡♪", jabatan: "MEMBER" },
-    { nama: "Kayy𝙉𝙚𝙬𝙗𝙞𝙚{紫雲寺}𝙍𝙮𝙪 ft", jabatan: "MEMBER" },
-    { nama: "SGN_Shellynewbiee🐚", jabatan: "MEMBER" },
-    { nama: "CLOUDYNewbie 𝙛𝙩 𝙆𝙋𝙉〆", jabatan: "MEMBER" },
-    { nama: "RaffNewbie", jabatan: "MEMBER" },
-    { nama: "𝘿𝙖𝙩𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
-    { nama: "𝘼𝘾𝙂| 𝙉𝙣1𝙚𝙡𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
-    { nama: "𝙉𝙙𝙧𝙚𝙉𝙚𝙬𝙗𝙞𝙚 𝙛𝙩 𝗫𝗥", jabatan: "MEMBER" },
-    { nama: "𝐄𝐑𝐀| 𝘼𝙣𝙜𝙜𝙖𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
-    { nama: "𝙁𝙖𝙖𝙉𝙚𝙬𝙗𝙞𝙚 𝗳𝘁'𝗠𝗘𝗔", jabatan: "MEMBER" },
-    { nama: "7P'𝗬𝗮𝗻𝗻𝗡𝗲𝘄𝗕𝗶𝗲`𝗘𝗚𝗦", jabatan: "MEMBER" },
-    { nama: "𝙁𝙖𝙣ﾒ𝙉𝙚𝙬𝙗𝙞𝙚 {紫雲寺}", jabatan: "MEMBER" },
-    { nama: "`𝙍𝙮𝙥𝙯𝙉 𝙇𝙮𝙣𝙭𝙞𝙚.", jabatan: "MEMBER" },
-    { nama: "𝘿𝙖𝙣𝙯 𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
-    { nama: "—►𝘾𝙮𝙣𝙣'𝙉𝙚𝙬𝙗𝙞𝙚【桜の花】", jabatan: "MEMBER" },
-    { nama: "Alice'𝙉𝙚𝙬𝙗𝙞𝙚`𝖋𝖙 𝐍𝐂𝐀", jabatan: "MEMBER" },
-    { nama: "—𝙉𝙪𝙧𝙯𝙯𝙉𝙚𝙬𝙗𝙞𝙚友", jabatan: "MEMBER" }
-];
+        { nama: "𝘿𝙖𝙣𝙉𝙚𝙬𝙗𝙞𝙚 ft 𝗔𝗣", jabatan: "KETUA" },
+        { nama: '𝙎𝙝𝙞𝙣𝙉𝙚𝙬𝙗𝙞𝙚"ft S4G', jabatan: "ADMIN" },
+        { nama: "𝙕𝙚𝙣𝙪𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "ADMIN" },
+        { nama: "𝘿𝙖𝙛𝙛𝙉𝙚𝙬𝙗𝙞𝙚•_", jabatan: "ADMIN" },
+        { nama: "𝐗𝟕 NittNewbie ft EGS", jabatan: "ADMIN" },
+        { nama: "𝙉𝙤𝙥𝙥𝙉𝙚𝙬𝙗𝙞𝙚 ft'𝟰𝟭𝟭", jabatan: "ADMIN" },
+        { nama: "𝙁𝙪𝙡𝙯𝙯 𝙉𝙚𝙬𝙗𝙞𝙚.", jabatan: "MEMBER" },
+        { nama: "𝙆𝙝𝙧𝙞𝙡𝙡𝙡𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+        { nama: "𝙃𝙖𝙣𝙯𝙉𝙚𝙬𝙗𝙞𝙚Kyoken`S4G", jabatan: "MEMBER" },
+        { nama: "𝙁𝘼𝙍𝙕𝙕𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+        { nama: "𝙎𝙖𝙝𝙞𝙧𝙪𝙉𝙚𝙬𝙗i`ᶠᵗ𝘼𝙀𝙂", jabatan: "MEMBER" },
+        { nama: "𝘽𝙖𝙧𝙧𝙉𝙚𝙬𝙗𝙞𝙚`VSC(紫雲寺)", jabatan: "MEMBER" },
+        { nama: "𝐋𝟕`𝙕𝙞дан𝙉𝙚𝙬𝙗𝙞𝙚紫雲寺", jabatan: "MEMBER" },
+        { nama: "FIzz 𝙉𝙚𝙬𝘽𝙞𝙚 𝖋𝖙 𝘼𝙀𝙄⭐", jabatan: "MEMBER" },
+        { nama: "YukiNewbie", jabatan: "MEMBER" },
+        { nama: "𝙑𝙖𝙣𝙯𝙉𝙚𝙬𝙗𝙞𝙚`𝖿𝗍 𝐒𝐏", jabatan: "MEMBER" },
+        { nama: "RYANEWBIE XPN", jabatan: "MEMBER" },
+        { nama: "𝙆𝙠𝙖𝙖𝙉𝙚𝙬𝙗𝙞𝙚 ft 𝗦𝗔𝗖", jabatan: "MEMBER" },
+        { nama: "1𝙁𝙈𝙖𝙡𝙯𝙉𝙚𝙬𝙗𝙞𝙚'𝙎𝘾𝙆", jabatan: "MEMBER" },
+        { nama: "𝙋𝙪𝙩𝙩𝙉𝙚𝙬𝙗𝙞𝙚 𝖋𝖙 𝘼𝙋", jabatan: "MEMBER" },
+        { nama: "Clara`newbie†.♡♪", jabatan: "MEMBER" },
+        { nama: "Kayy𝙉𝙚𝙬𝙗𝙞𝙚{紫雲寺}𝙍𝙮𝙪 ft", jabatan: "MEMBER" },
+        { nama: "SGN_Shellynewbiee🐚", jabatan: "MEMBER" },
+        { nama: "CLOUDYNewbie 𝙛𝙩 𝙆𝙋𝙉〆", jabatan: "MEMBER" },
+        { nama: "RaffNewbie", jabatan: "MEMBER" },
+        { nama: "𝘿𝙖𝙩𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+        { nama: "𝘼𝘾𝙂| 𝙉𝙣1𝙚𝙡𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+        { nama: "𝙉𝙙𝙧𝙚𝙉𝙚𝙬𝙗𝙞𝙚 𝙛𝙩 𝗫𝗥", jabatan: "MEMBER" },
+        { nama: "𝐄𝐑𝐀| 𝘼𝙣𝙜𝙜𝙖𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+        { nama: "𝙁𝙖𝙖𝙉𝙚𝙬𝙗𝙞𝙚 𝗳𝘁'𝗠𝗘𝗔", jabatan: "MEMBER" },
+        { nama: "7P'𝗬𝗮𝗻𝗻𝗡𝗲𝘄𝗕𝗶𝗲`𝗘𝗚𝗦", jabatan: "MEMBER" },
+        { nama: "𝙁𝙖𝙣ﾒ𝙉𝙚𝙬𝙗𝙞𝙚 {紫雲寺}", jabatan: "MEMBER" },
+        { nama: "`𝙍𝙮𝙥𝙯𝙉 𝙇𝙮𝙣𝙭𝙞𝙚.", jabatan: "MEMBER" },
+        { nama: "𝘿𝙖𝙣𝙯 𝙉𝙚𝙬𝙗𝙞𝙚", jabatan: "MEMBER" },
+        { nama: "—►𝘾𝙮𝙣𝙣'𝙉𝙚𝙬𝙗𝙞𝙚【桜の花】", jabatan: "MEMBER" },
+        { nama: "Alice'𝙉𝙚𝙬𝙗𝙞𝙚`𝖋𝖙 𝐍𝐂𝐀", jabatan: "MEMBER" },
+        { nama: "—𝙉𝙪𝙧𝙯𝙯𝙉𝙚𝙬𝙗𝙞𝙚友", jabatan: "MEMBER" }
+    ];
 
+    // Manajemen UI Loading
     const LoadingManager = {
         interval: null,
         start: function(textId, containerId) {
             const textElement = document.getElementById(textId);
             const container = document.getElementById(containerId);
             const tableBody = document.getElementById('tableBody');
+            
             if (!textElement || !container) return;
             
-            tableBody.innerHTML = ''; 
+            // Reset UI
+            tableBody.innerHTML = '';
             document.getElementById('total').innerText = '0';
             document.getElementById('tHadir').innerText = '0';
             document.getElementById('tIzin').innerText = '0';
             
-            container.style.display = 'flex'; 
+            container.style.display = 'flex';
             let dots = 0;
-            if (this.interval) clearInterval(this.interval); 
+            if (this.interval) clearInterval(this.interval);
+            
             this.interval = setInterval(() => {
-                dots = (dots % 3) + 1; 
+                dots = (dots % 3) + 1;
                 textElement.innerText = "Mencari data" + ".".repeat(dots);
             }, 400);
         },
@@ -449,128 +518,133 @@
             const textElement = document.getElementById(textId);
             if (textElement) {
                 textElement.innerText = "Gagal memuat data";
-                textElement.style.color = "#ff4d4d"; 
+                textElement.style.color = "#ff4d4d";
             }
         }
     };
 
+    // Fungsi Pengatur Filter
     function setFilter(type) {
-    if (isFetching) return;
-    filterType = type;
-    
-    document.getElementById('btnToday').classList.toggle('active', type === 'today');
-    document.getElementById('btnAll').classList.toggle('active', type === 'all');
-    document.getElementById('btnMem').classList.toggle('active', type === 'members');
-    
-    const statsContainer = document.querySelector('.stats');
-    const cards = document.querySelectorAll('.stats .card');
-    const labelTotal = cards[0].querySelector('h3');
-    const labelHadir = cards[1].querySelector('h3');
-    const angkaHadir = document.getElementById('tHadir'); 
-    const headers = document.querySelectorAll('#mainTable th');
+        if (isFetching) return;
+        filterType = type;
 
-    if (type === 'members') {
-        cards[2].style.display = 'none';
-        statsContainer.style.display = 'flex';
-        statsContainer.style.justifyContent = 'center';
-        statsContainer.style.gap = '20px';
-        
-        cards[0].style.width = '120px';
-        cards[1].style.width = '120px';
+        // UI Button Toggle
+        document.getElementById('btnWeek')?.classList.toggle('active', type === 'week');
+        document.getElementById('btnAll')?.classList.toggle('active', type === 'all');
+        document.getElementById('btnMem')?.classList.toggle('active', type === 'members');
 
-        labelTotal.innerText = "TOTAL MEMBER";
-        labelHadir.innerText = "TOTAL ABSEN\nHARI INI";
-        labelHadir.style.color = "#ffffff"; 
-        
-        if (angkaHadir) angkaHadir.style.color = "#4ade80"; 
-        
-        // --- PERBAIKAN DI SINI ---
-        headers[0].innerText = "NO.";
-        headers[0].style.textAlign = "center"; // Membuat teks header "NO." di tengah
-        headers[1].style.textAlign = "left";   // Tetap kiri untuk "NAMA"
-        headers[2].innerText = "";
-        headers[2].style.textAlign = "right";  // Tetap kanan untuk "JABATAN"
-        
-        renderManualMembers();
-    } else {
-        cards[2].style.display = 'block';
-        statsContainer.style.display = 'grid'; 
-        statsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
-        statsContainer.style.gap = '10px';
-        
-        cards[0].style.width = '';
-        cards[1].style.width = '';
-        
-        labelTotal.innerText = "TOTAL ABSEN";
-        labelHadir.innerText = "TOTAL HADIR";
-        labelHadir.style.color = "";
-        
-        // --- RESET STYLE HEADER ---
-        headers[0].innerText = "WAKTU ABSEN";
-        headers[0].style.textAlign = "left"; 
-        headers[1].style.textAlign = "left";
-        headers[2].innerText = "STATUS";
-        headers[2].style.textAlign = "right";
+        const statsContainer = document.querySelector('.stats');
+        const cards = document.querySelectorAll('.stats .card');
+        const labelTotal = cards[0]?.querySelector('h3');
+        const labelHadir = cards[1]?.querySelector('h3');
+        const labelIzin = cards[2]?.querySelector('h3');
+        const angkaHadir = document.getElementById('tHadir');
+        const headers = document.querySelectorAll('#mainTable th');
 
-        fetchData(true);
+        if (type === 'members') {
+            // Tampilan Tab ANGGOTA
+            if (cards[2]) cards[2].style.display = 'none';
+            
+            statsContainer.style.display = 'flex';
+            statsContainer.style.justifyContent = 'center';
+            statsContainer.style.gap = '20px';
+
+            cards[0].style.width = '140px';
+            cards[1].style.width = '140px';
+
+            labelTotal.innerText = "TOTAL MEMBER";
+            labelHadir.innerText = "TOTAL ADMIN";
+            labelHadir.style.color = "#ffffff";
+            if (angkaHadir) angkaHadir.style.color = "#4ade80";
+
+           // Header Tabel Mode Anggota
+            headers[0].innerText = "NO.";
+            headers[0].style.textAlign = "center";
+            
+            // Menambahkan teks NAMA MEMBER
+            headers[1].innerText = "NAMA MEMBER"; 
+            headers[1].style.textAlign = "center";  
+            
+            headers[2].innerText = ""; // Opsional: Memberi nama kolom ke-3
+            headers[2].style.textAlign = "right";
+           
+
+            
+            renderManualMembers();
+        } else {
+            // Tampilan Tab ABSENSI (Minggu Ini & Semua)
+            if (cards[2]) cards[2].style.display = 'block';
+            
+            statsContainer.style.display = 'grid';
+            statsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            statsContainer.style.gap = '10px';
+
+            cards[0].style.width = '';
+            cards[1].style.width = '';
+
+            labelTotal.innerText = (type === 'week') ? "TOTAL MINGGU INI" : "TOTAL ABSEN";
+            labelHadir.innerText = (type === 'week') ? "HADIR MINGGU INI" : "TOTAL HADIR";
+            if (labelIzin) labelIzin.innerText = (type === 'week') ? "IZIN MINGGU INI" : "TOTAL IZIN";
+
+            labelHadir.style.color = "";
+            if (angkaHadir) angkaHadir.style.color = "#4ade80";
+            headers[0].innerText = "WAKTU ABSEN";
+            headers[0].style.textAlign = "center";
+            headers[1].innerText = "NAMA MEMBER";
+            headers[1].style.textAlign = "center";
+            headers[2].innerText = "STATUS";
+            headers[2].style.textAlign = "";
+
+            fetchData(true);
+        }
     }
-}
 
+    // Render Daftar Anggota Manual
     async function renderManualMembers() {
-    isFetching = true;
-    const containerId = 'loading';
-    const tableBody = document.getElementById('tableBody');
-    const startTime = Date.now();
+        isFetching = true;
+        const containerId = 'loading';
+        const tableBody = document.getElementById('tableBody');
+        const startTime = Date.now();
 
-    LoadingManager.start('loading-text', containerId);
+        LoadingManager.start('loading-text', containerId);
 
-    try {
-        const response = await fetch(`${csvUrl}&v=${Date.now()}`);
-        const text = await response.text();
-        const rows = text.split(/\r?\n/).slice(1);
-        const now = new Date();
-        const f1 = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
-        const f2 = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+        try {
+            const totalAdmin = manualMembers.filter(m => 
+                m.jabatan === "ADMIN" || m.jabatan === "KETUA"
+            ).length;
 
-        let countToday = 0;
-        rows.forEach(row => {
-            const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            if (c[0]) {
-                const dateOnly = c[0].replace(/"/g, '').split(' ')[0];
-                if (dateOnly === f1 || dateOnly === f2) countToday++;
-            }
-        });
+            const html = manualMembers.map((m, index) => `
+                <tr>
+                    <td style="text-align: center; vertical-align: middle; width: 50px;">
+                        <span class="hour-text" style="color: #ff3131; font-weight: 800;">${index + 1}</span>
+                    </td>
+                    <td style="text-align: left;">
+                        <span class="name-text" style="font-weight: 600; white-space: nowrap;">${m.nama}</span>
+                    </td>
+                    <td style="text-align: right; padding-right: 15px;">
+                        <span class="badge" style="border: 1px solid #ff3131; color: white; background: rgba(255,49,49,0.1); padding: 5px 10px; border-radius: 4px; font-size: 8px; font-weight: bold; display: inline-block; min-width: 65px; text-align: center;">
+                            ${m.jabatan}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
 
-        let html = '';
-    manualMembers.forEach((m, index) => {
-        html += `<tr>
-            <td style="text-align: center; vertical-align: middle; width: 50px;">
-                <span class="hour-text" style="color: #ff3131; font-weight: 800; display: block; width: 100%;">${index + 1}</span>
-            </td>
-            <td style="text-align: left;">
-                <span class="name-text" style="font-weight: 600; white-space: nowrap;">${m.nama}</span>
-            </td>
-            <td style="text-align: right; padding-right: 15px;">
-                <span class="badge" style="border: 1px solid #ff3131; color: white; background: rgba(255,49,49,0.1); padding: 5px 10px; border-radius: 4px; font-size: 8px; font-weight: bold; display: inline-block; white-space: nowrap; min-width: 65px; text-align: center;">
-                    ${m.jabatan}
-                </span>
-            </td>
-        </tr>`;
-    });
+            setTimeout(() => {
+                tableBody.innerHTML = html;
+                document.getElementById('total').innerText = manualMembers.length;
+                document.getElementById('tHadir').innerText = totalAdmin;
+                LoadingManager.stop(containerId);
+                isFetching = false;
+            }, Math.max(0, 600 - (Date.now() - startTime)));
 
-        setTimeout(() => {
-            tableBody.innerHTML = html;
-            document.getElementById('total').innerText = manualMembers.length;
-            document.getElementById('tHadir').innerText = countToday;
-            LoadingManager.stop(containerId);
+        } catch (e) {
+            console.error("Error rendering members:", e);
+            LoadingManager.error('loading-text');
             isFetching = false;
-        }, Math.max(0, 600 - (Date.now() - startTime)));
-
-    } catch (e) {
-        LoadingManager.error('loading-text');
-        isFetching = false;
+        }
     }
-}
+
+    // Ambil Data dari CSV (Google Sheets)
     async function fetchData(isManual = false) {
         if (filterType === 'members') return;
         if (isFetching && !isManual) return;
@@ -585,12 +659,15 @@
         try {
             const response = await fetch(`${csvUrl}&v=${Date.now()}`);
             if (!response.ok) throw new Error('Network error');
+            
             const text = await response.text();
-            const rows = text.split(/\r?\n/).slice(1).filter(r => r.trim() !== "" && r.replace(/,/g, '').trim() !== "").reverse();
+            const rows = text.split(/\r?\n/)
+                             .slice(1)
+                             .filter(r => r.trim() !== "" && r.replace(/,/g, '').trim() !== "")
+                             .reverse();
             
             const now = new Date();
-            const format1 = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
-            const format2 = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
             let html = '', h = 0, i = 0, t = 0;
 
@@ -598,44 +675,44 @@
                 const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/"/g, '').trim());
                 if (!c[0] || !c[1] || c.length < 5) return;
 
-                const timestampFull = c[0]; 
+                const timestampFull = c[0];
                 const parts = timestampFull.split(' ');
                 const dateOnly = parts[0];
                 
-                // KODE BARU (Jam:Menit:Detik)
-let timeOnly = "--:--:--";
-if (parts[1]) {
-    let rawTime = parts[1].trim();
-    
-    // Menambahkan '0' di depan jika formatnya H:mm:ss menjadi HH:mm:ss
-    if (rawTime.indexOf(':') === 1) rawTime = '0' + rawTime;
-    
-    // Mengambil Jam, Menit, dan Detik (HH:mm:ss)
-    // substring(0, 8) mengambil 8 karakter pertama
-    timeOnly = rawTime.substring(0, 8); 
-}
-                
-                const isToday = (dateOnly === format1 || dateOnly === format2);
-                if (filterType === 'today' && !isToday) return;
+                // Kalkulasi Selisih Hari
+                const dateParts = dateOnly.split('/');
+                const recordDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+                const dayDiff = Math.ceil((todayStart - recordDate) / (1000 * 60 * 60 * 24));
 
+                // Filter Logic
+                if (filterType === 'week' && (dayDiff < 0 || dayDiff > 7)) return;
+
+                let timeOnly = "--:--:--";
+                if (parts[1]) {
+                    let rawTime = parts[1].trim();
+                    if (rawTime.indexOf(':') === 1) rawTime = '0' + rawTime;
+                    timeOnly = rawTime.substring(0, 8);
+                }
+                
                 const status = c[4] || "Hadir";
                 const isIzin = status.toLowerCase() === 'izin';
                 
                 t++;
                 if (isIzin) i++; else h++;
 
-                html += `<tr>
-                    <td>
-                        <div class="time-wrapper">
-                            <span class="hour-text">${timeOnly}</span>
-                            <span class="date-text">${dateOnly}</span>
-                        </div>
-                    </td>
-                    <td><span class="name-text">${c[1]}</span></td>
-                    <td style="text-align:right;">
-                        <span class="badge ${isIzin ? 'bg-izin' : 'bg-hadir'}">${status}</span>
-                    </td>
-                </tr>`;
+                html += `
+                    <tr>
+                        <td>
+                            <div class="time-wrapper">
+                                <span class="hour-text">${timeOnly}</span>
+                                <span class="date-text">${dateOnly}</span>
+                            </div>
+                        </td>
+                        <td><span class="name-text">${c[1]}</span></td>
+                        <td style="text-align:right;">
+                            <span class="badge ${isIzin ? 'bg-izin' : 'bg-hadir'}">${status}</span>
+                        </td>
+                    </tr>`;
             });
 
             setTimeout(() => {
@@ -650,41 +727,63 @@ if (parts[1]) {
             }, Math.max(0, 800 - (Date.now() - startTime)));
 
         } catch (e) {
+            console.error("Fetch error:", e);
             LoadingManager.error('loading-text');
             isFetching = false;
         }
     }
 
-    document.addEventListener('DOMContentLoaded', fetchData);
-    setInterval(() => { if (!isFetching && filterType !== 'members') fetchData(); }, 15000);
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => fetchData(true));
+    
+    // Auto Refresh setiap 15 detik (kecuali di tab members)
+    setInterval(() => { 
+        if (!isFetching && filterType !== 'members') fetchData(); 
+    }, 15000);
 </script>
  <script>
-        const updatePopup = document.getElementById("updatePopup");
-        const closeUpdate = document.getElementById("closeUpdate");
+    const updatePopup = document.getElementById("updatePopup");
+    const closeUpdate = document.getElementById("closeUpdate");
+    const okUpdate = document.getElementById("okUpdate");
+    const versionTitle = document.getElementById("versionTitle");
+    // Ambil elemen span versi kecil
+    const versionDetail = document.getElementById("versionDetail");
 
-        // VERSION UPDATE → GANTI INI SETIAP ADA UPDATE BARU
-        const UPDATE_VERSION = "v0.0.5";
+    // VERSION UPDATE → GANTI INI SETIAP ADA UPDATE BARU
+    const UPDATE_VERSION = "v0.0.1";
 
-        // cek apakah sudah pernah ditutup
-        if (localStorage.getItem("update_seen") !== UPDATE_VERSION) {
-            setTimeout(() => {
-                updatePopup.style.display = "flex";
-            }, 800);
-        }
+    // 1. Sinkronisasi Teks Versi
+    if (versionTitle) {
+        versionTitle.textContent = `NEW UPDATE`; // Tetap judul utama
+    }
+    
+    if (versionDetail) {
+        // Otomatis mengganti "Version --" menjadi "Version v0.0.1"
+        versionDetail.textContent = `Version ${UPDATE_VERSION}`;
+    }
 
-        // tombol close
-        closeUpdate.addEventListener("click", () => {
-            updatePopup.style.display = "none";
-            localStorage.setItem("update_seen", UPDATE_VERSION);
-        });
+    // 2. Cek apakah user sudah melihat versi terbaru ini
+    if (localStorage.getItem("update_seen") !== UPDATE_VERSION) {
+        setTimeout(() => {
+            updatePopup.style.display = "flex";
+            updatePopup.style.animation = "fadeIn 0.4s ease-out";
+        }, 800);
+    } else {
+        updatePopup.style.display = "none";
+    }
 
-        // klik luar box = tutup
-        updatePopup.addEventListener("click", (e) => {
-            if (e.target === updatePopup) {
-                updatePopup.style.display = "none";
-                localStorage.setItem("update_seen", UPDATE_VERSION);
-            }
-        });
-    </script>
+    // 3. Fungsi untuk menutup popup
+    const dismissUpdate = () => {
+        updatePopup.style.display = "none";
+        localStorage.setItem("update_seen", UPDATE_VERSION);
+    };
+
+    if (closeUpdate) closeUpdate.addEventListener("click", dismissUpdate);
+    if (okUpdate) okUpdate.addEventListener("click", dismissUpdate);
+
+    updatePopup.addEventListener("click", (e) => {
+        if (e.target === updatePopup) dismissUpdate();
+    });
+</script>
 </body> 
 </html>
