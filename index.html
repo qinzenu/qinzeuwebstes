@@ -1576,61 +1576,65 @@ h4.animated-streak-text.streak-red {
 }
 
 /* =========================================
-   FIX OVERFLOW MOBILE / GARIS CYAN KANAN
+   FIX SCROLL MOBILE
 ========================================= */
 
 html,
 body{
+    overflow-x:hidden;
+    overflow-y:auto !important;
+
     width:100%;
     max-width:100%;
-    overflow-x:hidden !important;
+
+    min-height:100%;
+
+    -webkit-overflow-scrolling:touch;
+    touch-action:auto;
 }
 
-/* semua box ikut hitung padding */
-*{
-    box-sizing:border-box;
+/* pastikan wrapper tidak mengunci scroll */
+.main-wrapper{
+    overflow:visible !important;
 }
 
-/* cegah elemen keluar layar */
-.main-wrapper,
-.ranking-box,
-.coming-soon-container,
-.update-card,
-.info-content,
-.links-container{
-    width:100%;
-    max-width:100%;
-    overflow:hidden;
-}
-
-/* fix animasi transform */
-.ranking-item,
-.link-card,
-.update-card{
-    transform:translateZ(0);
-    backface-visibility:hidden;
-}
-
-/* fix progress bar overflow */
-.progress-container{
-    overflow:hidden;
-    position:relative;
-}
-
-/* fix shimmer agar tidak keluar */
-.progress-bar-glow::after{
-    pointer-events:none;
-}
-
-/* fix mobile rendering */
+/* FIX IOS / ANDROID */
 body{
     position:relative;
 }
 
-/* cegah glow shadow melebar */
-.ranking-box::before,
-.info-box::before{
-    max-width:100%;
+/* popup hanya lock saat aktif */
+body.popup-open{
+    overflow:hidden !important;
+    touch-action:none;
+}
+
+/* saat popup tidak aktif */
+.update-popup{
+    pointer-events:none;
+}
+
+.update-popup.show{
+    pointer-events:auto;
+}
+
+/* cegah elemen fixed bikin body terkunci */
+#sidebar{
+    will-change:transform;
+}
+
+/* FIX KHUSUS MOBILE */
+@media(max-width:768px){
+
+    body{
+        height:auto !important;
+        min-height:100vh;
+    }
+
+    .main-wrapper{
+        height:auto !important;
+    }
+
 }
     </style>
 </head>
@@ -3404,6 +3408,14 @@ function closeUpdatePopup(){
     );
 
 }
+</script>
+<script>
+// FIX SCROLL MOBILE
+document.addEventListener(
+    'touchmove',
+    function(){},
+    { passive:true }
+);
 </script>
 </body>
 
