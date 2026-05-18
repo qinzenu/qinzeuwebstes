@@ -1636,6 +1636,34 @@ body.popup-open{
     }
 
 }
+
+/* =========================================
+   HIDE SCROLLBAR
+========================================= */
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar{
+    display:none;
+}
+
+/* Firefox */
+html{
+    scrollbar-width:none;
+}
+
+/* IE */
+body{
+    -ms-overflow-style:none;
+}
+
+/* Smooth Mobile */
+html,
+body{
+    overflow-x:hidden;
+    overflow-y:auto;
+
+    -webkit-overflow-scrolling:touch;
+}
     </style>
 </head>
 
