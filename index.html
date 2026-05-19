@@ -45,22 +45,17 @@
         }
 
         body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-    color: var(--text);
-
-    background:
-        radial-gradient(circle at top left, rgba(124, 92, 255, .18), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(88, 101, 242, .16), transparent 35%),
-        linear-gradient(180deg, #05060a, #090b12);
-
-    display: block;
-
-    min-height: auto;
-    height: auto;
-}
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(124, 92, 255, .18), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(88, 101, 242, .16), transparent 35%),
+                linear-gradient(180deg, #05060a, #090b12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
         ::-webkit-scrollbar {
             width: 5px;
@@ -181,11 +176,14 @@
 
         /* MAIN CONTENT */
         .main-wrapper {
-    width: 100%;
-    max-width: 520px;
-    padding: 55px 18px 40px;
-    margin: 0 auto;
-}
+            width: 100%;
+            max-width: 520px;
+            padding: 55px 18px 170px;
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(12px);
+            transition: 1s cubic-bezier(.22, 1, .36, 1);
+        }
 
         .profile-section {
             text-align: center;
@@ -801,9 +799,7 @@
 }
 
 body.popup-open{
-    overflow:hidden;
-    height:100vh;
-    touch-action:none;
+    overflow:hidden !important;
 }
     </style>
     <style>
@@ -1581,93 +1577,60 @@ h4.animated-streak-text.streak-red {
    FIX SCROLL MOBILE
 ========================================= */
 
+/* =========================
+   FIX OVERFLOW MOBILE TOTAL
+========================= */
+
 html,
-body {
-    width: 100%;
-    max-width: 100%;
-
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-
-    height: auto !important;
-    min-height: 100% !important;
-
-    scroll-behavior: smooth;
-
-    -webkit-overflow-scrolling: touch;
-}
-
-body {
-    position: relative;
-}
-
-.main-wrapper,
-.links-container,
-.ranking-box,
-.info-content {
-    height: auto !important;
-    min-height: auto !important;
-}
-
-#ranking-list {
-    width: 100%;
-}
-
-#timer-container {
-    width: 100%;
-}
-
-.update-popup {
-    position: fixed;
-    inset: 0;
-}
-
-.link-card {
-    will-change: transform;
-}
-
-/* pastikan wrapper tidak mengunci scroll */
-.main-wrapper{
-    overflow:visible !important;
-}
-
-/* FIX IOS / ANDROID */
 body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden !important;
     position:relative;
 }
 
-/* popup hanya lock saat aktif */
-body.popup-open{
-    overflow:hidden !important;
-    touch-action:none;
+/* semua elemen aman */
+*{
+    max-width:100%;
+    box-sizing:border-box;
 }
 
-/* saat popup tidak aktif */
-.update-popup{
-    pointer-events:none;
+/* cegah element flex/grid bikin overflow */
+.main-wrapper,
+.ranking-box,
+.ranking-item,
+.info-content,
+.links-container,
+.link-card,
+.filter-container{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
 }
 
-.update-popup.show{
-    pointer-events:auto;
+/* fix blur/backdrop yang sering bikin geser */
+.ranking-box,
+.link-card,
+.info-box,
+.update-card{
+    contain:layout paint;
 }
 
-/* cegah elemen fixed bikin body terkunci */
-#sidebar{
-    will-change:transform;
-}
-
-/* FIX KHUSUS MOBILE */
-@media(max-width:768px){
+/* fix khusus mobile */
+@media (max-width:768px){
 
     body{
-        height:auto !important;
-        min-height:100vh;
+        overscroll-behavior-x:none;
+        touch-action:pan-y;
     }
 
-    .main-wrapper{
-        height:auto !important;
+    .ranking-item{
+        transform:none !important;
     }
 
+    .ranking-item:hover{
+        transform:none !important;
+    }
 }
 
 /* =========================================
@@ -2171,32 +2134,46 @@ async function loadMembers() {
 // =========================
 function validateRankingVisibility() {
 
-    const now = Date.now();
+    const now = new Date().getTime();
 
-    const timerContainer = document.getElementById('timer-container');
-    const rankingList = document.getElementById('ranking-list');
+    const timerContainer =
+        document.getElementById('timer-container');
 
-    if (!timerContainer || !rankingList) return;
+    const rankingList =
+        document.getElementById('ranking-list');
 
+    // jika countdown selesai
     if (now >= RANKING_TARGET_DATE) {
 
-        timerContainer.style.display = 'none';
+        // paksa comingsoon hilang
+        if (timerContainer) {
+            timerContainer.style.display = 'none';
+        }
 
-        rankingList.style.display = 'flex';
-        rankingList.style.flexDirection = 'column';
-        rankingList.style.gap = '14px';
+        // paksa ranking tampil
+        if (rankingList) {
 
-        if (!rankingList.dataset.rendered) {
-            renderRanking();
-            rankingList.dataset.rendered = 'true';
+            rankingList.style.display = 'flex';
+
+            // render ulang jika kosong
+            if (!rankingList.innerHTML.trim()) {
+                renderRanking();
+            }
         }
 
     } else {
 
-        timerContainer.style.display = 'block';
-        rankingList.style.display = 'none';
+        // sebelum waktunya
+        if (timerContainer) {
+            timerContainer.style.display = 'block';
+        }
+
+        if (rankingList) {
+            rankingList.style.display = 'none';
+        }
     }
 }
+
 // 2. SISTEM TIMER & AUTO-HIDE
 function updateRankingSystem() {
 
