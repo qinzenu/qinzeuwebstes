@@ -2171,46 +2171,32 @@ async function loadMembers() {
 // =========================
 function validateRankingVisibility() {
 
-    const now = new Date().getTime();
+    const now = Date.now();
 
-    const timerContainer =
-        document.getElementById('timer-container');
+    const timerContainer = document.getElementById('timer-container');
+    const rankingList = document.getElementById('ranking-list');
 
-    const rankingList =
-        document.getElementById('ranking-list');
+    if (!timerContainer || !rankingList) return;
 
-    // jika countdown selesai
     if (now >= RANKING_TARGET_DATE) {
 
-        // paksa comingsoon hilang
-        if (timerContainer) {
-            timerContainer.style.display = 'none';
-        }
+        timerContainer.style.display = 'none';
 
-        // paksa ranking tampil
-        if (rankingList) {
+        rankingList.style.display = 'flex';
+        rankingList.style.flexDirection = 'column';
+        rankingList.style.gap = '14px';
 
-            rankingList.style.display = 'flex';
-
-            // render ulang jika kosong
-            if (!rankingList.innerHTML.trim()) {
-                renderRanking();
-            }
+        if (!rankingList.dataset.rendered) {
+            renderRanking();
+            rankingList.dataset.rendered = 'true';
         }
 
     } else {
 
-        // sebelum waktunya
-        if (timerContainer) {
-            timerContainer.style.display = 'block';
-        }
-
-        if (rankingList) {
-            rankingList.style.display = 'none';
-        }
+        timerContainer.style.display = 'block';
+        rankingList.style.display = 'none';
     }
 }
-
 // 2. SISTEM TIMER & AUTO-HIDE
 function updateRankingSystem() {
 
