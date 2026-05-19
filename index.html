@@ -45,17 +45,22 @@
         }
 
         body {
-            min-height: 100vh;
-            overflow-x: hidden;
-            color: var(--text);
-            background:
-                radial-gradient(circle at top left, rgba(124, 92, 255, .18), transparent 35%),
-                radial-gradient(circle at bottom right, rgba(88, 101, 242, .16), transparent 35%),
-                linear-gradient(180deg, #05060a, #090b12);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: var(--text);
+
+    background:
+        radial-gradient(circle at top left, rgba(124, 92, 255, .18), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(88, 101, 242, .16), transparent 35%),
+        linear-gradient(180deg, #05060a, #090b12);
+
+    display: block;
+
+    min-height: auto;
+    height: auto;
+}
 
         ::-webkit-scrollbar {
             width: 5px;
@@ -176,14 +181,11 @@
 
         /* MAIN CONTENT */
         .main-wrapper {
-            width: 100%;
-            max-width: 520px;
-            padding: 55px 18px 170px;
-            opacity: 0;
-            transform: translateY(30px);
-            filter: blur(12px);
-            transition: 1s cubic-bezier(.22, 1, .36, 1);
-        }
+    width: 100%;
+    max-width: 520px;
+    padding: 55px 18px 40px;
+    margin: 0 auto;
+}
 
         .profile-section {
             text-align: center;
@@ -1580,17 +1582,48 @@ h4.animated-streak-text.streak-red {
 ========================================= */
 
 html,
-body{
-    overflow-x:hidden;
-    overflow-y:auto !important;
+body {
+    width: 100%;
+    max-width: 100%;
 
-    width:100%;
-    max-width:100%;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
 
-    min-height:100%;
+    height: auto !important;
+    min-height: 100% !important;
 
-    -webkit-overflow-scrolling:touch;
-    touch-action:auto;
+    scroll-behavior: smooth;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    position: relative;
+}
+
+.main-wrapper,
+.links-container,
+.ranking-box,
+.info-content {
+    height: auto !important;
+    min-height: auto !important;
+}
+
+#ranking-list {
+    width: 100%;
+}
+
+#timer-container {
+    width: 100%;
+}
+
+.update-popup {
+    position: fixed;
+    inset: 0;
+}
+
+.link-card {
+    will-change: transform;
 }
 
 /* pastikan wrapper tidak mengunci scroll */
