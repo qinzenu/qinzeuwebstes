@@ -1661,6 +1661,168 @@ body{
     -webkit-overflow-scrolling:touch;
 }
     </style>
+    <style>
+        /* ========================================
+   ULTRA FIX OVERFLOW MOBILE 100%
+======================================== */
+
+/* ROOT */
+html{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden !important;
+}
+
+body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden !important;
+
+    position:relative;
+
+    margin:0;
+    padding:0;
+
+    overscroll-behavior-x:none;
+
+    -webkit-overflow-scrolling:touch;
+}
+
+/* GLOBAL */
+*,
+*::before,
+*::after{
+    box-sizing:border-box;
+
+    max-width:100%;
+
+    min-width:0;
+}
+
+/* SEMUA CONTAINER */
+.main-wrapper,
+.profile-section,
+.info-content,
+.ranking-box,
+.ranking-list,
+.ranking-item,
+.links-container,
+.link-card,
+.filter-container,
+.info-box,
+.update-card,
+.update-popup,
+.stats-grid,
+.sidebar-content{
+    width:100%;
+    max-width:100%;
+}
+
+/* FIX FLEX OVERFLOW */
+.ranking-left,
+.member-info,
+.link-info{
+    min-width:0;
+}
+
+/* TEXT AGAR TIDAK DORONG LAYOUT */
+.member-info h4,
+.member-info span,
+.link-info h4,
+.link-info p,
+.profile-name,
+.profile-tag{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    word-break:break-word;
+}
+
+/* HAPUS PENYEBAB GESER */
+.ranking-item:hover,
+.link-card:hover,
+.filter-btn:hover,
+.update-card:hover{
+    transform:none !important;
+}
+
+/* FIX BACKDROP */
+.ranking-box,
+.link-card,
+.info-box,
+.update-card,
+#sidebar{
+    overflow:hidden;
+}
+
+/* FIX PSEUDO ELEMENT */
+.ranking-box::before,
+.ranking-item::before,
+.info-box::before,
+.progress-bar-glow::after{
+    max-width:100%;
+}
+
+/* FIX SIDEBAR */
+#sidebar{
+    left:0;
+    right:0;
+    transform:none !important;
+
+    width:100%;
+    max-width:100%;
+}
+
+/* FIX POPUP */
+.update-popup{
+    overflow:hidden;
+}
+
+/* FIX GRID */
+.stats-grid{
+    grid-template-columns:
+        repeat(3,minmax(0,1fr));
+}
+
+/* FIX ICON */
+img,
+svg,
+video,
+canvas{
+    max-width:100%;
+    height:auto;
+}
+
+/* MOBILE HARD FIX */
+@media(max-width:768px){
+
+    html,
+    body{
+        overflow-x:hidden !important;
+    }
+
+    body{
+        position:relative;
+    }
+
+    .main-wrapper{
+        padding-left:14px;
+        padding-right:14px;
+    }
+
+    .ranking-item{
+        gap:10px;
+    }
+
+    .rank-number{
+        flex-shrink:0;
+    }
+
+    .upload-count{
+        max-width:90px;
+        overflow:hidden;
+    }
+}
+    </style>
 </head>
 
 <body>
@@ -3434,11 +3596,41 @@ function closeUpdatePopup(){
 }
 </script>
 <script>
-// FIX SCROLL MOBILE
-document.addEventListener(
-    'touchmove',
-    function(){},
-    { passive:true }
+/* ========================================
+   AUTO FIX OVERFLOW DETECTOR
+======================================== */
+
+function fixOverflowElements(){
+
+    const all = document.querySelectorAll('*');
+
+    all.forEach(el => {
+
+        const rect = el.getBoundingClientRect();
+
+        if(rect.right > window.innerWidth){
+
+            el.style.maxWidth = '100%';
+            el.style.overflowX = 'hidden';
+
+            console.log(
+                'OVERFLOW FIXED:',
+                el
+            );
+        }
+
+    });
+
+}
+
+window.addEventListener(
+    'load',
+    fixOverflowElements
+);
+
+window.addEventListener(
+    'resize',
+    fixOverflowElements
 );
 </script>
 </body>
