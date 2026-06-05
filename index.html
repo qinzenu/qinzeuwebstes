@@ -28,9 +28,10 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+             -webkit-tap-highlight-color: transparent;
             -webkit-user-select: none;
             user-select: none;
+           
         }
 
         img {
@@ -794,45 +795,27 @@
     </style>
     <style>
         /* =========================
-   PREMIUM RANKING UI
+   PREMIUM RANKING UI (FIXED LUXURY VERSION)
 ========================= */
 
         .ranking-box {
             position: relative;
-
-            margin: 30px 0;
-
-            padding: 24px;
-
-            border-radius: 30px;
-
+            margin: 35px 0;
+            padding: 28px 24px;
+            border-radius: 32px;
             overflow: hidden;
-
-            background:
-                linear-gradient(180deg,
-                    rgba(255, 255, 255, .05),
-                    rgba(255, 255, 255, .025));
-
-            border:
-                1px solid rgba(255, 255, 255, .07);
-
-            backdrop-filter: blur(18px);
-
-            box-shadow:
-                0 20px 40px rgba(0, 0, 0, .35);
+            background: linear-gradient(145deg, rgba(15, 17, 24, 0.75), rgba(9, 11, 18, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
         }
 
         .ranking-box::before {
             content: "";
-
             position: absolute;
             inset: 0;
-
-            background:
-                radial-gradient(circle at top right,
-                    rgba(124, 92, 255, .18),
-                    transparent 35%);
-
+            background: radial-gradient(circle at top right, rgba(124, 92, 255, 0.22), transparent 45%);
             pointer-events: none;
         }
 
@@ -840,96 +823,73 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 18px;
         }
 
         .ranking-title {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 16px;
         }
 
         .ranking-title i {
-            width: 46px;
-            height: 46px;
-
-            border-radius: 16px;
-
+            width: 50px;
+            height: 50px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            background:
-                linear-gradient(135deg,
-                    #ffd700,
-                    #ff9500);
-
-            color: black;
-
-            font-size: 18px;
-
-            box-shadow:
-                0 10px 25px rgba(255, 215, 0, .25);
+            background: transparent;
+            color: #05060a;
+            font-size: 22px;
+            animation: floatLogo 4s ease-in-out infinite;
         }
 
         .ranking-title div h3 {
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 800;
-            margin-bottom: 3px;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            background: linear-gradient(90deg, #ffffff, #becad6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .ranking-title div p {
             font-size: 12px;
             color: var(--muted);
+            font-weight: 500;
         }
 
         .ranking-list {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
-        /* ITEM */
-
+        /* ITEM RANKING */
         .ranking-item {
             position: relative;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            padding: 18px;
-
-            border-radius: 24px;
-
-            background:
-                linear-gradient(135deg,
-                    rgba(255, 255, 255, .04),
-                    rgba(255, 255, 255, .02));
-
-            border:
-                1px solid rgba(255, 255, 255, .05);
-
+            padding: 16px 20px;
+            border-radius: 22px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.04);
             overflow: hidden;
-
-            transition: .35s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .ranking-item::before {
             content: "";
-
             position: absolute;
             inset: 0;
-
-            background:
-                linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, .03),
-                    transparent);
-
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
             transform: translateX(-100%);
-            transition: .6s;
+            transition: 0.8s;
         }
 
         .ranking-item:hover::before {
@@ -937,161 +897,144 @@
         }
 
         .ranking-item:hover {
-            transform:
-                translateY(-4px) scale(1.01);
-
-            border-color:
-                rgba(124, 92, 255, .22);
-
-            box-shadow:
-                0 10px 30px rgba(124, 92, 255, .12);
+            transform: translateY(-4px) scale(1.015);
+            border-color: rgba(124, 92, 255, 0.35);
+            background: linear-gradient(90deg, rgba(124, 92, 255, 0.08), rgba(255, 255, 255, 0.02));
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(124, 92, 255, 0.15);
         }
 
         .ranking-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 18px;
+            min-width: 0;
+            flex: 1;
         }
 
-        /* RANK NUMBER */
-
+        /* RANK NUMBER DESIGN (FIXED WITH IMAGE 1:1 SUPPORT) */
         .rank-number {
-            width: 58px;
-            height: 58px;
-
-            border-radius: 18px;
-
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 900;
-
-            color: white;
-
-            background:
-                rgba(255, 255, 255, .05);
-
-            border:
-                1px solid rgba(255, 255, 255, .07);
-
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             flex-shrink: 0;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            /* Memastikan gambar tidak keluar dari container */
         }
 
-        .rank-number.gold {
-            background:
-                linear-gradient(135deg,
-                    #ffd700,
-                    #ff9500);
-
-            color: black;
-
-            box-shadow:
-                0 0 25px rgba(255, 215, 0, .35);
+        /* Handler khusus agar gambar muat sempurna, pas tengah, dan rasio 1:1 tetap terjaga */
+        .rank-number img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
         }
 
-        .rank-number.silver {
-            background:
-                linear-gradient(135deg,
-                    #dfe6f3,
-                    #9aa4b2);
-
-            color: black;
+        /* TOP 1 - GOLD STYLING */
+        .ranking-item:first-child {
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.08), rgba(255, 255, 255, 0.02));
+            box-shadow: inset 0 0 15px rgba(255, 215, 0, 0.03);
         }
 
+        .ranking-item:first-child:hover {
+            border-color: rgba(255, 215, 0, 0.6);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.15);
+        }
+
+        /* Menghilangkan background teks lama jika menggunakan struktur elemen gambar */
+        .rank-number.gold,
+        .rank-number.silver,
         .rank-number.bronze {
-            background:
-                linear-gradient(135deg,
-                    #ff9b52,
-                    #b85c1d);
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            box-shadow: none !important;
         }
 
-
+        /* MEMBER INFO (FIXED BUG) */
         .member-info {
             display: flex;
             flex-direction: column;
-
-            flex: 1;
             min-width: 0;
-            overflow: hidden;
+            flex: 1;
         }
 
         .member-info h4 {
             font-size: 15px;
-            font-weight: 800;
+            font-weight: 700;
+            color: #ffffff;
             margin-bottom: 4px;
-
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
             white-space: nowrap;
-
-            overflow: visible;
-            text-overflow: unset;
-
+            letter-spacing: 0.3px;
             transition: .3s ease;
         }
 
         .member-info span {
             font-size: 12px;
             color: var(--muted);
+            font-weight: 500;
         }
 
-        /* AUTO SIZE */
+        /* AUTO SIZE & COMPATIBILITY */
+        .member-info h4.long-name {
+            font-size: 13px;
+        }
+
         .member-info h4.size-md {
             font-size: 15px;
         }
 
         .member-info h4.size-sm {
-            font-size: 11px;
+            font-size: 12px;
         }
 
         .member-info h4.size-xs {
-            font-size: 9px;
+            font-size: 10px;
         }
 
-        /* upload tetap aman */
-        .upload-count {
-            flex-shrink: 0;
-        }
-
-        /* UPLOAD COUNT */
-
+        /* UPLOAD COUNT BADGE */
         .upload-count {
             position: relative;
-
-            padding: 12px 16px;
-
-            border-radius: 16px;
-
-            background:
-                rgba(54, 255, 14, .08);
-
-            border:
-                1px solid rgba(54, 255, 14, .15);
-
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: rgba(54, 255, 14, 0.06);
+            border: 1px solid rgba(54, 255, 14, 0.2);
             color: var(--accent);
-
             font-size: 13px;
             font-weight: 800;
-
+            letter-spacing: 0.5px;
             white-space: nowrap;
-
+            flex-shrink: 0;
             overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .ranking-item:hover .upload-count {
+            background: rgba(54, 255, 14, 0.12);
+            border-color: rgba(54, 255, 14, 0.4);
+            box-shadow: 0 0 15px rgba(54, 255, 14, 0.2);
+            transform: scale(1.05);
         }
 
         .upload-count::before {
             content: "";
-
             position: absolute;
             inset: 0;
-
-            background:
-                linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, .08),
-                    transparent);
-
-            animation:
-                uploadGlow 3s linear infinite;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+            animation: uploadGlow 2.5s linear infinite;
         }
 
         @keyframes uploadGlow {
@@ -1104,115 +1047,62 @@
             }
         }
 
-        /* TOP 1 SPECIAL */
-
-        .ranking-item:first-child {
-            border:
-                1px solid rgba(255, 215, 0, .18);
-
-            background:
-                linear-gradient(135deg,
-                    rgba(255, 215, 0, .08),
-                    rgba(255, 255, 255, .03));
-        }
-
-        /* MOBILE */
-
+        /* RESPONSIVE DESIGN FOR MOBILE */
         @media(max-width:480px) {
+            .ranking-box {
+                padding: 22px 16px;
+                margin: 25px 0;
+            }
+
+            .ranking-header {
+                margin-bottom: 20px;
+                padding-bottom: 14px;
+            }
 
             .ranking-item {
-                padding: 15px;
+                padding: 14px 16px;
+                border-radius: 18px;
             }
 
             .rank-number {
-                width: 52px;
-                height: 52px;
-
-                font-size: 13px;
-            }
-
-            .upload-count {
-                font-size: 11px;
-                padding: 10px 12px;
+                width: 42px;
+                height: 42px;
+                border-radius: 12px;
             }
 
             .member-info h4 {
                 font-size: 14px;
             }
 
+            .upload-count {
+                font-size: 11px;
+                padding: 8px 12px;
+                border-radius: 11px;
+            }
         }
-
-        .member-info {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-        }
-
-        .member-info h4 {
-            font-size: 15px;
-            font-weight: 800;
-            margin-bottom: 4px;
-
-            max-width: 170px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-
-            transition: .3s ease;
-        }
-
-        /* Nama panjang otomatis lebih kecil */
-        .member-info h4.long-name {
-            font-size: 12px;
-        }
-
 
         /* =========================
-   STREAK ANIMATION
-   FLOW ONLY
+   STREAK ANIMATION FLOW ONLY
 ========================= */
-
         .animated-streak {
             position: relative;
             display: inline-block;
             font-weight: 700;
-
             background-size: 200% auto;
-
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-
             animation: flowRight 3s linear infinite;
         }
 
-        /* =========================
-   CYAN STREAK
-========================= */
-
         .streak-cyan {
-            background-image: linear-gradient(90deg,
-                    #00e5ff 0%,
-                    #8ff8ff 50%,
-                    #00e5ff 100%);
+            background-image: linear-gradient(90deg, #00e5ff 0%, #8ff8ff 50%, #00e5ff 100%);
         }
-
-        /* =========================
-   RED STREAK
-========================= */
 
         .streak-red {
-            background-image: linear-gradient(90deg,
-                    #ff3b3b 0%,
-                    #ff9a9a 50%,
-                    #ff3b3b 100%);
+            background-image: linear-gradient(90deg, #ff3b3b 0%, #ff9a9a 50%, #ff3b3b 100%);
         }
 
-        /* =========================
-   FLOW ANIMATION
-========================= */
-
         @keyframes flowRight {
-
             0% {
                 background-position: 0% center;
             }
@@ -1223,63 +1113,29 @@
         }
 
         /* =======================================================
-   1. PENGATURAN WARNA NOMOR PERINGKAT (#)
+   ANIMASI GRADASI WARNA BERGERAK (KHUSUS STREAK)
    ======================================================= */
-
-        /* Mengubah nomor peringkat biasa (#4 dan seterusnya) */
-        .ranking-list .rank-number {
-            color: #ffffff !important;
-            /* Ganti #ffffff jika ingin warna lain */
-        }
-
-        /* Memaksa nomor juara #1 (gold), #2 (silver), dan #3 (bronze) ikut berubah warna */
-        .ranking-list .rank-number.gold,
-        .ranking-list .rank-number.silver,
-        .ranking-list .rank-number.bronze {
-            color: #ffffff !important;
-            /* Samakan warna di sini agar semua nomor seragam */
-        }
-
-
-        /* =======================================================
-   2. ANIMASI GRADASI WARNA BERGERAK (KHUSUS STREAK)
-   ======================================================= */
-
-        /* Animasi untuk Streak Merah (Streak >= 3) - MERAH GELAP ELEGAN & LAMBAT */
         .animated-streak-text.streak-red {
-            /* Perpaduan Merah Gelap, Merah Crimson Redup, dan aksen Rose Gold Ringan */
-            background-image: linear-gradient(90deg,
-                    #ff0000 25%,
-                    #fb4444 50%,
-                    #af1e1e 100%);
+            background-image: linear-gradient(90deg, #ff0000 25%, #fb4444 50%, #af1e1e 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Durasi diubah ke 6s agar transisi mengalir pelan dan estetik */
             animation: moveStreakGlow 3.5s linear infinite;
             display: inline-block;
             font-weight: 700;
         }
 
-        /* Animasi untuk Streak Cyan (Streak >= 6) - CYAN LEMBUT NYAMAN DI MATA */
         .animated-streak-text.streak-cyan {
-            /* Perpaduan Cyan Gelap, Cyan Lembut, dan Biru Pastel Redup */
-            background-image: linear-gradient(90deg,
-                    #0fd1e6 25%,
-                    #37f2ff 50%,
-                    #00e5ff 100%);
+            background-image: linear-gradient(90deg, #0fd1e6 25%, #37f2ff 50%, #00e5ff 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Disamakan menjadi 6s agar seragam pelannya */
             animation: moveStreakGlow 3.5s linear infinite;
             display: inline-block;
             font-weight: 700;
         }
 
-        /* Efek Cahaya Halus (Glow Bersinar Tipis, Tidak Menyilaukan) */
         h4.animated-streak-text.streak-cyan {
-            /* Menggunakan opacity sangat tipis (0.15) agar bayangan tidak membuat pusing */
             text-shadow: 0 2px 10px rgba(0, 163, 204, 0.15);
         }
 
@@ -1287,7 +1143,6 @@
             text-shadow: 0 2px 10px rgba(153, 0, 17, 0.15);
         }
 
-        /* Fungsi Pergerakan Aliran Gradasi Warna (Dibuat super mulus) */
         @keyframes moveStreakGlow {
             0% {
                 background-position: 0% center;
@@ -1610,19 +1465,21 @@
    FIX SCROLL MOBILE
 ========================================= */
 
-        html,
-        body {
-            overflow-x: hidden;
-            overflow-y: auto !important;
-
-            width: 100%;
-            max-width: 100%;
-
-            min-height: 100%;
-
-            -webkit-overflow-scrolling: touch;
-            touch-action: auto;
-        }
+        html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background-color: #05060a; /* Warna dasar solid */
+    background-image: 
+        radial-gradient(circle at top left, rgba(124, 92, 255, .18), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(88, 101, 242, .16), transparent 35%);
+    background-attachment: fixed; /* Menjaga background tetap di tempat */
+    overflow-x: hidden;
+    color: var(--text);
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none; /* Mencegah efek bounce putih di ujung scroll */
+}
 
         /* pastikan wrapper tidak mengunci scroll */
         .main-wrapper {
@@ -1695,6 +1552,80 @@
 
             -webkit-overflow-scrolling: touch;
         }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+        }
+        .signup-text {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.signup-text a {
+    font-weight: bold;
+}
+
+.signup-text a:hover {
+    text-decoration: underline;
+}
+
+/* NAVBAR */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    height: 70px;
+    background: rgba(15, 17, 24, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 10px;
+    z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.nav-item span {
+    font-size: 10px;
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+.nav-item.active, .nav-item:hover {
+    color: var(--primary);
+}
     </style>
 </head>
 
@@ -1702,50 +1633,68 @@
 
     <div id="copy-toast" class="copy-toast">LINK BERHASIL DISALIN!</div>
 
-    <div id="login-overlay">
-        <div class="login-card">
-            <div class="login-logo">
-                <img src="./vd/icon.png" alt="Logo">
-            </div>
-            <h2>NEWBIEFAMS</h2>
-            <p class="login-subtitle">Verifikasi Password By Zenu</p>
-            <div class="input-group">
-                <i class="fa-solid fa-lock input-icon"></i>
-                <input type="password" id="access-key" placeholder="Enter The Password" autocomplete="off">
-                <i class="fa-solid fa-eye toggle-pass" onclick="togglePass()"></i>
-            </div>
-            <button class="login-btn" onclick="checkAccess()">MASUKAN PASSWORD</button>
-            <p id="error-msg"></p>
+  
+   <div id="login-overlay">
+    <div class="login-card">
+        <div class="login-logo">
+            <img src="../vd/icon.png" alt="Logo">
         </div>
-    </div>
-
-    <!-- =========================
-     UPDATE POPUP
-========================= -->
-    <div id="update-popup" class="update-popup">
-        <div class="update-card">
-
-            <div class="update-icon">
-                <i class="fa-solid fa-rocket"></i>
-            </div>
-
-            <h2>UPDATE TERBARU</h2>
-
-            <p id="update-text">
-                Website telah diperbarui ke versi terbaru.
-            </p>
-
-            <button onclick="closeUpdatePopup()">
-                TUTUP
-            </button>
-
+        <h2>NEWBIEFAMS</h2>
+        <p class="login-subtitle">Verifikasi Member By Zenu</p>
+        
+        <div class="input-group">
+            <i class="fa-solid fa-user input-icon"></i>
+            <input type="text" id="username" placeholder="Masukkan Username" autocomplete="off">
         </div>
+
+        <div class="input-group">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" id="access-key" placeholder="Enter The Password" autocomplete="off">
+            <i class="fa-solid fa-eye toggle-pass" onclick="togglePass()"></i>
+        </div>
+        
+        <button class="login-btn" onclick="checkAccess()">MASUKAN PASSWORD</button>
+        
+        <p class="signup-text" style="font-size: 0.8em; margin-top: 15px; color: #666;">
+            Belum Punya Akun? <a href="daftar.html" style="color: #007bff; text-decoration: none;">Buat Akun</a>
+        </p>
+
+        <p id="error-msg" style="display:none; color: #ff3e3e; margin-top: 10px;"></p>
     </div>
+</div>  <!---->
+
+<!-- UPDATE POPUP -->
+<div id="update-popup" class="update-popup">
+    <div class="update-card">
+
+        <div class="update-icon">
+            <i class="fa-solid fa-rocket"></i>
+        </div>
+
+        <h2 id="update-title">
+            UPDATE TERBARU
+        </h2>
+
+        <p id="update-text">
+            Website telah diperbarui.
+        </p>
+
+        <button onclick="closeUpdatePopup()">
+            TUTUP
+        </button>
+
+    </div>
+</div>
+
+
 
     <div class="main-wrapper" id="main-content">
+        <button class="back-btn" onclick="window.history.back()">
+    <i class="fa-solid fa-arrow-left"></i> Kembali
+</button>
         <header class="profile-section">
             <div class="avatar-wrapper">
-                <img src="./vd/icon.png" class="profile-img" alt="Zenu">
+                <img src="../vd/icon.png" class="profile-img" alt="Zenu">
                 <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
             </div>
             <h1 class="profile-name">𝙉𝙚𝙬𝙗𝙞𝙚Fams</h1>
@@ -1762,912 +1711,554 @@
             </div>
         </header>
 
-        <div id="update-popup" class="update-popup">
+        
 
+        <div class="info-box">
+            <div class="info-content">
+                <div class="info-header">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>TENTANG WEBSITE & SISTEM RANKING</span>
+                </div>
+                <p>
+                    <strong style="color: var(--primary);">Apa itu Website NewbieFams?</strong><br>
+                    Website ini merupakan platform pusat informasi, monitoring kreatif, serta apresiasi bagi seluruh
+                    member komunitas <strong>NewbieFams</strong>. Di sini, Anda dapat melihat keaktifan para kreator
+                    dalam berkarya dan berkontribusi.
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong style="color: var(--accent);"><i class="fa-solid fa-crown"
+                            style="color: #ffea00; margin-right: 5px;"></i>Bagaimana Cara Mendapatkan
+                        Ranking?</strong>
+                </p>
+                <p style="padding-left: 10px; border-left: 2px solid var(--accent); margin-bottom: 5px;">
+                    1. <strong>Aktif Berbagi Link:</strong> Kirimkan hasil karya atau preset buatan Anda secara aktif di
+                    grup share link NewbieFams.
+                </p>
+                <p style="padding-left: 10px; border-left: 2px solid var(--accent); margin-bottom: 5px;">
+                    2. <strong>Sistem Hitung Otomatis:</strong> Sistem website akan menghitung jumlah total link preset
+                    yang berhasil Anda upload dan bagikan setiap bulannya secara real-time.
+                </p>
+                <p style="padding-left: 10px; border-left: 2px solid var(--accent);">
+                    3. <strong>Raih Top 10:</strong> Tingkatkan frekuensi upload karya berkualitas Anda untuk
+                    mengumpulkan poin upload terbanyak dan amankan posisi Anda di <em>Monthly Top 10 Uploads</em>!
+                </p>
+                <p style="padding-left: 10px; border-left: 2px solid var(--accent);">
+                    <strong>Note: </strong> Jika ingin kembali ke website sebelumnya, silahkan menggunakan tombol
+                    kembali pada perangkat Anda.
+                </p>
+                <br>
+                <p style="margin-top: 12px;">
+                    <strong style="color: orange;"><i class="fa-solid fa-fire"
+                            style="color: orange; margin-right: 5px;"></i>System Streak</strong><br>
+                    Jika 3x berada di posisi teratas, Anda akan mendapatkan streak khusus pada bagian nama profil Anda sebagai bentuk apresiasi atas konsistensi dan kontribusi kreatif Anda di komunitas
+                </p>
+                <P> <strong>Cara System Streak Bekerja:</strong><br>
+                    1. Setiap kali Anda berhasil masuk ke dalam <em>Monthly Top 10 Uploads</em>, Anda akan mendapatkan 1 poin streak.<br>
+                    2. Poin streak akan terus bertambah selama Anda tetap berada di posisi teratas setiap bulannya.<br>
+                    3. Jika Anda berhasil mencapai 3 poin streak, nama profil Anda akan dihiasi dengan efek khusus sebagai tanda penghargaan atas dedikasi dan kreativitas Anda di komunitas NewbieFams!
+                    </P>
+                 <p style="margin-top: 15px;">
+    <strong style="color: cyan;"><i class="fa-solid fa-rotate fa-spin" style="color: cyan; margin-right: 5px;"></i>Update Yang Akan Datang</strong><br>
+    Penambahan Background Gambar
+</p>
+
+
+
+                </div>
         </div>
 
-       
-            <div class="ranking-box">
-                <div class="ranking-header">
-                    <div class="ranking-title">
-                        <i class="fa-solid fa-crown" style="color: #ffea00;"></i>
-                        <div>
-                            <h3>MONTHLY TOP 10 UPLOADS</h3>
-                            <p>Ranking Upload Member NewbieFams</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div id="ranking-list" class="ranking-list" style="display: none;"></div>
+        <div class="ranking-box" style="background: transparent !important;">
 
-                <div class="coming-soon-container" id="timer-container">
-                    <div class="coming-soon-content" style="text-align: center;">
-                        <div class="icon-wrapper repair">
-                            <i class="fa-solid fa-wrench"></i>
-                            <div class="pulse-ring"></div>
-                        </div>
-
-                        <h4>COMINGSOON</h4>
-                        <br>
-                        <p
-                            style="font-size: 13px; color: var(--muted); margin-bottom: 20px; text-align: left; line-height: 1.6;">
-                            <strong
-                                style="color: var(--primary); letter-spacing: 1px; display: block; margin-bottom: 5px;">
-                                FITUR YANG AKAN DATANG
-                            </strong>
-                            • RANGKING TOP 10 UPLOAD PER BULAN<br><br>
-                            Kami akan memberikan uji coba fitur rangking<br>18-05-2026 sampai 20-05-2026<br><br>
-                            Kami akan menghadirkan fitur ini pada tanggal 1 Juni 2026 18:00, dan berlaku sampai tidak
-                            membutuhkan fitur ini lagi<br><br>
-                            <span style="font-size: 11px; opacity: 0.8; display: block; margin-top: 2px;">
-                                Tetap semangat upload dan raih peringkatmu!<br>
-                                (PS: Fitur ini akan otomatis menghitung jumlah upload setiap member dan menampilkan
-                                ranking secara real-time setiap bulannya
-                                berdasarkan data yang ada di grup share link. Jadi pastikan untuk terus aktif upload
-                                presetmu agar bisa masuk ke dalam ranking top 10 setiap bulannya!)
-                            </span>
-                        </p>
-
-                        <div class="timer-grid">
-                            <div class="timer-box"><span id="days">00</span>
-                                <p>HARI</p>
-                            </div>
-                            <div class="timer-sep">:</div>
-                            <div class="timer-box"><span id="hours">00</span>
-                                <p>JAM</p>
-                            </div>
-                            <div class="timer-sep">:</div>
-                            <div class="timer-box"><span id="minutes">00</span>
-                                <p>MENIT</p>
-                            </div>
-                            <div class="timer-sep">:</div>
-                            <div class="timer-box"><span id="seconds">00</span>
-                                <p>DETIK</p>
-                            </div>
-                        </div>
-
-                        <div class="progress-container"
-                            style="background: rgba(255,255,255,0.1); height: 8px; border-radius: 10px; overflow: hidden; margin-top: 20px;">
-                            <div class="progress-bar-glow" id="sync-progress" style="width: 0%"></div>
-                        </div>
-
-                        <div class="sync-text">
-                            <i class="fa-solid fa-rotate"></i>
-                            <span class="loading-text">Updating Feature</span>
-                        </div>
+            <div class="ranking-header"
+                style="background: transparent !important; border-bottom: none !important; margin-bottom: 15px !important; padding-bottom: 0 !important; box-shadow: none !important;">
+                <div class="ranking-title">
+                    <i class="fa-solid fa-crown" style="color: #ffea00;"></i>
+                    <div>
+                        <h3>MONTHLY TOP 10 UPLOADS</h3>
+                        <p>Ranking Upload Member NewbieFams</p>
                     </div>
                 </div>
             </div>
 
+            <div id="ranking-list" class="ranking-list" style="display: none;"></div>
+
+            <div class="coming-soon-container" id="timer-container"
+                style="background: transparent !important; border: none !important; backdrop-filter: none !important; box-shadow: none !important; padding: 10px 0 !important;">
+                <div class="coming-soon-content" style="text-align: center;">
+                    <div class="icon-wrapper repair">
+                        <i class="fa-solid fa-wrench"></i>
+                        <div class="pulse-ring"></div>
+                    </div>
+
+                    <h4>COMING SOON</h4>
+                    <br>
+
+                    <div
+                        style="text-align: left; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 18px; border-radius: 12px; margin-bottom: 25px; backdrop-filter: blur(10px);">
+                        <strong
+                            style="color: var(--primary); letter-spacing: 1px; display: block; margin-bottom: 10px; font-size: 14px;">
+                            <i class="fa-solid fa-circle-info" style="margin-right: 6px;"></i> TENTANG WEBSITE & SISTEM
+                            RANKING
+                        </strong>
+                        <p style="font-size: 13px; color: #e2e8f0; line-height: 1.6; margin-bottom: 15px;">
+                            Website <strong>NewbieFams</strong> adalah platform pusat informasi, monitoring kreativitas,
+                            serta apresiasi untuk seluruh member. Di sini, Anda bisa melihat keaktifan para kreator
+                            dalam berkarya secara transparan.
+                        </p>
+
+                        <strong
+                            style="color: var(--accent); letter-spacing: 1px; display: block; margin-bottom: 10px; font-size: 14px;">
+                            <i class="fa-solid fa-fire" style="margin-right: 6px;"></i> CARA MENDAPATKAN RANKING
+                        </strong>
+                        <ul
+                            style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: var(--muted); line-height: 1.7;">
+                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start;">
+                                <i class="fa-solid fa-share-nodes"
+                                    style="color: var(--accent); margin-right: 10px; margin-top: 4px;"></i>
+                                <span><strong>Aktif Berbagi Link:</strong> Kirim dan bagikan hasil karya atau preset
+                                    buatan Anda di grup share link resmi NewbieFams.</span>
+                            </li>
+                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start;">
+                                <i class="fa-solid fa-calculator"
+                                    style="color: var(--accent); margin-right: 10px; margin-top: 4px;"></i>
+                                <span><strong>Hitung Otomatis Real-Time:</strong> Sistem website akan melacak dan
+                                    menghitung total link preset yang Anda bagikan secara otomatis setiap
+                                    bulannya.</span>
+                            </li>
+                            <li style="margin-bottom: 8px; display: flex; align-items: flex-start;">
+                                <i class="fa-solid fa-trophy"
+                                    style="color: #ffea00; margin-right: 10px; margin-top: 4px;"></i>
+                                <span><strong>Raih Peringkat Top 10:</strong> Kumpulkan jumlah upload terbanyak untuk
+                                    mengamankan posisi Anda di papan peringkat bulanan dan dapatkan apresiasi
+                                    komunitas!</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <p
+                        style="font-size: 13px; color: var(--muted); margin-bottom: 20px; text-align: left; line-height: 1.6;">
+                        <strong style="color: var(--primary); letter-spacing: 1px; display: block; margin-bottom: 5px;">
+                            FITUR YANG AKAN DATANG
+                        </strong>
+                        • RANGKING TOP 10 UPLOAD PER BULAN<br><br>
+                        Kami akan memberikan uji coba fitur rangking<br>18-05-2026 sampai 20-05-2026<br><br>
+                        Kami akan menghadirkan fitur ini pada tanggal 1 Juni 2026 18:00, dan berlaku sampai tidak
+                        membutuhkan fitur ini lagi
+                    </p>
+
+                    <div class="timer-grid">
+                        <div class="timer-box"><span id="days">00</span>
+                            <p>HARI</p>
+                        </div>
+                        <div class="timer-sep">:</div>
+                        <div class="timer-box"><span id="hours">00</span>
+                            <p>JAM</p>
+                        </div>
+                        <div class="timer-sep">:</div>
+                        <div class="timer-box"><span id="minutes">00</span>
+                            <p>MENIT</p>
+                        </div>
+                        <div class="timer-sep">:</div>
+                        <div class="timer-box"><span id="seconds">00</span>
+                            <p>DETIK</p>
+                        </div>
+                    </div>
+
+                    <div class="progress-container"
+                        style="background: rgba(255,255,255,0.1); height: 8px; border-radius: 10px; overflow: hidden; margin-top: 20px;">
+                        <div class="progress-bar-glow" id="sync-progress" style="width: 0%"></div>
+                    </div>
+
+                    <div class="sync-text">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span class="loading-text">Updating Feature</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
+    </div>
 
 
     </div>
+     <nav class="bottom-nav">
+    <a href="informasi.html" class="nav-item">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </a>
+    <a href="#main-content" class="nav-item active">
+        <i class="fa-solid fa-trophy"></i>
+        <span>Ranking</span>
+    </a>
+    <a href="profil.html" class="nav-item ">
+        <i class="fa-solid fa-user"></i>
+        <span>Profil</span>
+    </a>
+</nav>
+     
     <script>
-        // 1. DATA MEMBER
-        let uploadMembers = [];
+    // 1. DATA MEMBER
+    let uploadMembers = [];
 
-        // =========================
-        // TARGET DATE GLOBAL
-        // =========================
-        const RANKING_TARGET_DATE =
-            new Date("2026-05-18T00:00:00").getTime();
+    // =========================
+    // TARGET DATE GLOBAL
+    // =========================
+    const RANKING_TARGET_DATE = new Date("2026-05-18T00:00:00").getTime();
 
-        // LOAD DATA JSON
-        async function loadMembers() {
-            try {
-                const response = await fetch("data member newbiefams/member.json");
-                uploadMembers = await response.json();
+    // LOAD DATA JSON - PERBAIKAN PATH (Hapus ../ jika file json ada di folder yang sama)
+    async function loadMembers() {
+        try {
+            // Pastikan path ini sesuai dengan struktur folder Anda
+            const response = await fetch("data member newbiefams/memberranking.json");
+            
+            if (!response.ok) throw new Error("Gagal mengambil data");
+            
+            uploadMembers = await response.json();
 
-                // otomatis urut terbesar
-                uploadMembers.sort((a, b) => b.upload - a.upload);
+            // Pastikan data adalah array
+            if (!Array.isArray(uploadMembers)) uploadMembers = [];
 
-            } catch (error) {
-                console.error("Gagal memuat members.json:", error);
-            }
+            // otomatis urut terbesar
+            uploadMembers.sort((a, b) => b.upload - a.upload);
+
+        } catch (error) {
+            console.error("Gagal memuat memberranking.json:", error);
+            uploadMembers = []; // Pastikan tetap array agar tidak error di render
         }
+    }
 
-        // =========================
-        // FIX COMINGSOON
-        // =========================
-        function validateRankingVisibility() {
+    // =========================
+    // FIX COMINGSOON
+    // =========================
+    function validateRankingVisibility() {
+        const now = new Date().getTime();
+        const timerContainer = document.getElementById('timer-container');
+        const rankingList = document.getElementById('ranking-list');
 
+        // jika countdown selesai
+        if (now >= RANKING_TARGET_DATE) {
+            if (timerContainer) timerContainer.style.display = 'none';
+            if (rankingList) {
+                rankingList.style.display = 'flex';
+                // Render ulang hanya jika list masih kosong
+                if (!rankingList.innerHTML.trim()) {
+                    renderRanking();
+                }
+            }
+        } else {
+            if (timerContainer) timerContainer.style.display = 'block';
+            if (rankingList) rankingList.style.display = 'none';
+        }
+    }
+
+    // 2. SISTEM TIMER & AUTO-HIDE
+    function updateRankingSystem() {
+        const interval = setInterval(() => {
             const now = new Date().getTime();
-
-            const timerContainer =
-                document.getElementById('timer-container');
-
-            const rankingList =
-                document.getElementById('ranking-list');
-
-            // jika countdown selesai
-            if (now >= RANKING_TARGET_DATE) {
-
-                // paksa comingsoon hilang
-                if (timerContainer) {
-                    timerContainer.style.display = 'none';
-                }
-
-                // paksa ranking tampil
-                if (rankingList) {
-
-                    rankingList.style.display = 'flex';
-
-                    // render ulang jika kosong
-                    if (!rankingList.innerHTML.trim()) {
-                        renderRanking();
-                    }
-                }
-
-            } else {
-
-                // sebelum waktunya
-                if (timerContainer) {
-                    timerContainer.style.display = 'block';
-                }
-
-                if (rankingList) {
-                    rankingList.style.display = 'none';
-                }
-            }
-        }
-
-        // 2. SISTEM TIMER & AUTO-HIDE
-        function updateRankingSystem() {
-
-            const rankingList =
-                document.getElementById('ranking-list');
-
-            const timerContainer =
-                document.getElementById('timer-container');
-
-            const interval = setInterval(() => {
-
-                const now = new Date().getTime();
-
-                const diff =
-                    RANKING_TARGET_DATE - now;
-
-                // =========================
-                // WAKTU HABIS
-                // =========================
-                if (diff <= 0) {
-
-                    clearInterval(interval);
-
-                    validateRankingVisibility();
-
-                    return;
-                }
-
-                // Kalkulasi Waktu
-                const d = Math.floor(
-                    diff / (1000 * 60 * 60 * 24)
-                );
-
-                const h = Math.floor(
-                    (diff % (1000 * 60 * 60 * 24)) /
-                    (1000 * 60 * 60)
-                );
-
-                const m = Math.floor(
-                    (diff % (1000 * 60 * 60)) /
-                    (1000 * 60)
-                );
-
-                const s = Math.floor(
-                    (diff % (1000 * 60)) /
-                    1000
-                );
-
-                // LOGIKA AUTO-HIDE ELEMEN TIMER
-                const dEl =
-                    document.getElementById("days");
-
-                const hEl =
-                    document.getElementById("hours");
-
-                const mEl =
-                    document.getElementById("minutes");
-
-                const sEl =
-                    document.getElementById("seconds");
-
-                const hideIfZero = (
-                    val,
-                    element,
-                    isDays = false
-                ) => {
-
-                    if (!element) return;
-
-                    const box =
-                        element.parentElement;
-
-                    const separator =
-                        box.nextElementSibling;
-
-                    let prevHidden = false;
-
-                    if (!isDays) {
-
-                        const allBoxes = Array.from(
-                            document.querySelectorAll('.timer-box')
-                        );
-
-                        const currentIndex =
-                            allBoxes.indexOf(box);
-
-                        if (currentIndex > 0) {
-
-                            prevHidden =
-                                (
-                                    allBoxes[currentIndex - 1]
-                                        .style.display === 'none'
-                                );
-                        }
-                    }
-
-                    if (
-                        val <= 0 &&
-                        (isDays || prevHidden)
-                    ) {
-
-                        box.style.display = 'none';
-
-                        if (
-                            separator &&
-                            separator.classList.contains(
-                                'timer-sep'
-                            )
-                        ) {
-                            separator.style.display = 'none';
-                        }
-
-                    } else {
-
-                        box.style.display = 'block';
-
-                        if (
-                            separator &&
-                            separator.classList.contains(
-                                'timer-sep'
-                            )
-                        ) {
-                            separator.style.display = 'block';
-                        }
-
-                        element.innerText =
-                            val.toString().padStart(2, '0');
-                    }
-                };
-
-                hideIfZero(d, dEl, true);
-                hideIfZero(h, hEl);
-                hideIfZero(m, mEl);
-
-                if (sEl) {
-                    sEl.innerText =
-                        s.toString().padStart(2, '0');
-                }
-
-                // Progress Bar
-                const totalTime =
-                    7 * 24 * 60 * 60 * 1000;
-
-                const progress = Math.min(
-                    100,
-                    Math.max(
-                        0,
-                        (
-                            (totalTime - diff) /
-                            totalTime
-                        ) * 100
-                    )
-                );
-
-                const pb =
-                    document.getElementById(
-                        "sync-progress"
-                    );
-
-                if (pb) {
-                    pb.style.width =
-                        progress + "%";
-                }
-
-            }, 1000);
-        }
-
-        // FORMAT ANGKA UPLOAD
-        function formatUpload(num) {
-
-            const units = [
-                '',
-                'K',
-                'M',
-                'B',
-                'T'
-            ];
-
-            // JIKA DI BAWAH 1000
-            if (num < 1000) {
-                return num.toString();
-            }
-
-            let unitIndex = 0;
-            let value = num;
-
-            while (
-                value >= 1000 &&
-                unitIndex < units.length - 1
-            ) {
-                value /= 1000;
-                unitIndex++;
-            }
-
-            // MAX 2 DESIMAL TANPA NOL BELAKANG
-            let formatted = value
-                .toFixed(2)
-                .replace('.', ',')
-                .replace(/,00$/, '')
-                .replace(/(\,\d)0$/, '$1');
-
-            return formatted + units[unitIndex];
-        }
-
-        function autoResizeNames() {
-
-            document
-                .querySelectorAll('.member-info h4')
-                .forEach(name => {
-
-                    const len =
-                        name.innerText.length;
-
-                    name.classList.remove(
-                        'size-md',
-                        'size-sm',
-                        'size-xs'
-                    );
-
-                    if (len >= 16) {
-                        name.classList.add('size-md');
-                    }
-
-                    if (len >= 22) {
-                        name.classList.add('size-sm');
-                    }
-
-                    if (len >= 30) {
-                        name.classList.add('size-xs');
-                    }
-
-                });
-        }
-
-        function renderRanking() {
-
-            const list =
-                document.getElementById(
-                    'ranking-list'
-                );
-
-            if (!list) return;
-
-            list.innerHTML = "";
-
-            // Pengecekan jika data kosong
-            if (
-                !uploadMembers ||
-                uploadMembers.length === 0
-            ) {
-
-                list.innerHTML = `
-            <div style="
-                text-align: center; 
-                padding: 40px 20px; 
-                color: var(--muted); 
-                font-size: 15px; 
-                font-weight: 500;
-            ">
-                <i class="fa-solid fa-trophy"
-                   style="
-                        font-size: 24px;
-                        display: block;
-                        margin-bottom: 10px;
-                        opacity: 0.5;
-                   ">
-                </i>
-
-                Belum ada peringkat
-
-                <p style="
-                    font-size: 13px;
-                    opacity: 0.8;
-                    margin-top: 6px;
-                ">
-                    Ayo jadi yang pertama
-                    mengisi ranking ini
-                    <br>
-                    dengan upload presetmu!
-                </p>
-            </div>
-        `;
-
+            const diff = RANKING_TARGET_DATE - now;
+
+            if (diff <= 0) {
+                clearInterval(interval);
+                validateRankingVisibility();
                 return;
             }
 
-            // Copy data agar tidak merusak array asli
-            const sortedData =
-                [...uploadMembers]
-                    .sort((a, b) => b.upload - a.upload);
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-            sortedData.forEach((m, i) => {
+            const dEl = document.getElementById("days");
+            const hEl = document.getElementById("hours");
+            const mEl = document.getElementById("minutes");
+            const sEl = document.getElementById("seconds");
 
-                let rankClass = "";
+            const hideIfZero = (val, element, isDays = false) => {
+                if (!element) return;
+                const box = element.parentElement;
+                const separator = box.nextElementSibling;
+                let prevHidden = false;
 
-                if (i === 0)
-                    rankClass = "gold";
-
-                else if (i === 1)
-                    rankClass = "silver";
-
-                else if (i === 2)
-                    rankClass = "bronze";
-
-                // =========================
-                // STREAK EFFECT
-                // =========================
-                let streakClass = "";
-
-                if (m.streak) {
-
-                    if (m.streak >= 6) {
-
-                        streakClass =
-                            "animated-streak streak-cyan";
-
-                    } else if (m.streak >= 3) {
-
-                        streakClass =
-                            "animated-streak streak-red";
-                    }
+                if (!isDays) {
+                    const allBoxes = Array.from(document.querySelectorAll('.timer-box'));
+                    const currentIndex = allBoxes.indexOf(box);
+                    if (currentIndex > 0) prevHidden = (allBoxes[currentIndex - 1].style.display === 'none');
                 }
 
-                let streaktextClass = "";
-
-                if (m.streak) {
-
-                    if (m.streak >= 6) {
-
-                        streaktextClass =
-                            "animated-streak-text streak-cyan";
-
-                    } else if (m.streak >= 3) {
-
-                        streaktextClass =
-                            "animated-streak-text streak-red";
-                    }
+                if (val <= 0 && (isDays || prevHidden)) {
+                    box.style.display = 'none';
+                    if (separator && separator.classList.contains('timer-sep')) separator.style.display = 'none';
+                } else {
+                    box.style.display = 'block';
+                    if (separator && separator.classList.contains('timer-sep')) separator.style.display = 'block';
+                    element.innerText = val.toString().padStart(2, '0');
                 }
+            };
 
-                list.innerHTML += `
-            <div class="ranking-item">
+            hideIfZero(d, dEl, true);
+            hideIfZero(h, hEl);
+            hideIfZero(m, mEl);
+            if (sEl) sEl.innerText = s.toString().padStart(2, '0');
 
-                <div class="ranking-left">
+            const totalTime = 7 * 24 * 60 * 60 * 1000;
+            const progress = Math.min(100, Math.max(0, ((totalTime - diff) / totalTime) * 100));
+            const pb = document.getElementById("sync-progress");
+            if (pb) pb.style.width = progress + "%";
+        }, 1000);
+    }
 
-                    <div class="rank-number ${rankClass}">
-                        <div class="${streaktextClass}">
-                            #${i + 1}
-                        </div>
-                    </div>
+    function formatUpload(num) {
+        const units = ['', 'K', 'M', 'B', 'T'];
+        if (num < 1000) return num.toString();
+        let unitIndex = 0;
+        let value = num;
+        while (value >= 1000 && unitIndex < units.length - 1) {
+            value /= 1000;
+            unitIndex++;
+        }
+        return value.toFixed(2).replace('.', ',').replace(/,00$/, '').replace(/(\,\d)0$/, '$1') + units[unitIndex];
+    }
 
-                    <div class="member-info">
-                        <h4 class="${streakClass}">
-                            ${m.username}
-                        </h4>
+    function autoResizeNames() {
+        document.querySelectorAll('.member-info h4').forEach(name => {
+            const len = name.innerText.length;
+            name.classList.remove('size-md', 'size-sm', 'size-xs');
+            if (len >= 30) name.classList.add('size-xs');
+            else if (len >= 22) name.classList.add('size-sm');
+            else if (len >= 16) name.classList.add('size-md');
+        });
+    }
 
-                        <span class="${streakClass}">
-                            ${m.name}
-                        </span>
-                    </div>
+    function renderRanking() {
+        const list = document.getElementById('ranking-list');
+        if (!list) return;
 
-                </div>
+        list.innerHTML = "";
 
-                <div class="upload-count">
-                    ${formatUpload(m.upload)}
-                </div>
-
-            </div>
-        `;
-            });
-
-            // AUTO RESIZE
-            autoResizeNames();
-
-            // VALIDASI VISIBILITY
-            validateRankingVisibility();
+        if (!uploadMembers || uploadMembers.length === 0) {
+            list.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px; color: var(--muted); font-size: 15px; font-weight: 500;">
+                <i class="fa-solid fa-trophy" style="font-size: 24px; display: block; margin-bottom: 10px; opacity: 0.5;"></i>
+                Belum ada peringkat
+                <p style="font-size: 13px; opacity: 0.8; margin-top: 6px;">Ayo jadi yang pertama mengisi ranking ini<br>dengan upload presetmu!</p>
+            </div>`;
+            return;
         }
 
-        // 4. INISIALISASI & OBSERVER
-        document.addEventListener(
-            'DOMContentLoaded',
-            async () => {
+        uploadMembers.forEach((m, i) => {
+            let rankClass = "", rankContent = "";
+            if (i === 0) { rankClass = "gold"; rankContent = `<img src="https://i.ibb.co.com/s9nj5WYK/image.png" alt="Rank 1">`; }
+            else if (i === 1) { rankClass = "silver"; rankContent = `<img src="https://i.ibb.co.com/GfGMgVqW/image.png" alt="Rank 2">`; }
+            else if (i === 2) { rankClass = "bronze"; rankContent = `<img src="https://i.ibb.co.com/wDgmYtP/image.png" alt="Rank 3">`; }
+            else { rankContent = `<div class="${m.streak >= 6 ? 'animated-streak-text streak-cyan' : (m.streak >= 3 ? 'animated-streak-text streak-red' : '')}">#${i + 1}</div>`; }
 
-                // LOAD JSON
-                await loadMembers();
+            let streakClass = m.streak >= 6 ? "animated-streak streak-cyan" : (m.streak >= 3 ? "animated-streak streak-red" : "");
 
-                // START TIMER
-                updateRankingSystem();
+            list.innerHTML += `
+            <div class="ranking-item">
+                <div class="ranking-left">
+                    <div class="rank-number ${rankClass}">${rankContent}</div>
+                    <div class="member-info">
+                        <h4 class="${streakClass}">${m.username}</h4>
+                        <span class="${streakClass}">${m.name}</span>
+                    </div>
+                </div>
+                <div class="upload-count">${formatUpload(m.upload)}</div>
+            </div>`;
+        });
+        autoResizeNames();
+    }
 
-                // VALIDASI AWAL
-                validateRankingVisibility();
+    // 4. INISIALISASI
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadMembers(); // Tunggu data dimuat
+        renderRanking();     // Render setelah data ada
+        updateRankingSystem();
+        validateRankingVisibility();
 
-                // Observer untuk mencegah ranking-box hilang
-                const observer =
-                    new MutationObserver(() => {
+        const observer = new MutationObserver(() => {
+            const rb = document.querySelector('.ranking-box');
+            if (rb && rb.style.display === 'none') rb.style.display = 'block';
+            validateRankingVisibility();
+        });
 
-                        const rb =
-                            document.querySelector(
-                                '.ranking-box'
-                            );
+        const infoContent = document.querySelector('.info-content');
+        if (infoContent) observer.observe(infoContent, { attributes: true, childList: true, subtree: true });
+    });
+</script>
+<script>
+    // =========================
+    // CONFIG & STATE
+    // =========================
+    let members = []; 
+    let userStatus = "ONLINE";
+    let currentLink = "";
+    let isVerifying = false;
 
-                        if (
-                            rb &&
-                            rb.style.display === 'none'
-                        ) {
-                            rb.style.display = 'block';
-                        }
+    // Load data member dari file JSON
+    async function loadmemberAccount() {
+        try {
+            const response = await fetch("data member newbiefams/users.json");
+            if (!response.ok) throw new Error("Gagal mengambil file JSON");
+            members = await response.json();
+            console.log("Data Member dimuat:", members);
+        } catch (error) {
+            console.error("Gagal memuat data member:", error);
+        }
+    }
 
-                        // VALIDASI ULANG
-                        validateRankingVisibility();
-                    });
+    // =========================
+    // INITIALIZATION
+    // =========================
+    window.onload = async () => {
+        await loadmemberAccount(); // Memuat data saat halaman dibuka
 
-                const infoContent =
-                    document.querySelector(
-                        '.info-content'
-                    );
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            showContent();
+        }
 
-                if (infoContent) {
+        updateClock();
+        setInterval(updateClock, 1000);
+        updateStatus();
+    };
 
-                    observer.observe(infoContent, {
-                        attributes: true,
-                        childList: true,
-                        subtree: true
-                    });
-                }
-            });
-    </script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
 
-    <script>
-        const ACCESS_KEY = "300426";
+    // =========================
+    // FUNGSI VALIDASI DATA
+    // =========================
+    function validateCredentials() {
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('access-key');
+        
+        const userIn = usernameInput?.value.trim() || "";
+        const passIn = passwordInput?.value.trim() || "";
+        
+        if (members.length === 0) return null;
 
-        // =========================
-        // STATUS USER
-        // =========================
-        let userStatus = "ONLINE";
-
-        let currentLink = "";
-        let isVerifying = false;
-
-        document.addEventListener(
-            'contextmenu',
-            e => e.preventDefault()
+        // Mencari member di dalam array berdasarkan input
+        return members.find(m => 
+            m.username.toLowerCase() === userIn.toLowerCase() && 
+            String(m.password) === passIn
         );
+    }
 
-        // =========================
-        // WINDOW LOAD
-        // =========================
-        window.onload = () => {
+    // =========================
+    // LOGIKA LOGIN
+    // =========================
+    function checkAccess() {
+        const errorMsg = document.getElementById('error-msg');
+        const input = document.getElementById('access-key');
+        const userFound = validateCredentials();
 
-            if (
-                localStorage.getItem(
-                    'isLoggedIn'
-                ) === 'true'
-            ) {
+        if (userFound) {
+            triggerSuccess();
+        } else {
+            input.classList.add('shake');
+            if(errorMsg) {
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = "Username atau Password Salah!";
+            }
+            setTimeout(() => input.classList.remove('shake'), 400);
+        }
+    }
+
+    // Auto trigger jika password yang diketik sudah benar
+    document.getElementById('access-key').addEventListener('input', function() {
+        if (isVerifying) return;
+        const userFound = validateCredentials();
+        
+        if (userFound) {
+            const errorMsg = document.getElementById('error-msg');
+            if(errorMsg) errorMsg.style.display = 'none';
+            triggerSuccess();
+        }
+    });
+
+    // =========================
+    // ANIMASI LOGIN SUKSES
+    // =========================
+    function triggerSuccess() {
+        if (isVerifying) return;
+        isVerifying = true;
+        
+        const btn = document.querySelector('.login-btn');
+        if(btn) {
+            btn.disabled = true;
+            btn.style.background = "#111";
+            btn.style.color = "#36ff0e";
+        }
+
+        const steps = ["VERIFIKASI...", "WAITING FOR RESPONSE", "LOADING...", "BERHASIL"];
+        let i = 0;
+        
+        const timer = setInterval(() => {
+            if(btn) btn.innerText = steps[i++] || "BERHASIL DIVERIFIKASI";
+            if (i >= steps.length) {
+                clearInterval(timer);
+                localStorage.setItem('isLoggedIn', 'true');
                 showContent();
             }
+        }, 800);
+    }
 
-            updateClock();
+    // =========================
+    // UI UTILS
+    // =========================
+    function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('id-ID', {
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        }).replace(/\./g, ':');
+        const offset = now.getTimezoneOffset() / -60;
+        let zone = offset === 7 ? "WIB" : offset === 8 ? "WITA" : offset === 9 ? "WIT" : "UTC+" + offset;
+        const clockEl = document.getElementById('digital-clock');
+        if (clockEl) clockEl.textContent = `${timeString} ${zone}`;
+    }
 
-            setInterval(
-                updateClock,
-                1000
-            );
-
-            updateStatus();
-        };
-
-        // =========================
-        // DIGITAL CLOCK
-        // =========================
-        function updateClock() {
-
-            const now = new Date();
-
-            const timeString =
-                now.toLocaleTimeString(
-                    'id-ID',
-                    {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: false
-                    }
-                ).replace(/\./g, ':');
-
-            const offset =
-                now.getTimezoneOffset() / -60;
-
-            let zone =
-                offset === 7 ? "WIB"
-                    : offset === 8 ? "WITA"
-                        : offset === 9 ? "WIT"
-                            : "UTC+" + offset;
-
-            const clockEl =
-                document.getElementById(
-                    'digital-clock'
-                );
-
-            if (clockEl) {
-                clockEl.textContent =
-                    `${timeString} ${zone}`;
-            }
+    function updateStatus() {
+        const statusText = document.getElementById('status-text');
+        if (!statusText) return;
+        statusText.textContent = userStatus;
+        switch (userStatus.toUpperCase()) {
+            case "ONLINE": statusText.style.color = "#36ff0e"; break;
+            case "OFFLINE": statusText.style.color = "#9aa4b2"; break;
+            case "MAINTENANCE": statusText.style.color = "#ffae00"; break;
+            case "ERROR": statusText.style.color = "#ff3e3e"; break;
+            default: statusText.style.color = "#ffffff";
         }
+    }
 
-        // =========================
-        // UPDATE STATUS
-        // =========================
-        function updateStatus() {
-
-            const statusText =
-                document.getElementById(
-                    'status-text'
-                );
-
-            if (!statusText) return;
-
-            statusText.textContent =
-                userStatus;
-
-            // AUTO COLOR
-            switch (
-            userStatus.toUpperCase()
-            ) {
-
-                case "ONLINE":
-                    statusText.style.color =
-                        "#36ff0e";
-                    break;
-
-                case "OFFLINE":
-                    statusText.style.color =
-                        "#9aa4b2";
-                    break;
-
-                case "MAINTENANCE":
-                    statusText.style.color =
-                        "#ffae00";
-                    break;
-
-                case "ERROR":
-                    statusText.style.color =
-                        "#ff3e3e";
-                    break;
-
-                default:
-                    statusText.style.color =
-                        "#ffffff";
-            }
+    function togglePass() {
+        const passwordInput = document.getElementById("access-key");
+        const toggleIcon = document.querySelector(".toggle-pass");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.classList.remove("fa-eye-slash");
+            toggleIcon.classList.add("fa-eye");
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.classList.remove("fa-eye");
+            toggleIcon.classList.add("fa-eye-slash");
         }
+    }
 
-        // =========================
-        // GANTI STATUS
-        // =========================
-
-        // CONTOH:
-        // setStatus("ONLINE");
-
-        function setStatus(status) {
-
-            userStatus = status;
-
-            updateStatus();
-        }
-
-        // =========================
-        // TOGGLE PASSWORD
-        // =========================
-        function togglePass() {
-
-            const input =
-                document.getElementById(
-                    'access-key'
-                );
-
-            const icon =
-                document.querySelector(
-                    '.toggle-pass'
-                );
-
-            input.type =
-                input.type === "password"
-                    ? "text"
-                    : "password";
-
-            icon.classList.toggle(
-                'fa-eye'
-            );
-
-            icon.classList.toggle(
-                'fa-eye-slash'
-            );
-        }
-
-        // =========================
-        // SHOW CONTENT
-        // =========================
-        function showContent() {
-
-            const overlay =
-                document.getElementById(
-                    'login-overlay'
-                );
-
-            const content =
-                document.getElementById(
-                    'main-content'
-                );
-
-            overlay.style.opacity = '0';
-            overlay.style.pointerEvents = 'none';
-
-            setTimeout(() => {
-
-                overlay.style.display =
-                    'none';
-
-                content.style.opacity = '1';
-
-                content.style.filter =
-                    'blur(0)';
-
-                content.style.transform =
-                    'translateY(0)';
-
-                // CEK UPDATE
-                checkWebsiteUpdate();
-
-            }, 600);
-        }
-
-        // =========================
-        // CHECK ACCESS
-        // =========================
-        function checkAccess() {
-
-            const input =
-                document.getElementById(
-                    'access-key'
-                );
-
-            if (
-                input.value === ACCESS_KEY
-            ) {
-
-                triggerSuccess();
-
-            } else {
-
-                input.classList.add(
-                    'shake'
-                );
-
-                const errorMsg =
-                    document.getElementById(
-                        'error-msg'
-                    );
-
-                errorMsg.style.display =
-                    'block';
-
-                errorMsg.innerText =
-                    "Kunci Akses Salah!";
-
-                setTimeout(() => {
-
-                    input.classList.remove(
-                        'shake'
-                    );
-
-                }, 400);
-            }
-        }
-
-        // =========================
-        // AUTO DETECT PASSWORD
-        // =========================
-        document
-            .getElementById(
-                'access-key'
-            )
-            .addEventListener(
-                'input',
-                (e) => {
-
-                    if (
-                        e.target.value === ACCESS_KEY
-                    ) {
-
-                        triggerSuccess();
-                    }
-                }
-            );
-
-        // =========================
-        // SUCCESS LOGIN
-        // =========================
-        function triggerSuccess() {
-
-            if (isVerifying) return;
-
-            isVerifying = true;
-
-            const btn =
-                document.querySelector(
-                    '.login-btn'
-                );
-
-            btn.disabled = true;
-
-            const steps = [
-
-                "VERIFIKASI PASSWORD",
-                "VERIFIKASI PASSWORD.",
-                "VERIFIKASI PASSWORD..",
-                "VERIFIKASI PASSWORD...",
-                "WAITING FOR RESPONSE",
-                "LOADING",
-                "LOADING.",
-                "LOADING..",
-                "LOADING...",
-                "BERHASIL DIVERIFIKASI"
-
-            ];
-
-            let i = 0;
-
-            btn.style.background =
-                "#111";
-
-            btn.style.color =
-                "#36ff0e";
-
-            const timer =
-                setInterval(() => {
-
-                    btn.innerText =
-                        steps[i++];
-
-                    if (
-                        i >= steps.length
-                    ) {
-
-                        clearInterval(timer);
-
-                        localStorage.setItem(
-                            'isLoggedIn',
-                            'true'
-                        );
-
-                        showContent();
-                    }
-
-                }, 900);
-        }
-    </script>
-    <script>
+    function showContent() {
+        const overlay = document.getElementById('login-overlay');
+        const content = document.getElementById('main-content');
+        if(!overlay || !content) return;
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            content.style.opacity = '1';
+            content.style.filter = 'blur(0)';
+            content.style.transform = 'translateY(0)';
+        }, 600);
+    }
+</script>
+            <script>
         /* =========================
            NEWBIEFAMS PROTECTION
            MOBILE SAFE VERSION
@@ -2755,7 +2346,7 @@
 
             }, true);
 
-
+           
 
             /* =========================
                ANTI IFRAME
@@ -2791,123 +2382,97 @@
 
         })();
     </script>
-    <script>
-        /* =========================
-           VERSION UPDATE SYSTEM
-        ========================= */
 
-        /*
-           GANTI VERSI SETIAP UPDATE
-        */
-        const WEBSITE_VERSION = "1.0.0";
+   <script>
+/* =========================
+   VERSION UPDATE SYSTEM
+========================= */
+// GANTI VERSI INI SETIAP ADA UPDATE
+const WEBSITE_VERSION = "1.0.30";
 
-        /*
-           ISI UPDATE
-        */
-        const UPDATE_MESSAGE = `
-✨ PENAMBAHAN FITUR:
+// GANTI VERSI INI SETIAP ADA UPDATE
+const UPDATE_MESSAGE = `✨ PENAMBAHAN FITUR:
 
-• Penghapusan Online Badge, status online kini hanya ditampilkan melalui teks untuk tampilan yang lebih bersih dan minimalis.
-• Pergantian posisi Verified Badge dipindahkan ke posisi Online Badge sebelumnya untuk meningkatkan visibilitas dan memberikan kesan eksklusif pada profil.
-• Smooth Filter Animation
-• Sidebar Transition Lebih Halus
-• Popup Update System
-• Sistem Login Verifikasi
-• Proteksi Website Lebih Kuat
-• Anti Inspect & Anti Save Image
-• Optimasi UI Mobile Friendly
-• Efek Animasi Lebih Smooth
+• PENAMBAHAN NAVBAR DIBAWAH
+    UNTUK MEMUDAHKAN NAVIGASI DI MOBILE
+• PENAMBAHAN PROFIL MEMBER
+    UNTUK MELIHAT PROFIL MEMBER NEWBIEFAMS
 
-🛠 PERBAIKAN:
-• Fix Bug Sidebar
-• Fix Animasi Filter
-• Fix Tampilan Card
-• Optimasi Performance Website
+HARAP PATUHI RULES NEWBIEFAMS`;
 
-HARAP PATUHI RULES NEWBIEFAMS
-`;
+/* =========================
+   CHECK UPDATE (PERBAIKAN)
+========================= */
+function checkWebsiteUpdate() {
+    // 1. Gunakan satu kunci yang konsisten di localStorage
+    const STORAGE_KEY = "last_saved_version";
+    const savedVersion = localStorage.getItem(STORAGE_KEY);
+    
+    // 2. Cek session agar popup tidak muncul berkali-kali dalam satu sesi
+    const popupShown = sessionStorage.getItem("update_popup_shown");
 
-        function checkWebsiteUpdate() {
+    // UPDATE UI: TITLE
+    const title = document.querySelector(".update-card h2");
+    if(title){
+        title.innerHTML = `
+            UPDATE TERBARU
+            <div style="margin-top:8px; font-size:12px; font-weight:700; letter-spacing:2px; color:var(--primary);">
+                VERSION ${WEBSITE_VERSION}
+            </div>
+        `;
+    }
 
-            const savedVersion =
-                localStorage.getItem(
-                    "website_version"
-                );
+    // UPDATE UI: VERSION BADGE
+    const versionBadge = document.getElementById("website-version-badge");
+    if(versionBadge){
+        versionBadge.innerText = `V. ${WEBSITE_VERSION}`;
+    }
 
-            // UPDATE TITLE + VERSION
-            document.querySelector(
-                ".update-card h2"
-            ).innerHTML = `
-        UPDATE TERBARU
-        <div style="
-            margin-top:8px;
-            font-size:12px;
-            font-weight:700;
-            letter-spacing:2px;
-            color:var(--primary);
-        ">
-            VERSION ${WEBSITE_VERSION}
-        </div>
-    `;
+    // UPDATE UI: VERSION STAT
+    const versionStat = document.querySelector('.stat-item:last-child span');
+    if(versionStat){
+        versionStat.innerText = WEBSITE_VERSION;
+    }
 
-            const versionStat =
-                document.querySelector(
-                    '.stat-item:last-child span'
-                );
+    // 3. LOGIKA CEK UPDATE
+    if (savedVersion !== WEBSITE_VERSION && !popupShown) {
+        
+        // Simpan versi baru agar tidak muncul lagi setelah di-refresh
+        localStorage.setItem(STORAGE_KEY, WEBSITE_VERSION);
+        
+        // Tandai sudah muncul di sesi ini
+        sessionStorage.setItem("update_popup_shown", "true");
 
-            if (versionStat) {
-                versionStat.innerText =
-                    WEBSITE_VERSION;
-            }
-
-            if (savedVersion !== WEBSITE_VERSION) {
-
-                localStorage.setItem(
-                    "website_version",
-                    WEBSITE_VERSION
-                );
-
-                document.getElementById(
-                    "update-text"
-                ).innerText = UPDATE_MESSAGE;
-
-                setTimeout(() => {
-
-                    const popup =
-                        document.getElementById(
-                            "update-popup"
-                        );
-
-                    popup.classList.add("show");
-
-                    // LOCK SCROLL BODY
-                    document.body.classList.add(
-                        "popup-open"
-                    );
-
-                }, 1000);
-
-            }
-
+        const updateText = document.getElementById("update-text");
+        if(updateText){
+            updateText.innerText = UPDATE_MESSAGE;
         }
 
-
-       
-function closeUpdatePopup(){
-
-    document
-        .getElementById(
-            "update-popup"
-        )
-        .classList.remove("show");
-
-    // UNLOCK BODY
-    document.body.classList.remove(
-        "popup-open"
-    );
-
+        setTimeout(() => {
+            const popup = document.getElementById("update-popup");
+            if(popup){
+                popup.classList.add("show");
+                document.body.classList.add("popup-open");
+            }
+        }, 1000);
+    }
 }
-    </script>
+
+/* =========================
+   CLOSE POPUP
+========================= */
+function closeUpdatePopup() {
+    const popup = document.getElementById("update-popup");
+    if(popup) {
+        popup.classList.remove("show");
+    }
+    document.body.classList.remove("popup-open");
+}
+
+// JALANKAN SAAT HALAMAN DIMUAT
+window.addEventListener('load', checkWebsiteUpdate);
+
+</script>
     <script>
         // FIX SCROLL MOBILE
         document.addEventListener(
@@ -2916,6 +2481,52 @@ function closeUpdatePopup(){
             { passive: true }
         );
     </script>
+    <script>
+// Tambahkan script ini agar ikon tetap sinkron setelah refresh
+window.addEventListener('load', function() {
+    const passwordInput = document.getElementById("access-key");
+    const toggleIcon = document.querySelector(".toggle-pass");
+
+    // Jika tipe input adalah "text", pastikan ikon juga "fa-eye-slash"
+    if (passwordInput.type === "text") {
+
+        toggleIcon.classList.remove("fa-eye-slash");
+        toggleIcon.classList.add("fa-eye");
+    } else {
+        // Jika tipe input adalah "password", pastikan ikon "fa-eye"
+        
+        toggleIcon.classList.remove("fa-eye");
+        toggleIcon.classList.add("fa-eye-slash");
+    }
+});
+</script>
+  <!-- 
+ <script>
+        // Jalankan pengecekan saat halaman selesai dimuat
+        window.addEventListener('load', function () {
+            // Cek apakah user sudah melihat loading di sesi saat ini
+            const sudahLoad = sessionStorage.getItem('sudah_load');
+
+            // Jika belum pernah melihat loading di sesi ini
+            if (!sudahLoad) {
+                // Set flag agar loading tidak muncul lagi selama tab/browser belum ditutup
+                sessionStorage.setItem('sudah_load', 'true');
+
+                // Redirect ke halaman loading
+                window.location.href = "../loadingscreen/ranking.html";
+            }
+        });
+    </script> 
+    
+   <script>
+    // Cek status login di setiap halaman
+window.addEventListener('load', () => {
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        // Arahkan ke halaman login jika belum login
+        window.location.href = "informasi.html"; 
+    }
+});
+   </script> -->
 </body>
 
 </html>
