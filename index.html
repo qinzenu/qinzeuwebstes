@@ -181,16 +181,10 @@
     width: 100%;
     max-width: 520px;
     padding: 55px 18px 170px;
-    box-sizing: border-box; /* Tambahkan ini agar lebar tidak berlebih */
-    
-    /* Animasi awal */
-    opacity: 0;
-    transform: translateY(30px);
-    filter: blur(12px);
-    
-    /* Optimasi performa */
-    will-change: transform, opacity, filter;
-    transition: all 1s cubic-bezier(.22, 1, .36, 1);
+    /* Ubah ini agar mengikuti isi konten */
+    min-height: 100vh; 
+    height: auto; 
+    overflow: visible; 
 }
 
 /* Tambahkan class ini menggunakan JS setelah halaman dimuat */
@@ -1478,20 +1472,23 @@
    FIX SCROLL MOBILE
 ========================================= */
 
-        html, body {
+       html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100%;
-    background-color: #05060a; /* Warna dasar solid */
-    background-image: 
-        radial-gradient(circle at top left, rgba(124, 92, 255, .18), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(88, 101, 242, .16), transparent 35%);
-    background-attachment: fixed; /* Menjaga background tetap di tempat */
+    /* Gunakan min-height agar konten bisa berkembang */
+    min-height: 100%; 
+    height: auto; 
     overflow-x: hidden;
-    color: var(--text);
+    overflow-y: auto !important; /* Memaksa agar scroll vertikal aktif */
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: none; /* Mencegah efek bounce putih di ujung scroll */
+    touch-action: pan-y;
+}
+
+body.popup-open {
+    overflow: hidden !important;
+    /* HAPUS: height: 100vh; */
+    touch-action: none;
 }
 
         /* pastikan wrapper tidak mengunci scroll */
