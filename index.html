@@ -179,18 +179,16 @@
         }
 
         /* MAIN CONTENT */
-        .main-wrapper {
-            width: 100%;
-            max-width: 520px;
-            padding: 55px 18px 170px;
-            opacity: 0;
-            transform: translateY(30px);
-            /* GANTI blur(12px) dengan filter yang lebih ringan atau gunakan transition */
-            filter: blur(0px);
-            transition: 1s cubic-bezier(.22, 1, .36, 1);
-            will-change: transform, opacity;
-            /* Memberitahu browser animasi akan terjadi */
-        }
+        /* 2. Pastikan wrapper konten tidak memblokir event */
+.main-wrapper {
+    width: 100%;
+    max-width: 520px;
+    padding: 55px 18px 170px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;                 /* Pastikan di bawah overlay */
+    height: auto !important;
+}
 
         /* Tambahkan class ini menggunakan JS setelah halaman dimuat */
         .main-wrapper.is-visible {
@@ -389,11 +387,14 @@
             transition: .55s cubic-bezier(.22, 1, .36, 1);
 
             z-index: 10001;
+            pointer-events: none; 
+    transition: .55s cubic-bezier(.22, 1, .36, 1);
         }
 
         /* sidebar muncul */
         #sidebar.active {
             bottom: 0;
+            pointer-events: auto;
         }
 
         /* animasi turun */
@@ -801,10 +802,10 @@
         }
 
         body.popup-open {
-            overflow: hidden;
-            height: 100vh;
-            touch-action: none;
-        }
+    overflow: hidden;
+    height: 100vh;
+    touch-action: none;
+}
     </style>
     <style>
         /* =========================
@@ -1478,20 +1479,18 @@
    FIX SCROLL MOBILE
 ========================================= */
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100vh;
-            overflow-x: hidden;
-            overflow-y: auto !important;
-            /* Memastikan scroll vertikal diizinkan */
-            -webkit-overflow-scrolling: touch;
-            /* Kelancaran scroll di iOS */
-            touch-action: pan-y;
-            /* Memberitahu browser: izinkan scroll vertikal 1 jari */
-        }
+        html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto !important; /* Wajib ada */
+    touch-action: pan-y;        /* Memungkinkan scroll 1 jari */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+    position: relative;         /* Penting agar konten tidak melayang */
+}
 
         /* pastikan wrapper tidak mengunci scroll */
         .main-wrapper {
