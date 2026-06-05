@@ -60,7 +60,7 @@
         }
 
         ::-webkit-scrollbar {
-            width: 5px;
+            display: none;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -178,14 +178,27 @@
 
         /* MAIN CONTENT */
         .main-wrapper {
-            width: 100%;
-            max-width: 520px;
-            padding: 55px 18px 170px;
-            opacity: 0;
-            transform: translateY(30px);
-            filter: blur(12px);
-            transition: 1s cubic-bezier(.22, 1, .36, 1);
-        }
+    width: 100%;
+    max-width: 520px;
+    padding: 55px 18px 170px;
+    box-sizing: border-box; /* Tambahkan ini agar lebar tidak berlebih */
+    
+    /* Animasi awal */
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(12px);
+    
+    /* Optimasi performa */
+    will-change: transform, opacity, filter;
+    transition: all 1s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Tambahkan class ini menggunakan JS setelah halaman dimuat */
+.main-wrapper.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px); /* Blur hilang setelah tampil */
+}
 
         .profile-section {
             text-align: center;
@@ -2527,6 +2540,12 @@ window.addEventListener('load', () => {
     }
 });
    </script> -->
+   <script>
+    // Menjalankan animasi saat halaman selesai dimuat
+    window.addEventListener('load', () => {
+        document.querySelector('.main-wrapper').classList.add('is-visible');
+    });
+</script>
 </body>
 
 </html>
