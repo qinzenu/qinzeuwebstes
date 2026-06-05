@@ -1,0 +1,57 @@
+[
+    {
+    "username": "qinzenu",
+    "password": "Rifaldi",
+    "role": "member",
+    "avatar": "https://i.ibb.co.com/7NdjjDKr/FOTO-USER-DEFAULT.png",
+    "nf-id": "Developer",
+    "streakDays": "Max",
+    "premiumType": "plus",
+    "expiredDate": "permanent",
+    "level": "Max"
+  },
+  {
+    "username": "fulzz.dongo",
+    "password": "fulzz00",
+    "role": "member",
+    "avatar": "https://i.ibb.co.com/7NdjjDKr/FOTO-USER-DEFAULT.png",
+    "nf-id": "2001",
+    "streakDays": 0,
+    "premiumType": "basic",
+    "expiredDate": "2026-06-11",
+    "level": 1
+  },
+  {
+    "username": "fanxnewbie",
+    "password": "FAN PUNYA MAENG",
+    "role": "member",
+    "avatar": "https://i.ibb.co.com/7NdjjDKr/FOTO-USER-DEFAULT.png",
+    "nf-id": "2002",
+    "streakDays": 0,
+    "premiumType": "basic",
+    "expiredDate": "2026-06-11",
+    "level": 1
+  },
+  {
+    "username": "xizzprstv2",
+    "password": "xizzprst2",
+    "role": "member",
+    "avatar": "https://i.ibb.co.com/7NdjjDKr/FOTO-USER-DEFAULT.png",
+    "nf-id": "2003",
+    "streakDays": 0,
+    "premiumType": "basic",
+    "expiredDate": "2026-06-11",
+    "level": 1
+  },
+  {
+    "username": "khrilllnewbie",
+    "password": "Raihanraisa1314",
+    "role": "member",
+    "avatar": "https://i.ibb.co.com/7NdjjDKr/FOTO-USER-DEFAULT.png",
+    "nf-id": "2004",
+    "streakDays": 0,
+    "premiumType": "basic",
+    "expiredDate": "2026-06-11",
+    "level": 1
+  }
+]
