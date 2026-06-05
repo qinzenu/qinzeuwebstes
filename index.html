@@ -1478,19 +1478,18 @@
    FIX SCROLL MOBILE
 ========================================= */
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100vh;
-            /* Pastikan overflow-y adalah auto */
-            overflow-y: auto !important;
-            overflow-x: hidden;
-            /* Izinkan interaksi sentuhan vertikal */
-            touch-action: pan-y;
-            -webkit-overflow-scrolling: touch;
-        }
+        html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    /* Pastikan overflow-y adalah auto */
+    overflow-y: auto !important; 
+    overflow-x: hidden;
+    /* Izinkan interaksi sentuhan vertikal */
+    touch-action: pan-y; 
+    -webkit-overflow-scrolling: touch;
+}
 
         /* pastikan wrapper tidak mengunci scroll */
         .main-wrapper {
@@ -1609,8 +1608,6 @@
             height: 70px;
             background: rgba(15, 17, 24, 0.85);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            /* Dukungan Safari */
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 25px;
             display: flex;
@@ -1618,15 +1615,17 @@
             align-items: center;
             padding: 0 10px;
             z-index: 9999;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        #main-content {
-            padding-bottom: 120px;
-            /* Ruang agar elemen terbawah tidak tertutup */
-            position: relative;
-        }
+        .scroll-indicator {
+    position: absolute;
+    top: -1px; /* Sedikit di atas nav */
+    width: 90%;
+    height: 4px;
+    background: cyan;
+    border-radius: 2px;
+}
 
         .nav-item {
             display: flex;
@@ -1648,25 +1647,11 @@
         .nav-item:hover {
             color: var(--primary);
         }
-
-        /* Tambahkan pseudo-element untuk efek fading */
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 120px;
-            background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
-            pointer-events: none;
-            /* Agar tetap bisa klik elemen di balik gradient */
-            z-index: 9998;
-        }
     </style>
 </head>
 
 <body>
-
+    
     <div id="copy-toast" class="copy-toast">LINK BERHASIL DISALIN!</div>
 
 
@@ -1699,6 +1684,17 @@
         </div>
     </div> <!---->
 
+    <!-- POPUP SELAMAT DATANG -->
+<div id="welcome-popup" class="update-popup">
+    <div class="update-card">
+        <div class="update-icon" style="background: linear-gradient(135deg, #36ff0e, #28a745);">
+            <i class="fa-solid fa-hand-sparkles"></i>
+        </div>
+        <h2>SELAMAT DATANG!</h2>
+        <p>Senang melihatmu kembali di NewbieFams. Mari mulai berkarya hari ini!</p>
+        <button onclick="closeWelcomePopup()">MULAI</button>
+    </div>
+</div>
     <!-- UPDATE POPUP -->
     <div id="update-popup" class="update-popup">
         <div class="update-card">
@@ -1923,7 +1919,7 @@
 
     </div>
     <nav class="bottom-nav">
-        <a href="informasi.html" class="nav-item">
+        <div class="scroll-indicator"></div><a href="informasi.html" class="nav-item">
             <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </a>
@@ -2127,7 +2123,7 @@
             if (infoContent) observer.observe(infoContent, { attributes: true, childList: true, subtree: true });
         });
     </script>
-    <script>
+<script>
         // =========================
         // CONFIG & STATE
         // =========================
@@ -2152,10 +2148,11 @@
         // INITIALIZATION
         // =========================
         window.onload = async () => {
-            await loadmemberAccount(); // Memuat data saat halaman dibuka
+            await loadmemberAccount();
 
             if (localStorage.getItem('isLoggedIn') === 'true') {
                 showContent();
+                showWelcomePopup();
             }
 
             updateClock();
@@ -2164,6 +2161,31 @@
         };
 
         document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // =========================
+        // LOGIKA POPUP SELAMAT DATANG
+        // =========================
+        function showWelcomePopup() {
+            const sudahMuncul = sessionStorage.getItem('welcome_shown');
+            if (!sudahMuncul) {
+                setTimeout(() => {
+                    const popup = document.getElementById('welcome-popup');
+                    if (popup) {
+                        popup.classList.add('show');
+                        document.body.classList.add('popup-open');
+                        sessionStorage.setItem('welcome_shown', 'true');
+                    }
+                }, 800);
+            }
+        }
+
+        function closeWelcomePopup() {
+            const popup = document.getElementById('welcome-popup');
+            if (popup) {
+                popup.classList.remove('show');
+                document.body.classList.remove('popup-open');
+            }
+        }
 
         // =========================
         // FUNGSI VALIDASI DATA
@@ -2177,7 +2199,6 @@
 
             if (members.length === 0) return null;
 
-            // Mencari member di dalam array berdasarkan input
             return members.find(m =>
                 m.username.toLowerCase() === userIn.toLowerCase() &&
                 String(m.password) === passIn
@@ -2204,11 +2225,9 @@
             }
         }
 
-        // Auto trigger jika password yang diketik sudah benar
         document.getElementById('access-key').addEventListener('input', function () {
             if (isVerifying) return;
             const userFound = validateCredentials();
-
             if (userFound) {
                 const errorMsg = document.getElementById('error-msg');
                 if (errorMsg) errorMsg.style.display = 'none';
@@ -2239,6 +2258,7 @@
                     clearInterval(timer);
                     localStorage.setItem('isLoggedIn', 'true');
                     showContent();
+                    showWelcomePopup(); // Trigger popup setelah login sukses
                 }
             }, 800);
         }
@@ -2568,20 +2588,6 @@ window.addEventListener('load', () => {
 });
    </script> -->
     <script>
-        let lastScrollTop = 0;
-        const nav = document.querySelector('.bottom-nav');
-
-        window.addEventListener('scroll', () => {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > lastScrollTop) {
-                // Scroll ke bawah - sembunyikan nav
-                nav.style.transform = 'translateX(-50%) translateY(150px)';
-            } else {
-                // Scroll ke atas - tampilkan nav
-                nav.style.transform = 'translateX(-50%) translateY(0)';
-            }
-            lastScrollTop = scrollTop;
-        });
         // Menjalankan animasi saat halaman selesai dimuat
         window.addEventListener('load', () => {
             document.querySelector('.main-wrapper').classList.add('is-visible');
